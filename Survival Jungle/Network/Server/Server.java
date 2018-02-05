@@ -13,20 +13,22 @@ public class Server {
 	private static ServerSocket ServerSocket;
 	private final static HashMap<Integer, Client> Clients= new HashMap<Integer, Client>();
 	
-	Server(){
-		try {
-			startServer();
-		} catch (Exception ex){
-			
-		}
-	}
-	
 	private void startServer() {
-		
+		try {
+			
+		} catch (Exception ex){
+			final JPanel errorPanel = new JPanel();
+		    JOptionPane.showMessageDialog(errorPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		} 
 	}
 	
 	private void stopServer() {
-		
+		try {
+            
+		} catch (Exception ex){
+			final JPanel errorPanel = new JPanel();
+		    JOptionPane.showMessageDialog(errorPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 }
