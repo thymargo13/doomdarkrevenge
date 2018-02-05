@@ -1,5 +1,5 @@
 
-package jungle;
+package AI;
 import java.util.*;
 import java.io.*;
 /**
@@ -7,21 +7,21 @@ import java.io.*;
  * @author sojournerchua
  */
 public class AutoMove {
-    int xDir;
-    int yDir;
+    private int xDir, yDir;
+    private int x,y;
     
     private int time = 0;
-           
+    private Random rand=new Random();       
     public int Direction(){
-        Random r = new random();
+        Random r = new Random();
         int[] ranDirection = new int[3];
         ranDirection[0] = 0;
         ranDirection[1] = 1;
         ranDirection[2] = -1;
         int randChoice = r.nextInt(3);
-        return ranDirection(randChoice);
+        return ranDirection[randChoice];
     }
-    
+    private int dir;
     public void setXDirection(int dir){
         xDir = dir;
     }
@@ -33,7 +33,7 @@ public class AutoMove {
     public void Move(){
        time++;
        
-       if (time % random.nextInt() == 0){
+       if (time % rand.nextInt() == 0){
            //change direction
            if (dir == 0){
                //direction == stationary
@@ -46,12 +46,12 @@ public class AutoMove {
            
        }
        
-       AI.x+=xDir;
-       AI.y+=yDir;
+       x+=xDir;
+       y+=yDir;
     }
     
     public void run(){
-        move();
+        Move();
         
     }
 }
