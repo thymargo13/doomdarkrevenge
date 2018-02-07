@@ -3,15 +3,15 @@ package Entity;
 public class Player {
 
 	// player stuff
-	private int health;
-	private int maxHealth;
-	private int exp;
-	private int maxExp;
-	private boolean dead;
-	private boolean speeding;
-	private long speedTimer;
-	private String name;
-	private String img;
+	protected int health;
+	protected int maxHealth;
+	protected int exp;
+	protected int maxExp;
+	protected boolean dead;
+	protected boolean speeding;
+	protected long speedTimer;
+	protected String name;
+	protected String img;
 	
 	//constructor
 	public Player() {}
