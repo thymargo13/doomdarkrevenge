@@ -61,9 +61,7 @@ public class GameBackground extends JPanel {
 		playerLabel.setAlignmentX(1500);
 		playerLabel.setBounds(500, 300, playerIcon.getIconWidth(), playerIcon.getIconHeight());
 		System.out.println(playerLabel.getBounds());
-		
 		bgPanel.add(playerLabel);
-		
 	}
 	
 	private Image getScaledImage(Image srcImg, int w, int h){
