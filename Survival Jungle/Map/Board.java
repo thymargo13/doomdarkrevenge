@@ -1,4 +1,5 @@
 package Map;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,71 +12,69 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Board extends JPanel
-        implements ActionListener {
+public class Board extends JPanel implements ActionListener {
 
-	private JPanel bgPanel;
-    private final int B_WIDTH = 350;
-    private final int B_HEIGHT = 350;
-    private final int INITIAL_X = -40;
-    private final int INITIAL_Y = -40;
-    private final int DELAY = 25;
+	private final int B_WIDTH = 1600;
+	private final int B_HEIGHT = 1200;
+	private final int INITIAL_X = -40;
+	private final int INITIAL_Y = -40;
+	private final int DELAY = 25;
 
-    private Image star;
-    private Timer timer;
-    private int x, y;
+	private Image star;
+	private Timer timer;
+	private int x, y;
 
-    public Board() {
+	public Board() {
+		setLayout(null);
+		initBoard();
+	}
 
-    	setBackground();
-    }
+	private void loadImage() {
 
-    private void loadImage() {
+		ImageIcon ii = new ImageIcon(getClass().getResource("/Resource/animals/mouse.png"));
+		star = ii.getImage();
+	}
 
-        ImageIcon ii = new ImageIcon("/Resource/animals/mouse.png");
-        star = ii.getImage();
-    }
+	private void initBoard() {
 
-    private void setBackground() {
-    	bgPanel = new JPanel();
-    	bgPanel.setBackground(new Color(0, 195, 0));
-    	bgPanel.setPreferredSize(new Dimension(1600, 1200));
-    	bgPanel.setDoubleBuffered(true);
+		setBackground(Color.GREEN);
+		setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
+		setDoubleBuffered(true);
 
-        loadImage();
-        
-        x = INITIAL_X;
-        y = INITIAL_Y;
-        
-        timer = new Timer(DELAY, this);
-        timer.start();
-    }
+		loadImage();
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+		x = INITIAL_X;
+		y = INITIAL_Y;
 
-        drawStar(g);
-    }
+		timer = new Timer(DELAY, this);
+		timer.start();
+	}
 
-    private void drawStar(Graphics g) {
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 
-        g.drawImage(star, x, y, 100, 100, this);
-        Toolkit.getDefaultToolkit().sync();
-    }
+		drawStar(g);
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+	private void drawStar(Graphics g) {
 
-        x += 1;
-        y += 1;
+		g.drawImage(star, x, y, this);
+		Toolkit.getDefaultToolkit().sync();
+	}
 
-        if (y > B_HEIGHT) {
+	@Override
+	public void actionPerformed(ActionEvent e) {
 
-            y = INITIAL_Y;
-            x = INITIAL_X;
-        }
+		x += 1;
+		y += 1;
 
-        repaint();
-    }
+		if (y > B_HEIGHT) {
+
+			y = INITIAL_Y;
+			x = INITIAL_X;
+		}
+
+		repaint();
+	}
 }

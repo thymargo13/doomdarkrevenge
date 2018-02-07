@@ -2,6 +2,7 @@ package Command;
 
 import javax.swing.JPanel;
 
+import Map.Board;
 import Map.GameBackground;
 
 public class LocalGame extends Command{
