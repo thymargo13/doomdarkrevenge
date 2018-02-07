@@ -39,8 +39,28 @@ public class Movement {
 	}
 	
 	//speed up method x+10 and y+10
-	public void speedUp(Point nowCor){
-		nowCor.setLocation(nowCor.getX()+10, nowCor.getY()+10);
+	public void flash(Point nowCor, Point tagCor){
+		double Nowangle = (double)(tagCor.getY() - nowCor.getY()) / (double)(tagCor.getX() - nowCor.getX());
+		//1st quadrant
+		if (tagCor.getX() >= nowCor.getX() && tagCor.getY() >= nowCor.getY()) {
+			nowCor.setLocation(nowCor.getX()+5, nowCor.getY()+Nowangle*5);
+		}
+		
+		//4th quadrant 
+		if (tagCor.getX() > nowCor.getX() && tagCor.getY() < nowCor.getY()) {
+			nowCor.setLocation(nowCor.getX()+5, nowCor.getY()-Nowangle*5);
+		}
+		//2nd quadrant
+		if (tagCor.getX() > nowCor.getX() && tagCor.getY() > nowCor.getY()) {
+			nowCor.setLocation(nowCor.getX()-5, nowCor.getY()+Nowangle*5);
+
+		}
+		//3rd quadrant
+		if (tagCor.getX() > nowCor.getX() && tagCor.getY() > nowCor.getY()) {
+			nowCor.setLocation(nowCor.getX()-5, nowCor.getY()-Nowangle*5);
+
+		}	
+		
 	}
 	
 	
