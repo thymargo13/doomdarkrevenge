@@ -43,6 +43,7 @@ public class GameBackground extends JPanel {
 	
 	private void setBackground() {
 		bgPanel = new JPanel();
+		bgPanel.setLayout(null);
 		bgPanel.setBackground(new Color(0, 195, 0));
 		bgPanel.setSize(bgWidth, bgHeight);
 		NewPlayer();
@@ -57,8 +58,12 @@ public class GameBackground extends JPanel {
 		playerIcon.setImage(getScaledImage(img, 100, 100));
 		JLabel playerLabel = new JLabel();
 		playerLabel.setIcon(playerIcon);
+		playerLabel.setAlignmentX(1500);
+		playerLabel.setBounds(500, 300, playerIcon.getIconWidth(), playerIcon.getIconHeight());
+		System.out.println(playerLabel.getBounds());
 		
 		bgPanel.add(playerLabel);
+		
 	}
 	
 	private Image getScaledImage(Image srcImg, int w, int h){
