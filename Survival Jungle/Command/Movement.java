@@ -39,7 +39,7 @@ public class Movement {
 	}
 	
 	//speed up method x+10 and y+10
-	public void speedUp(Point nowCor, Point tagCor){
+	public void flash(Point nowCor, Point tagCor){
 		double Nowangle = (double)(tagCor.getY() - nowCor.getY()) / (double)(tagCor.getX() - nowCor.getX());
 		//1st quadrant
 		if (tagCor.getX() >= nowCor.getX() && tagCor.getY() >= nowCor.getY()) {
