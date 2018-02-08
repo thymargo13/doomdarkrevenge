@@ -10,11 +10,36 @@ import javax.swing.JPanel;
 public class foodonMap {
 	private int x;
 	private int y;
-	private int exp;	
-	protected String img = "/Resource/objects/MudObstacle2.png"; //location of img
-	protected Image image; 
-	private boolean eaten = false;  // on the map? or not now
-	
+	private int exp;
+	private String cheese = "/Resource/objects/cheese.png";
+	private String water = "/Resource/objects/water.png";
+	private String steak = "/Resource/objects/steak.png";
+	private String bread = "/Resource/objects/bread.png";
+	private String reborn = "/Resource/objects/reborn.png";
+	protected String img;// location of img
+	protected Image image;
+	private boolean eaten = false; // on the map? or not now
+
+	public String getCheese() {
+		return cheese;
+	}
+
+	public String getWater() {
+		return water;
+	}
+
+	public String getSteak() {
+		return steak;
+	}
+
+	public String getBread() {
+		return bread;
+	}
+
+	public String getReborn() {
+		return reborn;
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -47,6 +72,10 @@ public class foodonMap {
 		this.eaten = eaten;
 	}
 
+	public void setImg(String img) {
+		this.img = img;
+	}
+
 	public String getImg() {
 		return img;
 	}
@@ -58,6 +87,7 @@ public class foodonMap {
 	public void setImage(Image image) {
 		this.image = image;
 	}
+
 	public foodonMap() {
 		// TODO Auto-generated constructor stub
 		setX(100);
@@ -65,15 +95,15 @@ public class foodonMap {
 		setExp(20);
 		ImageIcon ii = new ImageIcon(getClass().getResource(img));
 		image = ii.getImage();
-				
-	}
-	public Graphics2D draw (Graphics2D g, JPanel jp) {
-		//Graphics2D g2d = (Graphics2D) g;
-		//g.rotate(Math.toRadians(30),getX(),getY());
-		g.drawImage(getImage(), getX(), getY(), 100, 100,jp);
-	//	Toolkit.getDefaultToolkit().sync();
-		return g;
+
 	}
 
+	public Graphics2D draw(Graphics2D g, JPanel jp) {
+		// Graphics2D g2d = (Graphics2D) g;
+		// g.rotate(Math.toRadians(30),getX(),getY());
+		g.drawImage(getImage(), getX(), getY(), 100, 100, jp);
+		// Toolkit.getDefaultToolkit().sync();
+		return g;
+	}
 
 }
