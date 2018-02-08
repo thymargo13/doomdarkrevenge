@@ -1,10 +1,22 @@
 package Entity;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
+
+import Local.Camera;
+import Local.Cell;
+import Local.Leaderboard;
+import Local.Local;
+import Local.Particle;
 
 public class Player {
 
@@ -24,6 +36,7 @@ public class Player {
 	private double degree = 30;
 	private int dx = 100;
 	private int dy = 100;
+
 	//constructor
 	public Player() {
 		speed = 1;
@@ -109,26 +122,6 @@ public class Player {
 
 	public void setDegree(int degree) {
 		this.degree = degree;
-	}
-	
-	public void move() {	
-		if (dx>x) {
-			x++;
-		} else if (dx<x) {
-			x--;
-		}
-		if (dy>y) {
-			y++;
-		} else if (dy<y) {
-			y--;
-		}
-	}
-	public Graphics2D draw (Graphics2D g, JPanel jp) {
-		//Graphics2D g2d = (Graphics2D) g;
-		g.rotate(Math.toRadians(getDegree()),getX(),getY());
-		g.drawImage(getImage(), getX()-50, getY()-50, 100, 100,jp);
-	//	Toolkit.getDefaultToolkit().sync();
-		return g;
 	}
 
 	public int getDx() {

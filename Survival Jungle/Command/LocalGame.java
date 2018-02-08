@@ -14,6 +14,10 @@ public class LocalGame extends Command{
 	public JPanel execute() {
 		//add(new Board());
 		return localgame;
+		
+//		Local local = new Local();
+//		local.run();
+//		return null;
 	}
 
 }

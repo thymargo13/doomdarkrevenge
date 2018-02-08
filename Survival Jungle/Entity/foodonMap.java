@@ -93,7 +93,7 @@ public class foodonMap {
 		setX(100);
 		setY(200);
 		setExp(20);
-		ImageIcon ii = new ImageIcon(getClass().getResource(img));
+		ImageIcon ii = new ImageIcon(getClass().getResource(water));
 		image = ii.getImage();
 
 	}
