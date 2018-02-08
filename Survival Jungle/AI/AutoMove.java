@@ -35,13 +35,13 @@ public class AutoMove {
     	y=rand.nextInt(600);
     	dir=(int) (Math.random()*4); 
     }
-    public void setDirection() {	//ÒÆ¶¯·½Ïò
+    public void setDirection() {	//ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½
     	
     }
-    public void ifEatFood() {	//ÓÐÃ»ÓÐ³ÔÊ³Îï
+    public void ifEatFood() {	//ï¿½ï¿½Ã»ï¿½Ð³ï¿½Ê³ï¿½ï¿½
     	
     }
-    public void isHit() {		//ÓÐÃ»ÓÐÓë±ðµÄ½ÇÉ«³Ô/±»³Ô
+    public void isHit() {		//ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½É«ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½
     	
     }
     public void Move(){
@@ -57,6 +57,9 @@ public class AutoMove {
                //diredtion == up
            }
            
+           if (dir == -1) {
+        	   		//direction == opposite
+           }
            
        }
        
