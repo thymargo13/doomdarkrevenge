@@ -50,14 +50,16 @@ public class Board extends JPanel implements ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		drawPlayer(g);
+		draw(g);
 	}
 
-	private void drawPlayer(Graphics g) {
+	private void draw(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.rotate(Math.toRadians(i++), player.getX(), player.getY());
-		g2d.drawImage(player.getImage(), player.getX()-50, player.getY()-50, 100, 100, this);
-		Toolkit.getDefaultToolkit().sync();
+		player.draw(g2d, this);
+		
+//		g2d.rotate(Math.toRadians(i++), player.getX(), player.getY());
+//		g2d.drawImage(player.getImage(), player.getX()-50, player.getY()-50, 100, 100, this);
+//		Toolkit.getDefaultToolkit().sync();
 	}
 
 	@Override
