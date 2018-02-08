@@ -1,5 +1,7 @@
 package Entity;
 
+import java.awt.Image;
+
 public class Player {
 
 	// player stuff
@@ -12,10 +14,15 @@ public class Player {
 	protected long speedTimer;
 	protected String name;
 	protected String img;
+	protected Image image;
+	private int x = 100;
+	private int y = 100;
+	private int degree = 30;
 	
 	//constructor
-	public Player() {}
-	
+	public Player() {
+	}
+
 	//getter and setter
 	public int getHealth() {
 		return health;
@@ -70,4 +77,35 @@ public class Player {
 		this.img = img;
 	}
 	
+	public Image getImage() {
+		return image;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getDegree() {
+		return degree;
+	}
+
+	public void setDegree(int degree) {
+		this.degree = degree;
+	}
+	
+	public void move() {
+		
+	}
 }

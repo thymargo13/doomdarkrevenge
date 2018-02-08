@@ -4,48 +4,44 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import Entity.Mouse;
+import Entity.Player;
 
 public class Board extends JPanel implements ActionListener {
 
 	private final int B_WIDTH = 1600;
 	private final int B_HEIGHT = 1200;
-	private final int INITIAL_X = -40;
-	private final int INITIAL_Y = -40;
 	private final int DELAY = 25;
-
-	private Image star;
 	private Timer timer;
-	private int x, y;
+
+	private Player player;
+	
+	private int i=0;
 
 	public Board() {
 		setLayout(null);
 		initBoard();
-	}
-
-	private void loadImage() {
-
-		ImageIcon ii = new ImageIcon(getClass().getResource("/Resource/animals/mouse.png"));
-		star = ii.getImage();
+		addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				player.setX(e.getX());
+				player.setY(e.getY());
+			}
+		});
 	}
 
 	private void initBoard() {
-
-		setBackground(Color.GREEN);
+		player = new Mouse();
+		setBackground(new Color(0, 195, 0));
 		setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
 		setDoubleBuffered(true);
-
-		loadImage();
-
-		x = INITIAL_X;
-		y = INITIAL_Y;
-
 		timer = new Timer(DELAY, this);
 		timer.start();
 	}
@@ -54,27 +50,19 @@ public class Board extends JPanel implements ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		drawStar(g);
+		drawPlayer(g);
 	}
 
-	private void drawStar(Graphics g) {
-
-		g.drawImage(star, x, y, this);
+	private void drawPlayer(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.rotate(Math.toRadians(i++), player.getX(), player.getY());
+		g2d.drawImage(player.getImage(), player.getX()-50, player.getY()-50, 100, 100, this);
 		Toolkit.getDefaultToolkit().sync();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-		x += 1;
-		y += 1;
-
-		if (y > B_HEIGHT) {
-
-			y = INITIAL_Y;
-			x = INITIAL_X;
-		}
-
+		player.move();
 		repaint();
 	}
 }
