@@ -17,14 +17,12 @@ public class Player {
 	protected boolean speeding;
 	protected int speed;
 	protected String name;
-<<<<<<< HEAD
 	protected String img;
 	protected Image image;
 	public int x = 100;
 	public int y = 100;
 	
 	public int degree = 30;
-=======
 	protected String img; //location of img
 	protected Image image; 
 	private int x = 100; // x-coordinate
@@ -32,8 +30,6 @@ public class Player {
 	private double degree = 30;
 	private int dx;
 	private int dy;
->>>>>>> branch 'master' of https://git-teaching.cs.bham.ac.uk/mod-team-proj-2017/doomdarksrevenge.git
-	
 	//constructor
 	public Player() {
 		speed = 1;
