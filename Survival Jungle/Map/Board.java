@@ -14,6 +14,7 @@ import javax.swing.Timer;
 
 import Entity.Mouse;
 import Entity.Player;
+import Entity.foodonMap;
 
 public class Board extends JPanel implements ActionListener {
 
@@ -21,7 +22,7 @@ public class Board extends JPanel implements ActionListener {
 	private final int B_HEIGHT = 1200;
 	private final int DELAY = 25;
 	private Timer timer;
-
+	private foodonMap food1;
 	private Player player;
 	
 	private int i=0;
@@ -39,6 +40,7 @@ public class Board extends JPanel implements ActionListener {
 
 	private void initBoard() {
 		player = new Mouse();
+		food1 = new foodonMap();
 		setBackground(new Color(0, 195, 0));
 		setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
 		setDoubleBuffered(true);
@@ -55,6 +57,7 @@ public class Board extends JPanel implements ActionListener {
 
 	private void draw(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
+		food1.draw(g2d, this);
 		player.draw(g2d, this);
 		
 //		g2d.rotate(Math.toRadians(i++), player.getX(), player.getY());
