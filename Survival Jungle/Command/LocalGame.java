@@ -6,12 +6,15 @@ import Map.Board;
 import Map.GameBackground;
 
 public class LocalGame extends Command{
-
+	private JPanel localgame;
+	public LocalGame() {
+		localgame = new JPanel();
+		localgame.add(new Board());
+	}
 	@Override
 	public JPanel execute() {
-		// TODO Auto-generated method stub
-//		System.out.println("LocalGame");
-		return new GameBackground();
+		//add(new Board());
+		return localgame;
 	}
 
 }
