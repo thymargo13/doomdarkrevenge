@@ -9,8 +9,12 @@ import java.io.*;
 public class AutoMove {
 //    private int xDir, yDir;
     private int x,y;
-    public int xSpeed = 5;  //d speed
-    public int ySpeed = 5;
+    private int dir;	//·½Ïò
+    public int speed = 5;  //d speed
+//    public int ySpeed = 5;
+    
+    List<Enemy> npc= new ArrayList<Enemy>();
+    
     private int time = 0;
     private Random rand=new Random();       
     public int Direction(){
@@ -22,49 +26,86 @@ public class AutoMove {
         int randChoice = r.nextInt(3);
         return ranDirection[randChoice];
     }
-//    private int dir;
-//    public void setXDirection(int dir){
-//        xDir = dir;
-//    }
-//    
-//    public void setYDirection(int dir){
-//        yDir = dir;
-//    }
+
     public void addNPC() {
     	x=rand.nextInt(800);
     	y=rand.nextInt(600);
-    	dir=(int) (Math.random()*4); 
+    	dir=(int) (Math.random()*4);  
+//    	Color col=new Color(r,g,b);  
+    	int d=(int) (Math.random()*30);
+    	int level=(int)(Math.random()*7+1);	//Ò»¹²8¸öµÈ¼¶
+    	npc.add(new Enemy(x,y,dir,d,speed,level));
+//    	dir=(int) (Math.random()*4); 
     }
-    public void setDirection() {	//ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½
+
+    public void setDirection() {	
     	
     }
-    public void ifEatFood() {	//ï¿½ï¿½Ã»ï¿½Ð³ï¿½Ê³ï¿½ï¿½
+    public void ifEatFood() {	
     	
     }
-    public void isHit() {		//ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½É«ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½
-    	
-    }
+   
+//  private int dir;
+//  public void setXDirection(int dir){
+//      xDir = dir;
+//  }
+//  
+//  public void setYDirection(int dir){
+//      yDir = dir;
+//  }
     public void Move(){
-       time++;
-       
-       if (time % rand.nextInt() == 0){
-           //change direction
-           if (dir == 0){
-               //direction == stationary
-           }
-           
-           if (dir == 1){
-               //diredtion == up
-           }
-           
-           if (dir == -1) {
-        	   		//direction == opposite
-           }
-           
-       }
-       
-       x+=xDir;
-       y+=yDir;
+    	new Thread(){  
+            public void run(){  
+                while(true){  
+                    for(int i=1;i<npc.size();i++){               //ËùÓÐnpcÔË¶¯Ò»´Î  
+                        Enemy e=npc.get(i);  
+                        e.move();  
+                    }  
+                    for(int i=0;i<npc.size()-1;i++){           //Á½¸öforÑ­»·ÅÐ¶ÏÊÇ·ñÅö×²  
+                    	 Enemy e1=npc.get(i); 
+                        for(int j=i+1;j<npc.size();j++){  
+                         	Enemy e2=npc.get(i); 
+                        	NpcAndNpc nan=new NpcAndNpc(); 
+                            if(nan.destroy(e1, e2)==1){        //Åöµ½ÁË  
+                            	if(e1.level>=e2.level) {
+                            		npc.remove(j);
+                            		break;
+                            	}else if(e1.level<e2.level) {
+                            		npc.remove(i);
+                            		break;
+                            	}  
+                            }  
+                              
+                        }  
+                    }  
+                    paint();                        //µ÷ÓÃ»­npcµÄº¯Êý 
+                    try {  
+                        Thread.sleep(30);            //ÐÝÃß  
+                    } catch (InterruptedException e) {  
+                    e.printStackTrace();  
+                }  
+                }  
+            }  
+        }.start();  
+//       time++;
+//       
+//       if (time % rand.nextInt() == 0){
+//           //change direction
+//           if (dir == 0){
+//               //direction == stationary
+//           }
+//           
+//           if (dir == 1){
+//               //diredtion == up
+//           }
+//           
+//           if (dir == -1) {
+//        	   	//direction == opposite
+//           }
+//           
+//       }
+//       x+=xDir;
+//       y+=yDir;
     }
    
     
