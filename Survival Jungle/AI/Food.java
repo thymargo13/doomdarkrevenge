@@ -21,10 +21,6 @@ public class Food extends JFrame {
 	private Player player;
 	//小球自身性质
 	public Point location;
-//	public Point size;
-//	public int x;
-//	public int y;
-//	public Color col;
 	private Random rand=new Random();
 	public ArrayList<Food> ball =new ArrayList<Food>();	//建立放食物球的容器
 	public Food(GamePanel gp, Player p) {
@@ -51,7 +47,7 @@ public class Food extends JFrame {
 	}
 //		food=new ImageIcon().getImage();
 	public void regenerate() {
-		if((player.x-location.x)*(player.x-location.x)+(player.y-location.y)*(player.y-location.y)<(player.r*player.r)){  
+		if((player.getX()-location.x)*(player.getX()-location.x)+(player.getY()-location.y)*(player.getY()-location.y)<(player.getDegree()*player.getDegree())){  
             //若贪吃蛇的蛇头与食物发生碰撞，则随机生成新的食物位置  
             location=new Point(Math.abs(rand.nextInt(gp.getWidth())%gamepanel.getWidth()),Math.abs(rand.nextInt(gp.getHeight())%gamepanel.getHeight()));  
             

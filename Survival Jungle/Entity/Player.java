@@ -15,9 +15,10 @@ public class Player {
 	protected String name;
 	protected String img;
 	protected Image image;
-	private int x = 100;
-	private int y = 100;
-	private int degree = 30;
+	public int x = 100;
+	public int y = 100;
+	
+	public int degree = 30;
 	
 	//constructor
 	public Player() {
