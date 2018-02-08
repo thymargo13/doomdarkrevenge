@@ -22,8 +22,8 @@ public class Player {
 	private int x = 100; // x-coordinate
 	private int y = 100; // y-coordinate
 	private double degree = 30;
-	private int dx;
-	private int dy;
+	private int dx = 100;
+	private int dy = 100;
 	//constructor
 	public Player() {
 		speed = 1;
@@ -112,9 +112,16 @@ public class Player {
 	}
 	
 	public void move() {	
-		double distance;
-		distance = Math.sqrt(((dx-x)*(dx-x))+((dy-y)*(dy-y)));
-		System.out.println(distance);
+		if (dx>x) {
+			x++;
+		} else if (dx<x) {
+			x--;
+		}
+		if (dy>y) {
+			y++;
+		} else if (dy<y) {
+			y--;
+		}
 	}
 	public Graphics2D draw (Graphics2D g, JPanel jp) {
 		//Graphics2D g2d = (Graphics2D) g;
