@@ -17,12 +17,6 @@ public class Player {
 	protected boolean speeding;
 	protected int speed;
 	protected String name;
-	protected String img;
-	protected Image image;
-	public int x = 100;
-	public int y = 100;
-	
-	public int degree = 30;
 	protected String img; //location of img
 	protected Image image; 
 	private int x = 100; // x-coordinate
@@ -113,7 +107,7 @@ public class Player {
 		return degree;
 	}
 
-	public void setDegree(double degree) {
+	public void setDegree(int degree) {
 		this.degree = degree;
 	}
 	
