@@ -53,6 +53,8 @@ public class AutoMove {
 //  public void setYDirection(int dir){
 //      yDir = dir;
 //  }
+    private boolean isDied=false;
+    
     public void Move(){
     	new Thread(){  
             public void run(){  
@@ -69,9 +71,11 @@ public class AutoMove {
                             if(nan.destroy(e1, e2)==1){        //碰到了  
                             	if(e1.level>=e2.level) {
                             		npc.remove(j);
+                            		isDied=true;
                             		break;
                             	}else if(e1.level<e2.level) {
                             		npc.remove(i);
+                            		isDied=true;
                             		break;
                             	}  
                             }  
@@ -108,7 +112,11 @@ public class AutoMove {
 //       y+=yDir;
     }
    
-    
+    public void generate(boolean isDied) {
+    	if(isDied==true) {
+    		paintNewNPC();		//调用函数
+    	}
+    }
     public void run(){
         Move();
         

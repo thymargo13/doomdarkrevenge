@@ -7,21 +7,23 @@ public class Enemy {
 	int x,y,dir,d;  
     int speed;  
     Color col;  
+    int level;
     static final int left_up=0,right_up=1,left_down=2,right_down=3;  
-    public Enemy(int x,int y,int dir,int d,int speed, Color col){  
+    public Enemy(int x,int y,int dir,int d,int speed,int level){  
         super();  
         this.x=x;  
         this.y=y;  
         this.dir=dir;  
         this.d=d;  
         this.speed=speed;  
-        this.col=col;  
+        this.level=level;
+//        this.col=col;  
     }  
-    void Draw(Graphics g){           //画出这个小球  
+    void Draw(Graphics g){           
         g.setColor(col);  
         g.fillOval(x, y, d, d);  
     }  
-    void move(){                      //小球运动  
+    void move(){                       
         switch (this.dir) {  
         case left_up:  
             x-=speed;
