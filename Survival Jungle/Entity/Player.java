@@ -1,6 +1,10 @@
 package Entity;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Toolkit;
+
+import javax.swing.JPanel;
 
 public class Player {
 
@@ -11,17 +15,28 @@ public class Player {
 	protected int maxExp;
 	protected boolean dead;
 	protected boolean speeding;
-	protected long speedTimer;
+	protected int speed;
 	protected String name;
+<<<<<<< HEAD
 	protected String img;
 	protected Image image;
 	public int x = 100;
 	public int y = 100;
 	
 	public int degree = 30;
+=======
+	protected String img; //location of img
+	protected Image image; 
+	private int x = 100; // x-coordinate
+	private int y = 100; // y-coordinate
+	private double degree = 30;
+	private int dx;
+	private int dy;
+>>>>>>> branch 'master' of https://git-teaching.cs.bham.ac.uk/mod-team-proj-2017/doomdarksrevenge.git
 	
 	//constructor
 	public Player() {
+		speed = 1;
 	}
 
 	//getter and setter
@@ -55,12 +70,12 @@ public class Player {
 	public void setSpeeding(boolean speeding) {
 		this.speeding = speeding;
 	}
-	public long getSpeedTimer() {
-		return speedTimer;
-	}
-	public void setSpeedTimer(long speedTimer) {
-		this.speedTimer = speedTimer;
-	}
+//	public long getSpeed() {
+//		return speed;
+//	}
+//	public void setSpeed(int speed) {
+//		this.speed = speed;
+//	}
 
 	public String getName() {
 		return name;
@@ -98,15 +113,40 @@ public class Player {
 		this.y = y;
 	}
 
-	public int getDegree() {
+	public double getDegree() {
 		return degree;
 	}
 
-	public void setDegree(int degree) {
+	public void setDegree(double degree) {
 		this.degree = degree;
 	}
 	
-	public void move() {
-		
+	public void move() {	
+		double distance;
+		distance = Math.sqrt(((dx-x)*(dx-x))+((dy-y)*(dy-y)));
+		System.out.println(distance);
+	}
+	public Graphics2D draw (Graphics2D g, JPanel jp) {
+		//Graphics2D g2d = (Graphics2D) g;
+		g.rotate(Math.toRadians(getDegree()),getX(),getY());
+		g.drawImage(getImage(), getX()-50, getY()-50, 100, 100,jp);
+	//	Toolkit.getDefaultToolkit().sync();
+		return g;
+	}
+
+	public int getDx() {
+		return dx;
+	}
+
+	public void setDx(int dx) {
+		this.dx = dx;
+	}
+
+	public int getDy() {
+		return dy;
+	}
+
+	public void setDy(int dy) {
+		this.dy = dy;
 	}
 }

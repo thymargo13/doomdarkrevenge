@@ -7,7 +7,7 @@ import java.io.*;
  * @author sojournerchua
  */
 public class AutoMove {
-    private int xDir, yDir;
+//    private int xDir, yDir;
     private int x,y;
     public int xSpeed = 5;  //d speed
     public int ySpeed = 5;
@@ -22,14 +22,14 @@ public class AutoMove {
         int randChoice = r.nextInt(3);
         return ranDirection[randChoice];
     }
-    private int dir;
-    public void setXDirection(int dir){
-        xDir = dir;
-    }
-    
-    public void setYDirection(int dir){
-        yDir = dir;
-    }
+//    private int dir;
+//    public void setXDirection(int dir){
+//        xDir = dir;
+//    }
+//    
+//    public void setYDirection(int dir){
+//        yDir = dir;
+//    }
     public void addNPC() {
     	x=rand.nextInt(800);
     	y=rand.nextInt(600);
