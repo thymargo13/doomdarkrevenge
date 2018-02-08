@@ -29,8 +29,8 @@ public class Board extends JPanel implements ActionListener {
 	public Board() {
 		setLayout(null);
 		initBoard();
-		addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
+		addMouseMotionListener(new MouseAdapter() {
+			public void mouseMoved(MouseEvent e) {
 				player.setX(e.getX());
 				player.setY(e.getY());
 			}
