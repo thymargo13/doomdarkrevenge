@@ -11,23 +11,24 @@ import java.util.ArrayList;
 import java.util.Random; 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import Entity.Player;
 
-//Ëæ»úÉèÖÃwater³öÏÖµÄÎ»ÖÃ£¬²¢ÇÒÔÚÏûÊ§ºó½øĞĞË¢ĞÂ
-public class Food extends JFrame {
-	//½èÓÃÆäËûÀà
-	private GamePanel gamepanel;
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½waterï¿½ï¿½ï¿½Öµï¿½Î»ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½
+public class Food  {
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private JPanel gamepanel;
 	private Player player;
-	//Ğ¡Çò×ÔÉíĞÔÖÊ
+	//Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public Point location;
 //	public Point size;
 //	public int x;
 //	public int y;
 //	public Color col;
 	private Random rand=new Random();
-	public ArrayList<Food> ball =new ArrayList<Food>();	//½¨Á¢·ÅÊ³ÎïÇòµÄÈİÆ÷
-	public Food(GamePanel gp, Player p) {
+	public ArrayList<Food> ball =new ArrayList<Food>();	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public Food(JPanel gp, Player p) {
 		gamepanel=gp;
 		player=p;
 //		x=rand.nextInt(800);
@@ -51,9 +52,9 @@ public class Food extends JFrame {
 	}
 //		food=new ImageIcon().getImage();
 	public void regenerate() {
-		if((player.x-location.x)*(player.x-location.x)+(player.y-location.y)*(player.y-location.y)<(player.r*player.r)){  
-            //ÈôÌ°³ÔÉßµÄÉßÍ·ÓëÊ³Îï·¢ÉúÅö×²£¬ÔòËæ»úÉú³ÉĞÂµÄÊ³ÎïÎ»ÖÃ  
-            location=new Point(Math.abs(rand.nextInt(gp.getWidth())%gamepanel.getWidth()),Math.abs(rand.nextInt(gp.getHeight())%gamepanel.getHeight()));  
+		if((player.getX()-location.x)*(player.getX()-location.x)+(player.getY()-location.y)*(player.getY()-location.y)<(player.getDegree()*player.getDegree())){  
+            //ï¿½ï¿½Ì°ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½Í·ï¿½ï¿½Ê³ï¿½ï·¢ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Ê³ï¿½ï¿½Î»ï¿½ï¿½  
+            location=new Point(Math.abs(rand.nextInt(gamepanel.getWidth())%gamepanel.getWidth()),Math.abs(rand.nextInt(gamepanel.getHeight())%gamepanel.getHeight()));  
             
         }               
 	}

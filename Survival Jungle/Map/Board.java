@@ -9,11 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import Entity.Mouse;
-import Entity.Player;
+import Entity.*;
+
 
 public class Board extends JPanel implements ActionListener {
 
@@ -23,22 +26,31 @@ public class Board extends JPanel implements ActionListener {
 	private Timer timer;
 
 	private Player player;
-	
-	private int i=0;
+	private Food redDotFood;
 
 	public Board() {
 		setLayout(null);
 		initBoard();
-		addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
+		addMouseMotionListener(new MouseAdapter() {
+			public void mouseMoved(MouseEvent e) {
 				player.setX(e.getX());
 				player.setY(e.getY());
+				player.setDx(e.getX());
+				player.setDy(e.getY());
+//				int new_x  =(int)(player.getX()+ ((e.getX()-player.getX())*0.1));
+//				player.setX(new_x);
+//				int new_y  =(int)(player.getY()+ ((e.getY()-player.getY())*0.1));
+//				player.setX(new_y);
+				//player.move();
+//				player.setX(player.getX() +(int)(e.getX()*0.1));
+//				player.setY(player.getY() + (int)(e.getY()*0.1));
 			}
 		});
 	}
 
 	private void initBoard() {
 		player = new Mouse();
+		redDotFood = new RedDotFood();
 		setBackground(new Color(0, 195, 0));
 		setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
 		setDoubleBuffered(true);
@@ -50,14 +62,13 @@ public class Board extends JPanel implements ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		drawPlayer(g);
+		draw(g);
 	}
 
-	private void drawPlayer(Graphics g) {
+	private void draw(Graphics g) {		
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.rotate(Math.toRadians(i++), player.getX(), player.getY());
-		g2d.drawImage(player.getImage(), player.getX()-50, player.getY()-50, 100, 100, this);
-		Toolkit.getDefaultToolkit().sync();
+		player.draw(g2d,this);
+		redDotFood.draw(g);
 	}
 
 	@Override

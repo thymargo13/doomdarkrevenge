@@ -10,7 +10,7 @@ public class Mouse extends Player {
 		super.maxExp = 50;
 		super.dead = false;
 		super.speeding = false;
-		super.speedTimer = 1;
+//		super.speed = 1;
 		super.img = "/Resource/animals/mouse.png";
 		ImageIcon ii = new ImageIcon(getClass().getResource(img));
 		super.image = ii.getImage();
