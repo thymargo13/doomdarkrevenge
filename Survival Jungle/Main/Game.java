@@ -53,7 +53,7 @@ public class Game {
 			i++;
 		}
 		for (InetAddress a : Network.getDiscoveredServer()) {
-			System.out.println("AAA Found:" + a.getHostAddress());
+			System.out.println("Server Found:" + a.getHostAddress());
 		}
 		
 		Network.clientStopDiscover();

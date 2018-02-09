@@ -25,7 +25,7 @@ public class ClientDiscoveryReceive implements Runnable {
 				String message = new String(receivePacket.getData()).trim();
 				if (message.equals("SERVER_RESPONSE")) {
 					HostAddress.add(receivePacket.getAddress());
-					System.out.println("Server discovered: IP- " +receivePacket.getAddress());
+					System.out.println("Server discovered: IP " +receivePacket.getAddress());
 				}
 				
 			}
