@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import Main.MenuPanel;
 
 public class Backbutton extends JLayeredPane implements Runnable{
-	//private static final JFrame JFrame;
+	
 	private MenuPanel menu;
 	JFrame frame;
 	
