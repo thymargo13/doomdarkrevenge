@@ -33,6 +33,15 @@ public class Network {
 	public ArrayList<InetAddress> getDiscoveredServer() {
 		return ClientDiscover.getDiscoveredServer();
 	}
+	
+	public void connectServer(String address) {
+		
+	}
+	
+	public void sendToServer(String message) {
+		
+	}
+	
 
 		
 }

@@ -5,3 +5,6 @@
 /ClientDiscover.class
 /ClientDiscoverySend.class
 /ClientDiscoveryReceive.class
+/ClientConnect.class
+/ClientReceiver.class
+/ClientSender.class
