@@ -3,12 +3,10 @@ package Network.Client;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class ClientDiscoverySend implements Runnable{
 	DatagramSocket DatagramSocket;
-	ArrayList<InetAddress> HostAddress;
 	private final int  Port = 8889;
 	
 	ClientDiscoverySend(DatagramSocket DatagramSocket){

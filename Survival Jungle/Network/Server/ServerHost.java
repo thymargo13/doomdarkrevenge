@@ -2,22 +2,16 @@ package Network.Server;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import Network.Client.Client;
 
 public class ServerHost implements Runnable {
 	private ServerSocket ServerSocket;
 	private ArrayList<Client> Clients;
-	private final JPanel errorPanel = new JPanel();
 
 	ServerHost(ServerSocket ServerSocket, ArrayList<Client> Clients){
 		this.ServerSocket = ServerSocket;
@@ -37,18 +31,16 @@ public class ServerHost implements Runnable {
 				Clients.add(Client);
 				System.out.println("Client : " + Client.getUserID() + " connected from IP " + Client.getIP() + " .");
 				Client.sendMessage("ClientID:" + i);
-				// Server send client id to client
 
-				ServerSender ServerSender = new ServerSender(output,Client);
+				ServerSender ServerSender = new ServerSender(output,Clients,i);
 				Thread SenderThread = new Thread(ServerSender);
 				SenderThread.start();
 				System.out.println("Output stream for client " + Client.getUserID() + " established.");
 
-				
-//				ServerSender ServerSender = new ServerSender(output,Client);
-//				Thread SenderThread = new Thread(ServerSender);
-//				SenderThread.start();
-//				System.out.println("Output stream for client " + Client.getUserID() + " established.");
+				ServerReceiver ServerReceiver = new ServerReceiver(input,Clients,i);
+				Thread ReceiverThread = new Thread(ServerReceiver);
+				ReceiverThread.start();
+				System.out.println("Input stream for client " + Client.getUserID() + " established.");
 
 				i++;
 			} catch (Exception ex) {

@@ -16,7 +16,6 @@ public class ClientDiscover {
 	private final JPanel errorPanel = new JPanel();
 	private static ArrayList<InetAddress> HostAddress;
 
-	
 	public void startDiscover() {
 		try {
 			DatagramSocket = new DatagramSocket();		
