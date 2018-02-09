@@ -9,36 +9,14 @@ public class Client {
 	private String username;
 	private InetAddress IP;
 	private BlockingQueue<String> blockQueue;
-	private int port;
 	
-	public Client(int userID, String username, InetAddress IP, int port){
+	public Client(int userID, InetAddress IP){
 		setUserID(userID);
-		setUsername(username);
+		setUsername("Default");
 		setIP(IP);
 		
 		BlockingQueue<String> blockQueue = new LinkedBlockingQueue<String>();
 		setBlockQueue(blockQueue);
-		setPort(port);
-	}
-	
-	public Client(int userID, String username, InetAddress IP, BlockingQueue<String> blockQueue){
-		setUserID(userID);
-		setUsername(username);
-		setIP(IP);
-		
-		blockQueue = new LinkedBlockingQueue<String>();
-		setBlockQueue(blockQueue);
-		setPort(8888);
-	}
-	
-	public Client(int userID, String username, InetAddress IP, BlockingQueue<String> blockQueue, int port){
-		setUserID(userID);
-		setUsername(username);
-		setIP(IP);
-		
-		blockQueue = new LinkedBlockingQueue<String>();
-		setBlockQueue(blockQueue);
-		setPort(port);
 	}
 	
 	public int getUserID() {
@@ -51,10 +29,6 @@ public class Client {
 	
 	public InetAddress getIP() {
 		return IP;
-	}
-	
-	public int getPort() {
-		return port;
 	}
 	
 	public BlockingQueue<String> getQueue(){
@@ -105,16 +79,8 @@ public class Client {
 		}
 	}
 	
-	public int setPort(int port) {
-		try {
-			this.port = port;
-			return 1;
-		}
-		catch (Exception ex){
-			System.out.println("Error: " + ex.getMessage());
-			return 0;
-		}
+	public void sendMessage(String message) {
+		this.blockQueue.add(message+"\n");
 	}
-	
 }
 
