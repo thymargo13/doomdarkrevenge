@@ -2,13 +2,17 @@ package Command;
 
 import javax.swing.JPanel;
 
+import Map.Board;
+
 public class OnlineGame extends Command{
 
-	@Override
-	public JPanel execute() {
-		// TODO Auto-generated method stub
-		System.out.println("Online Game");
-		return null;
+	private JPanel onlineGame;
+	public OnlineGame() {
+		onlineGame = new JPanel();
+		onlineGame.add(new Board());
 	}
 
+	public JPanel execute() {
+		return onlineGame;
+	}
 }

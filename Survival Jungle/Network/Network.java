@@ -9,8 +9,7 @@ import Network.Server.*;
 public class Network {
 	Server Server = null;
 	ClientDiscover ClientDiscover = null;
-	// Every data return to this class
-	
+	ClientConnect ClientConnect = null;
 	
 	public void startServer() {
 		Server = new Server();
@@ -34,14 +33,16 @@ public class Network {
 		return ClientDiscover.getDiscoveredServer();
 	}
 	
-	public void connectServer(String address) {
-		
+	public boolean connectServer(String address) {
+		ClientConnect = new ClientConnect(address);
+		return ClientConnect.connectToServer();
+	}
+	
+	public void disconnectServer() {
+		ClientConnect.disconnectFromServer();
 	}
 	
 	public void sendToServer(String message) {
-		
-	}
-	
-
-		
+		ClientConnect.sendMessage(message);
+	}		
 }

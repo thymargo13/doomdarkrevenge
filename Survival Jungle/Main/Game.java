@@ -1,13 +1,3 @@
-//package Main;
-//
-//public class Game {
-//
-//	public static void main(String[] args) {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//}
 package Main;
 
 import java.awt.*;

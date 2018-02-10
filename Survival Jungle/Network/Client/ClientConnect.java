@@ -2,7 +2,6 @@ package Network.Client;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
@@ -11,9 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
 public class ClientConnect {
-	
 	BlockingQueue<String> queue;
 	private static Socket socket;
 	private static BufferedReader input;
@@ -23,7 +20,7 @@ public class ClientConnect {
 	private final JPanel errorPanel = new JPanel();
 	Thread ReceiverThread, SenderThread;
 	
-	ClientConnect(String address){
+	public ClientConnect(String address){
 		this.queue = new LinkedBlockingQueue<String>();
 		this.address = address;
 	}
@@ -44,21 +41,19 @@ public class ClientConnect {
 			SenderThread.start();
 			System.out.println("Client Sender thread created.");
 
-		} catch (Exception ex) {
+		}
+		catch (Exception ex) {
 		    JOptionPane.showMessageDialog(errorPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		    try {
 				socket.close();
 				ReceiverThread.interrupt();
 				SenderThread.interrupt();
-			} catch (Exception exc) {
+			}
+		    catch (Exception exc) {
 			}
 			return false;
 		}
 		return true;
-	}
-	
-	public void sendMessage(String message) {
-		queue.add(message+"\n");
 	}
 	
 	public void disconnectFromServer() {
@@ -67,8 +62,12 @@ public class ClientConnect {
 			ReceiverThread.interrupt();
 			SenderThread.interrupt();
 			System.out.println("Disconnected from server.");
-
-		} catch (Exception ex) {
 		}
+		catch (Exception ex) {
+		}
+	}
+	
+	public void sendMessage(String message) {
+		queue.add(message+"\n");
 	}
 }

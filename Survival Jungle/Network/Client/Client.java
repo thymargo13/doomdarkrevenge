@@ -10,6 +10,23 @@ public class Client {
 	private InetAddress IP;
 	private BlockingQueue<String> blockQueue;
 	
+	public Client(int userID, String name, InetAddress IP) {
+		setUserID(userID);
+		setUsername(name);
+		setIP(IP);
+		
+		BlockingQueue<String> blockQueue = new LinkedBlockingQueue<String>();
+		setBlockQueue(blockQueue);
+	}
+	
+	public Client(int userID, String name) {
+		setUserID(userID);
+		setUsername(name);
+		
+		BlockingQueue<String> blockQueue = new LinkedBlockingQueue<String>();
+		setBlockQueue(blockQueue);
+	}
+	
 	public Client(int userID, InetAddress IP){
 		setUserID(userID);
 		setUsername("Default");

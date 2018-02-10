@@ -10,4 +10,6 @@
 /cock.class
 /Perm.class
 /Local$1.class
-/Leaderboard$multiplayerLeaderComparator.class
+/GameState.class
+/MultiplayerGameState.class
+/MultiplayerCell.class

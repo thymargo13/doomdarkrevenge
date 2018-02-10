@@ -1,41 +1,41 @@
-package Local;
+package Multiplayer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Entity.Mouse;
 import Entity.Player;
+import Local.Particle;
 
-import java.util.ArrayList;
-
-public class Cell {
-
-	public static ArrayList<Cell> cells = new ArrayList<Cell>();
+public class MultiplayerCell {
+	
+	
+	public static ArrayList<MultiplayerCell> cells = new ArrayList<MultiplayerCell>();
 	public static int cellCount;
 
 	public String name;
-
-	double mass = 10;
+	public double mass = 10;
 	int speed = 1;
-
 	public boolean isPlayer = false;
-
-	Cell target;
 	Particle pTarget;
-
 	boolean isTarget = false;
 	String targetType = "p";
-
 	public double x;
 	public double y;
 	
-	Color cellColor;
-	double goalX, goalY;
+	public Color cellColor;
+	public double goalX, goalY;
 	boolean goalReached = true;
+	
+	public int id;
 
-	public Cell(String name, int x, int y, boolean isPlayer) {
+	// isPlayer = is this PC player
+	public MultiplayerCell(int id, String name, int x, int y, boolean isPlayer) {
+		this.id = id;
 		this.name = name;
 		this.x = x;
 		this.y = y;
@@ -54,56 +54,18 @@ public class Cell {
 		int b = (int) (Math.random() * 256);
 		Color randomColor = new Color(r, g, b);
 
-		cellColor = randomColor;
+		this.cellColor = randomColor;
 	}
 
 	public void addMass(double mass) {
 		this.mass += mass;
 	}
 
-	public int returnNearestCell() {
-
-		int x = 0;
-		int distance = 9999999;
-		int min = distance;
-		int max = 500;
-		for (Cell cell : cells) {
-			if (this != cell) {
-				distance = (int) Math
-						.sqrt((this.x - cell.x) * (this.x - cell.x) + (cell.y - this.y) * (cell.y - this.y));
-				if (distance < min && this.mass > cell.mass + 10) {
-					min = distance;
-					x = cells.indexOf(cell);
-				} else if (distance < min && this.mass < cell.mass + 10 && cell.cellCount == cells.size()) {
-					x = -1;
-				}
-			}
-		}
-		return x;
-	}
-
-	public int returnNearestP() {
-
-		int x = 0;
-		int distance = 99999999;
-		int min = distance;
-
-		for (Particle p : Particle.particles) {
-			distance = (int) Math.sqrt((this.x - p.x) * (this.x - p.x) + (this.y - p.y) * (this.y - p.y));
-			if (distance < min && this.mass > p.mass) {
-				min = distance;
-				x = Particle.particles.indexOf(p);
-			}
-		}
-
-		return x;
-	}
-
 	public void Update() {
 		if (this.mass > 3500) {
 			this.mass = 3500;
 		}
-		for (Cell cell : cells) {
+		for (MultiplayerCell cell : this.cells) {
 			if (this.checkCollide(cell.x, cell.y, cell.mass) && this != cell && this.mass > cell.mass + 10) {
 				if (1 / (this.mass / cell.mass) >= .4 && this.mass < 4000) {
 					addMass(cell.mass);
@@ -111,59 +73,12 @@ public class Cell {
 				respawn(cell);
 			}
 		}
-		if (!isPlayer) {
-			if (goalReached) {
-				if (returnNearestCell() > -1) { // No Cell Found
-					if (!isTarget) {
-						target = cells.get(returnNearestCell());
-						isTarget = true;
-						targetType = "c";
-					} else if (isTarget && targetType.equals("c")) {
-						targetType = "n";
-						isTarget = false;
-					}
-				} else if (returnNearestCell() == -1) { // Cell Found
-					if (!isTarget) {
-						pTarget = Particle.particles.get(returnNearestP());
-						isTarget = true;
-						targetType = "p";
-					} else if (isTarget) {
-						targetType = "n";
-						isTarget = false;
-					}
-				}
-				goalReached = false;
-			} else {
-				double dx = 0;
-
-				double dy = 0;
-				if (targetType.equals("c")) {
-					if (returnNearestCell() > -1) {
-						target = cells.get(returnNearestCell());
-						dx = (target.x - this.x);
-						dy = (target.y - this.y);
-					} else {
-						goalReached = true;
-					}
-				} else if (targetType.equals("p")) {
-					pTarget = Particle.particles.get(returnNearestP());
-					dx = (pTarget.x - this.x);
-					dy = (pTarget.y - this.y);
-				} else {
-					goalReached = true;
-				}
-				double distance = Math.sqrt((dx) * (dx) + (dy) * (dy));
-				if (distance > 1) {
-					x += (dx) / distance * speed;
-					y += (dy) / distance * speed;
-				} else if (distance <= 1) {
-					goalReached = true;
-				}
-
-			}
+		if (!this.isPlayer) {
+			//if not this pc player
+			// get data from the queue
 		} else {
-			double dx = (goalX - this.x);
-			double dy = (goalY - this.y);
+			double dx = (this.goalX - this.x);
+			double dy = (this.goalY - this.y);
 			this.x += (dx) * 1 / 50;
 			this.y += (dy) * 1 / 50;
 			// addMass(10);
@@ -178,7 +93,7 @@ public class Cell {
 		goalY = my;
 	}
 
-	public void respawn(Cell cell) {
+	public void respawn(MultiplayerCell cell) {
 		cell.x = (int) Math.floor(Math.random() * 10001);
 		cell.y = (int) Math.floor(Math.random() * 10001);
 		cell.mass = 20;

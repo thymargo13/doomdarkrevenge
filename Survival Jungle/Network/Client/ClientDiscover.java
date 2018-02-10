@@ -41,6 +41,7 @@ public class ClientDiscover {
 		try {
 			DatagramSocket.close();
 			ThreadDiscoverySend.interrupt();
+			
             System.out.println("Client discovery send stopped.");
 			ThreadDiscoveryReceive.interrupt();
             System.out.println("Client discovery receuve stopped.");
@@ -50,7 +51,7 @@ public class ClientDiscover {
 		}
 	}
 	
-	public ArrayList<InetAddress> getDiscoveredServer() {
+	public ArrayList<InetAddress> getDiscoveredServer(){
 		Set<InetAddress> HostAddressSet = new HashSet<InetAddress>();
 		HostAddressSet.addAll(HostAddress);
 		HostAddress.clear();
