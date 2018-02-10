@@ -5,11 +5,13 @@ import java.util.ArrayList;
 
 import Network.Client.*;
 import Network.Server.*;
+import Multiplayer.*;
 
 public class Network {
 	Server Server = null;
 	ClientDiscover ClientDiscover = null;
 	ClientConnect ClientConnect = null;
+	MultiplayerGameState MultiplayerGameState = null; 
 	
 	public void startServer() {
 		Server = new Server();
@@ -44,5 +46,9 @@ public class Network {
 	
 	public void sendToServer(String message) {
 		ClientConnect.sendMessage(message);
-	}		
+	}
+	
+	public void setGameState(MultiplayerGameState MultiplayerGameState) {
+		this.MultiplayerGameState = MultiplayerGameState;
+	}
 }

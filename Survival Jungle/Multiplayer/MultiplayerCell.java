@@ -1,10 +1,8 @@
 package Multiplayer;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Entity.Mouse;
@@ -65,7 +63,7 @@ public class MultiplayerCell {
 		if (this.mass > 3500) {
 			this.mass = 3500;
 		}
-		for (MultiplayerCell cell : this.cells) {
+		for (MultiplayerCell cell : MultiplayerCell.cells) {
 			if (this.checkCollide(cell.x, cell.y, cell.mass) && this != cell && this.mass > cell.mass + 10) {
 				if (1 / (this.mass / cell.mass) >= .4 && this.mass < 4000) {
 					addMass(cell.mass);
@@ -129,8 +127,8 @@ public class MultiplayerCell {
 				((int) y + (int) mass / 2 + name.length()));
 	}
 
-	private Image getReource(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	private Image getReource(String string) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }

@@ -18,9 +18,14 @@ public class Board extends JPanel implements ActionListener {
 	private final int DELAY = 10;	// milliseconds delay
 	private Timer timer;
 	private GameState gameState;
-	private MultiplayerGameState MultiplayerGameState;
 
+	// KSFOONG: Multiplayer
+	private MultiplayerGameState MultiplayerGameState;
+	private boolean multiplayer = false;
+	
 	public Board() {
+		// KSFOONG
+		multiplayer = false;
 		setLayout(null);
 		initBoard();
 		addMouseMotionListener(new MouseAdapter() {
@@ -43,6 +48,7 @@ public class Board extends JPanel implements ActionListener {
 	
 	// Multiplayer
 	public Board(ArrayList<Client> Clients, boolean isHost) {
+		multiplayer = true;
 		setLayout(null);
 		if (isHost) {
 			initMultiplayerBoard(Clients,isHost);
@@ -69,13 +75,23 @@ public class Board extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		MultiplayerGameState.initDraw(g, this);	// pass the graphics to game state to control all rendering
+		if (!multiplayer) {
+			gameState.initDraw(g, this);	// pass the graphics to game state to control all rendering
+		} else {
+			MultiplayerGameState.initDraw(g, this);	// pass the graphics to game state to control all rendering
+		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MultiplayerGameState.update();
-		MultiplayerGameState.draw();
+		if (!multiplayer) {
+			gameState.update();
+			gameState.draw();
+		} else {
+			MultiplayerGameState.update();
+			MultiplayerGameState.draw();
+		}
+
 		repaint();
 	}
 }

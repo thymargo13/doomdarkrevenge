@@ -2,10 +2,8 @@ package Multiplayer;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -124,7 +122,6 @@ public class MultiplayerGameState {
 		}
 		
 	}
-	
 	
 	
 	public void mouseMoved(MouseEvent e) {	// update current location
