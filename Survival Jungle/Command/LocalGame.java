@@ -2,13 +2,18 @@ package Command;
 
 import javax.swing.JPanel;
 
-public class LocalGame extends Command{
+import Map.Board;
 
+public class LocalGame extends Command{
+	private JPanel localgame;
+	public LocalGame() {
+		localgame = new JPanel();
+		localgame.add(new Board());
+	}
 	@Override
 	public JPanel execute() {
-		// TODO Auto-generated method stub
-		System.out.println("LocalGame");
-		return null;
+		//add(new Board());
+		return localgame;
 	}
 
 }

@@ -1,21 +1,31 @@
 package Entity;
 
+import java.awt.Image;
+
 public class Player {
 
 	// player stuff
-	private int health;
-	private int maxHealth;
-	private int exp;
-	private int maxExp;
-	private boolean dead;
-	private boolean speeding;
-	private long speedTimer;
-	private String name;
-	private String img;
-	
+	protected int health;
+	protected int maxHealth;
+	protected int exp;
+	protected int maxExp;
+	protected boolean dead;
+	protected boolean speeding;
+	protected int speed;
+	protected String name;
+	protected String img; //location of img
+	protected Image image; 
+	private int x = 100; // x-coordinate
+	private int y = 100; // y-coordinate
+	private double degree = 30;
+	private int dx = 100;
+	private int dy = 100;
+
 	//constructor
-	public Player() {}
-	
+	public Player() {
+		speed = 1;
+	}
+
 	//getter and setter
 	public int getHealth() {
 		return health;
@@ -47,12 +57,12 @@ public class Player {
 	public void setSpeeding(boolean speeding) {
 		this.speeding = speeding;
 	}
-	public long getSpeedTimer() {
-		return speedTimer;
-	}
-	public void setSpeedTimer(long speedTimer) {
-		this.speedTimer = speedTimer;
-	}
+//	public long getSpeed() {
+//		return speed;
+//	}
+//	public void setSpeed(int speed) {
+//		this.speed = speed;
+//	}
 
 	public String getName() {
 		return name;
@@ -70,4 +80,47 @@ public class Player {
 		this.img = img;
 	}
 	
+	public Image getImage() {
+		return image;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public double getDegree() {
+		return degree;
+	}
+
+	public void setDegree(int degree) {
+		this.degree = degree;
+	}
+
+	public int getDx() {
+		return dx;
+	}
+
+	public void setDx(int dx) {
+		this.dx = dx;
+	}
+
+	public int getDy() {
+		return dy;
+	}
+
+	public void setDy(int dy) {
+		this.dy = dy;
+	}
 }
