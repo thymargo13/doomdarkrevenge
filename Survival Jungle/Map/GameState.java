@@ -12,8 +12,11 @@ import javax.swing.JPanel;
 
 import Local.Camera;
 import Local.Cell;
+import Local.Forest;
 import Local.Leaderboard;
+import Local.Mud;
 import Local.Particle;
+import Local.Pool;
 
 
 
@@ -46,6 +49,7 @@ public class GameState {
 	public void draw() {
 		Graphics bbg = backBuffer.getGraphics();
 		Graphics bbg2 = backBuffer.getGraphics();
+//		Graphics bbg3=backBuffer.getGraphics();
 
 		bbg.setColor(Color.WHITE);	// set background color in the camera
 		bbg.fillRect(0, 0, 800, 600);
@@ -60,7 +64,19 @@ public class GameState {
 		for (Cell cell : Cell.cells) {	// this should be change to player
 			cell.Draw(bbg, jpanel);
 		}
-
+		
+		ArrayList<Forest> fCopy=new ArrayList<Forest>(Forest.forests);
+		for(Forest f: fCopy) {
+			f.draw(bbg, jpanel);
+		}
+		ArrayList<Pool> poolCopy=new ArrayList<Pool>(Pool.pools);
+		for(Pool p:poolCopy) {
+			p.draw(bbg, jpanel);
+		}
+		ArrayList<Mud> mudCopy=new ArrayList<Mud>(Mud.muds);
+		for(Mud m:mudCopy) {
+			m.draw(bbg, jpanel);
+		}
 		cam.unset(bbg);
 
 		for (Cell cell : Cell.cells) {
@@ -93,6 +109,21 @@ public class GameState {
 		if (Particle.particleCount < 5000) {	// generate food
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001), 1, false));
+		}
+		
+		//Forest&&Pool&&Mud!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		if(Forest.forestCount < 500) {
+			Forest.forests.add(new Forest((int) Math.floor(Math.random() * 10001),
+					(int) Math.floor(Math.random() * 10001),200));
+		}
+		if(Pool.poolCount < 500) {
+			Pool.pools.add(new Pool((int) Math.floor(Math.random() * 10001),
+					(int) Math.floor(Math.random() * 10001),200));
+		}
+		if(Mud.mudCount < 500) {
+			Mud.muds.add(new Mud((int) Math.floor(Math.random() * 10001),
+					(int) Math.floor(Math.random() * 10001),200));
 		}
 
 		if (!playerCreated) {	// generate player
