@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import Network.Network;
 import Network.Client.*;
+import Network.Server.Client;
 import Multiplayer.*;
 
 public class Board extends JPanel implements ActionListener {
@@ -22,6 +24,8 @@ public class Board extends JPanel implements ActionListener {
 	// KSFOONG: Multiplayer
 	private MultiplayerGameState MultiplayerGameState;
 	private boolean multiplayer = false;
+	Network Network;
+	String Address;
 	
 	public Board() {
 		// KSFOONG
@@ -47,14 +51,12 @@ public class Board extends JPanel implements ActionListener {
 
 	
 	// Multiplayer
-	public Board(ArrayList<Client> Clients, boolean isHost) {
+	public Board(ArrayList<Client> Clients, boolean isHost, Network Network, String Address) {
 		multiplayer = true;
+		this.Network = Network;
+		this.Address = Address;
 		setLayout(null);
-		if (isHost) {
-			initMultiplayerBoard(Clients,isHost);
-		} else {
-			initMultiplayerBoard(Clients, isHost);
-		}
+		initMultiplayerBoard(Clients,isHost);
 		addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
 //				System.out.println("X: "+e.getX()+", Y: "+e.getY());
@@ -66,6 +68,20 @@ public class Board extends JPanel implements ActionListener {
 	// Multiplayer
 	private void initMultiplayerBoard(ArrayList<Client> Clients, boolean isHost) {
 		MultiplayerGameState = new MultiplayerGameState(Clients, isHost);
+		Network.setGameState(MultiplayerGameState);
+		
+		if (isHost) {
+			// Host username
+			Network.startServer("Dell");
+		} else {
+			Network.connectServer(Address);
+		}
+		
+		// while not connected
+		while(!Network.getIsConnected()) {
+			System.out.println("Connecting to server...");
+		}
+		
 		setPreferredSize(new Dimension(800, 600));	// can use setSize() if component's parent has no layout manager
 		setDoubleBuffered(true);	// Sets whether this component should use a buffer to paint
 		timer = new Timer(DELAY, this);	// Every DELAY ms the timer will call the actionPerformed()

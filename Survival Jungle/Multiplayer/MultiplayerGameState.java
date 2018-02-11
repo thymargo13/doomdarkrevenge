@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import Local.Camera;
 import Local.Leaderboard;
 import Local.Particle;
-import Network.Client.Client;
+import Network.Server.Client;
 
 public class MultiplayerGameState {
 	
@@ -23,7 +23,7 @@ public class MultiplayerGameState {
 	private JPanel jpanel;
 	
 	// Multiplayer
-	ArrayList<Client> Clients;
+	public ArrayList<Client> Clients;
 	private boolean isHost = false;
 	
 	// Multiplayer

@@ -1,4 +1,4 @@
-package Network.Client;
+package Network.Server;
 
 import java.net.InetAddress;
 import java.util.concurrent.BlockingQueue;

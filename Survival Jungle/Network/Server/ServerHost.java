@@ -7,8 +7,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import Network.Client.Client;
-
 public class ServerHost implements Runnable {
 	private ServerSocket ServerSocket;
 	private ArrayList<Client> Clients;
@@ -19,7 +17,7 @@ public class ServerHost implements Runnable {
 	}
 	
 	public void run() {
-		int i = 0;
+		int i = 1;
 		while (true) {
 			Socket Socket;
 			try {
@@ -30,8 +28,18 @@ public class ServerHost implements Runnable {
 				Client Client = new Client(i, Socket.getInetAddress());
 				Clients.add(Client);
 				System.out.println("Client : " + Client.getUserID() + " connected from IP " + Client.getIP() + " .");
-				Client.sendMessage("ClientID:" + i);
-
+				
+				// Send Client own ID
+				Client.sendMessage("ClientID" + i);
+				// Send the Clients list
+				String message = "CLIENTLIST:";
+				for (Client c : Clients) {
+					if (c.getUserID() != i) {
+						message = message + c.getUserID() + ":" + c.getUsername() + ":";
+					}
+				}
+				Client.sendMessage(message);
+				
 				ServerSender ServerSender = new ServerSender(output,Clients,i);
 				Thread SenderThread = new Thread(ServerSender);
 				SenderThread.start();

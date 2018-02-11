@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Network.Client.Client;
-
 public class Server {
 	private static Thread HostThread, DiscoveryThread;
 	private static ServerSocket ServerSocket;
@@ -18,13 +16,19 @@ public class Server {
 	private final int ServerPort = 8888;
 	private final int DiscoveryPort = 8889;
 	private final JPanel errorPanel = new JPanel();
-
+	private String name;
+	
+	public void setName(String name){
+		this.name = name;
+	}
 	
 	public void startServer() {
 		try {
+			Clients.add(new Client(0, name));
+			
 			ServerSocket = new ServerSocket(ServerPort);
-			ServerHost Host = new ServerHost(ServerSocket, Clients);
-			HostThread = new Thread(Host);
+			ServerHost ServerHost = new ServerHost(ServerSocket, Clients);
+			HostThread = new Thread(ServerHost);
 			HostThread.start();
 			System.out.println("Server started.");
 			

@@ -10,6 +10,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import Multiplayer.MultiplayerGameState;
+
 public class ClientConnect {
 	BlockingQueue<String> queue;
 	private static Socket socket;
@@ -19,10 +21,12 @@ public class ClientConnect {
 	private final int Port = 8888;
 	private final JPanel errorPanel = new JPanel();
 	Thread ReceiverThread, SenderThread;
+	private MultiplayerGameState MultiplayerGameState = null;
 	
-	public ClientConnect(String address){
+	public ClientConnect(String address,MultiplayerGameState MultiplayerGameState){
 		this.queue = new LinkedBlockingQueue<String>();
 		this.address = address;
+		this.MultiplayerGameState = MultiplayerGameState;
 	}
 	
 	public boolean connectToServer() {
@@ -31,7 +35,7 @@ public class ClientConnect {
 			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			output = new DataOutputStream(socket.getOutputStream());
 
-			ClientReceiver ClientReceiver = new ClientReceiver(input);
+			ClientReceiver ClientReceiver = new ClientReceiver(input, MultiplayerGameState);
 			ReceiverThread = new Thread(ClientReceiver);
 			ReceiverThread.start();
 			System.out.println("Client Receiver thread created.");

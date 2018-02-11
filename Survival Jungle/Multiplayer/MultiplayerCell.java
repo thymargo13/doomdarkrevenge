@@ -71,6 +71,8 @@ public class MultiplayerCell {
 				respawn(cell);
 			}
 		}
+		// remove if else
+		// update goalX and goalY if receive data from queue about moving
 		if (!this.isPlayer) {
 			//if not this pc player
 			// get data from the queue

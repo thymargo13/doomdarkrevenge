@@ -1,9 +1,7 @@
 package Network.Server;
 
 import java.io.DataOutputStream;
-import java.util.ArrayList;
-
-import Network.Client.Client;;
+import java.util.ArrayList;;
 
 public class ServerSender implements Runnable {
 	private DataOutputStream output;
@@ -22,7 +20,7 @@ public class ServerSender implements Runnable {
 				String message = Clients.get(ClientID).getQueue().take();
 				output.writeBytes(message);
 				System.out.println("Server output : " + message);
-				System.out.println("Client ID:" +Clients.get(ClientID).getUserID());
+				System.out.println("Client ID: " + Clients.get(ClientID).getUserID());
 				System.out.println("Client IP: " + Clients.get(ClientID).getIP());
 			} catch(Exception ex) {
 				System.out.println("Server outstream error: " +ex.getMessage());				
