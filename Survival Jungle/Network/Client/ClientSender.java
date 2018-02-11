@@ -18,10 +18,11 @@ public class ClientSender implements Runnable{
 			try {
 				String message = queue.take();
 				output.writeBytes(message);
-				System.out.println("Client Sender: Message: " + message);
+				System.out.print("Client sender message: " + message);
 			}
 			catch(Exception ex) {
-				
+				System.out.println("Client Sender error: " + ex.getMessage());
+				ex.printStackTrace();
 			}
 
 		}

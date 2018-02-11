@@ -17,18 +17,32 @@ public class ServerSender implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				String message = Clients.get(ClientID).getQueue().take();
+				Thread.sleep(15);
+
+				String message = searchClients(ClientID).getQueue().take();
 				output.writeBytes(message);
 				System.out.println("Server output : " + message);
-				System.out.println("Client ID: " + Clients.get(ClientID).getUserID());
-				System.out.println("Client IP: " + Clients.get(ClientID).getIP());
+				System.out.println("Client ID: " + searchClients(ClientID).getUserID());
+				System.out.println("Client IP: " + searchClients(ClientID).getIP());
 			} catch(Exception ex) {
-				System.out.println("Server outstream error: " +ex.getMessage());				
+				System.out.println("Server sender error: " + ex.getMessage());
+				//Clients.remove(searchClients(ClientID));
+				// Send new list to every clients
+				ex.printStackTrace();
 				// Remove client from client lists and send to all clients
 				// Stop socket
 				break;
 			}
 		}
+	}
+	
+	public Client searchClients(int ClientID) {
+		for (Client Client : Clients) {
+			if (Client.getUserID() == ClientID) {
+				return Client;
+			}
+		}
+		return null;
 	}
 }
 

@@ -20,19 +20,19 @@ public class MultiplayerCell {
 	int speed = 1;
 	public boolean isPlayer = false;
 	Particle pTarget;
-	boolean isTarget = false;
-	String targetType = "p";
+	public boolean isTarget = false;
+	public String targetType = "p";
 	public double x;
 	public double y;
 	
 	public Color cellColor;
 	public double goalX, goalY;
-	boolean goalReached = true;
+	public boolean goalReached = true;
 	
 	public int id;
 
 	// isPlayer = is this PC player
-	public MultiplayerCell(int id, String name, int x, int y, boolean isPlayer) {
+	public MultiplayerCell(int id, String name, double x, double y, boolean isPlayer) {
 		this.id = id;
 		this.name = name;
 		this.x = x;
@@ -73,16 +73,16 @@ public class MultiplayerCell {
 		}
 		// remove if else
 		// update goalX and goalY if receive data from queue about moving
-		if (!this.isPlayer) {
-			//if not this pc player
-			// get data from the queue
-		} else {
+//		if (!this.isPlayer) {
+//			//if not this pc player
+//			// get data from the queue
+//		} else {
 			double dx = (this.goalX - this.x);
 			double dy = (this.goalY - this.y);
 			this.x += (dx) * 1 / 50;
 			this.y += (dy) * 1 / 50;
 			// addMass(10);
-		}
+//		}
 	}
 
 	public void getMouseX(int mx) {

@@ -11,9 +11,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Multiplayer.MultiplayerGameState;
+import Network.Server.Client;
 
 public class ClientConnect {
 	BlockingQueue<String> queue;
+	private static Client Client;
 	private static Socket socket;
 	private static BufferedReader input;
 	private static DataOutputStream output;
@@ -23,8 +25,9 @@ public class ClientConnect {
 	Thread ReceiverThread, SenderThread;
 	private MultiplayerGameState MultiplayerGameState = null;
 	
-	public ClientConnect(String address,MultiplayerGameState MultiplayerGameState){
-		this.queue = new LinkedBlockingQueue<String>();
+	public ClientConnect(Client Client, String address,MultiplayerGameState MultiplayerGameState){
+		this.Client = Client;
+		this.queue = Client.getQueue();
 		this.address = address;
 		this.MultiplayerGameState = MultiplayerGameState;
 	}

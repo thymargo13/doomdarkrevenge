@@ -13,10 +13,23 @@ public class Network {
 	ClientConnect ClientConnect = null;
 	MultiplayerGameState MultiplayerGameState = null;
 	private boolean isConnected = false;
+	ArrayList<Client> Clients;
+	
+	public void setGameState(MultiplayerGameState MultiplayerGameState) {
+		this.MultiplayerGameState = MultiplayerGameState;
+	}
+	
+	public void setClients(ArrayList<Client> Clients) {
+		this.Clients = Clients;
+	}
+	
+	public boolean getIsConnected() {
+		return isConnected;
+	}	
 	
 	public void startServer(String name) {
-		Server = new Server();
-		Server.setName(name);
+		Server = new Server(Clients, MultiplayerGameState);
+//		Server.setName(name);
 		Server.startServer();
 		isConnected = true;
 	}
@@ -39,8 +52,8 @@ public class Network {
 		return ClientDiscover.getDiscoveredServer();
 	}
 	
-	public void connectServer(String address) {
-		ClientConnect = new ClientConnect(address,MultiplayerGameState);
+	public void connectServer(Client Client, String address) {
+		ClientConnect = new ClientConnect(Client, address, MultiplayerGameState);
 		isConnected = ClientConnect.connectToServer();
 	}
 	
@@ -53,11 +66,11 @@ public class Network {
 		ClientConnect.sendMessage(message);
 	}
 	
-	public void setGameState(MultiplayerGameState MultiplayerGameState) {
-		this.MultiplayerGameState = MultiplayerGameState;
+	public void sendAsServer(String message) {
+		Server.sendAsServer(message);
 	}
 	
-	public boolean getIsConnected() {
-		return isConnected;
-	}
+
+	
+
 }

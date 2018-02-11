@@ -67,16 +67,17 @@ public class Board extends JPanel implements ActionListener {
 	
 	// Multiplayer
 	private void initMultiplayerBoard(ArrayList<Client> Clients, boolean isHost) {
-		MultiplayerGameState = new MultiplayerGameState(Clients, isHost);
+		MultiplayerGameState = new MultiplayerGameState(Clients, isHost, Network);
+		Network.setClients(Clients);
 		Network.setGameState(MultiplayerGameState);
 		
 		if (isHost) {
 			// Host username
 			Network.startServer("Dell");
 		} else {
-			Network.connectServer(Address);
+			Network.connectServer(Clients.get(0), Address);
 		}
-		
+
 		// while not connected
 		while(!Network.getIsConnected()) {
 			System.out.println("Connecting to server...");

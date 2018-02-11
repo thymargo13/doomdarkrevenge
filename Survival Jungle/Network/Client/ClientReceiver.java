@@ -1,7 +1,10 @@
 package Network.Client;
 
 import java.io.BufferedReader;
-import Multiplayer.MultiplayerGameState;;
+
+import Multiplayer.MultiplayerCell;
+import Multiplayer.MultiplayerGameState;
+import Network.Server.*;
 
 public class ClientReceiver implements Runnable{
 	private BufferedReader input;
@@ -11,29 +14,65 @@ public class ClientReceiver implements Runnable{
 		this.input = input;
 		this.MultiplayerGameState = MultiplayerGameState;
 	}
-
+	String message;
 	public void run(){
 		while (true) {
 			try {
-				String message = input.readLine();
+				message = input.readLine();
 				processMessage(message);
 				System.out.println("Received message from server: " + message);
 			} catch (Exception ex) {
+				System.out.println("Client receiver error: " + ex.getMessage());
+				ex.printStackTrace();
 			}
 		}
 	}
 	
-	public void processMessage(String message) {
-		if (message.length() > 0) {
-			String[] messages = message.split(":");
-			switch (messages[0]) {
+	public void processMessage(String data) {
+		if (data.length() > 0) {
+			String[] message = data.split(":");
+			switch (message[0]) {
 				case "CLIENTID":
-					String clientID = message;
-					//MultiplayerGameState.Clients.get(0).setID(Integer.parseInt(message[1]));
+					//Sample Message : "CLIENTID:ID"
+					MultiplayerGameState.Clients.get(0).setUserID(Integer.parseInt(message[1]));
+					MultiplayerGameState.Clients.get(0).sendMessage("NAME:" + MultiplayerGameState.Clients.get(0).getUsername());
+					break;
+				case "CLIENTLIST":
+					//Sample Message : "CLIENTLIST:ID:USERNAME"
+					for (int i = 1; i < message.length; i = i + 2) {
+						MultiplayerGameState.Clients.add(new Client(Integer.parseInt(message[i]), message[i+1]));
+					}
+					break;
+				case "FOODADD":
+					//Sample Message : "FOODADD:X:Y"
+					MultiplayerGameState.generateFood(Integer.parseInt(message[1]), Integer.parseInt(message[2]));
+					break;
+				case "CELLADD":
+					//Sample Message : "CELLADD:ID:X:Y"
+					if (Integer.parseInt(message[1]) == MultiplayerGameState.Clients.get(0).getUserID()) {
+						MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[1]), searchClients(Integer.parseInt(message[1])).getUsername() ,Double.parseDouble(message[2]) , Double.parseDouble(message[3]), true));
+					} else {
+						MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[1]), searchClients(Integer.parseInt(message[1])).getUsername() ,Double.parseDouble(message[2]) , Double.parseDouble(message[3]), false));
+					}
+
+					break;
+				case "MOVE":
+					//Sample Message : "MOVE:ID:X:Y"
+					MultiplayerCell.cells.get(Integer.parseInt(message[1])).goalX = Double.parseDouble(message[2]);
+					MultiplayerCell.cells.get(Integer.parseInt(message[1])).goalY = Double.parseDouble(message[3]);
 					break;
 				default:
 					break;
 			}
 		}
+	}
+	
+	public Client searchClients(int ClientID) {
+		for (Client Client : MultiplayerGameState.Clients) {
+			if (Client.getUserID() == ClientID) {
+				return Client;
+			}
+		}
+		return null;
 	}
 }

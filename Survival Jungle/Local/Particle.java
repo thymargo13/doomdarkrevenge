@@ -1,6 +1,9 @@
 package Local;
 
 import java.util.ArrayList;
+
+import Multiplayer.MultiplayerCell;
+
 import java.awt.*;
 
 public class Particle {
@@ -61,6 +64,48 @@ public class Particle {
 			if (speed <= 0) {
 				isShot = false;
 				speed = 0;
+			}
+		}
+	}
+	
+	// KSFOONG Multiplayer
+	public void Update(boolean multiplayer) {
+		if (multiplayer == true) {
+			for (MultiplayerCell cell : MultiplayerCell.cells) {
+				// This is only for the player in this pc
+				if (this.checkCollide(cell.x, cell.y, cell.mass) && !cellParticle && cell.isPlayer) {
+					
+					// mass = exp
+					if (cell.mass <= 200) {
+						cell.addMass(this.mass);
+					}
+					if (cell.mass >= 200) {
+						cell.isTarget = false;
+						cell.goalReached = true;
+						cell.targetType = "c";
+					}
+					if (cell.targetType.equals("p")) {
+						cell.goalReached = true;
+						cell.isTarget = false;
+					}
+					this.x = (int) Math.floor(Math.random() * 10001);
+					this.y = (int) Math.floor(Math.random() * 10001);
+				} 
+//				else if (this.checkCollide(cell.x, cell.y, cell.mass) && cellParticle && !cell.isPlayer) {
+//					cell.addMass(this.mass);
+//					this.die = true;
+//				}
+			}
+			if (isShot) {
+				dx = (speed) * Math.cos(angle);
+				dy = (speed) * Math.sin(angle);
+				x += dx;
+				y += dy;
+				speed -= 0.1;
+				if (speed <= 0) {
+					isShot = false;
+					speed = 0;
+				}
 			}
 		}
 	}

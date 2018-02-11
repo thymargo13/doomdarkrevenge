@@ -57,7 +57,8 @@ public class Leaderboard {
 		}
 
 	}
-
+	
+	// Leaderboard should show scores even below 10person. Draw lesser rectangle
 	public void Draw(Graphics bbg) {
 		for (int i = 0; i < z; i++) {
 			bbg.setColor(color);
@@ -71,10 +72,14 @@ public class Leaderboard {
 							y + spots[i] + 25);
 				}
 				// KSFOONG
-			} else {
-				if (MultiplayerCell.cells.size() >= z) {
+			} else {				
+//				if (MultiplayerCell.cells.size() >= z) {
+					try {
 					bbg.drawString("#" + (i + 1) + ": " + multiplayerCellCopy.get(i).name + " : " + (int) multiplayerCellCopy.get(i).mass, x, y + spots[i] + 25);
-				}
+					} catch (Exception ex) {
+						
+					}
+//				}
 			}
 		}
 	}

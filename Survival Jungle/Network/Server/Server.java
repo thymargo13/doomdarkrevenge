@@ -8,26 +8,32 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import Multiplayer.MultiplayerGameState;
+
 public class Server {
 	private static Thread HostThread, DiscoveryThread;
 	private static ServerSocket ServerSocket;
 	private static DatagramSocket DatagramSocket;
-	private final static ArrayList<Client> Clients= new ArrayList<Client>();
+	private static ArrayList<Client> Clients;
 	private final int ServerPort = 8888;
 	private final int DiscoveryPort = 8889;
 	private final JPanel errorPanel = new JPanel();
-	private String name;
-	
-	public void setName(String name){
-		this.name = name;
+	private MultiplayerGameState MultiplayerGameState;
+//	private String name;
+//	
+//	public void setName(String name){
+//		this.name = name;
+//	}
+	public Server (ArrayList<Client> Clients, MultiplayerGameState MultiplayerGameState){
+		this.MultiplayerGameState = MultiplayerGameState;
+		this.Clients = Clients;
 	}
 	
+	
 	public void startServer() {
-		try {
-			Clients.add(new Client(0, name));
-			
+		try {		
 			ServerSocket = new ServerSocket(ServerPort);
-			ServerHost ServerHost = new ServerHost(ServerSocket, Clients);
+			ServerHost ServerHost = new ServerHost(ServerSocket, Clients, MultiplayerGameState);
 			HostThread = new Thread(ServerHost);
 			HostThread.start();
 			System.out.println("Server started.");
@@ -36,7 +42,7 @@ public class Server {
 			ServerDiscovery ServerDiscovery = new ServerDiscovery(DatagramSocket);
 			DiscoveryThread = new Thread(ServerDiscovery);
 			DiscoveryThread.start();
-			System.out.println("");
+			System.out.println("Server discovery started.");
 		} catch (Exception ex){
 		    JOptionPane.showMessageDialog(errorPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		} 
@@ -51,6 +57,14 @@ public class Server {
             System.out.println("Server stopped.");
 		} catch (Exception ex){
 		    JOptionPane.showMessageDialog(errorPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public void sendAsServer(String message) {
+		for (Client Client : Clients) {
+			if (Client.getUserID() != 0) {
+				Client.getQueue().add(message+"\n");
+			}
 		}
 	}
 	

@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import Local.Camera;
 import Local.Leaderboard;
 import Local.Particle;
+import Network.Network;
 import Network.Server.Client;
 
 public class MultiplayerGameState {
@@ -25,19 +26,29 @@ public class MultiplayerGameState {
 	// Multiplayer
 	public ArrayList<Client> Clients;
 	private boolean isHost = false;
+	Network Network;
+	private boolean isRunning = false;
 	
 	// Multiplayer
-	public MultiplayerGameState(ArrayList<Client> Clients, boolean isHost) {
+	public MultiplayerGameState(ArrayList<Client> Clients, boolean isHost, Network Network) {
 		this.Clients = Clients;
 		this.isHost = isHost;
+		this.Network = Network;
+		isRunning = true;
+		
+//		MultiplayerData MultiplayerData = new MultiplayerData(this);
+//		Thread MultiplayerThread = new Thread(MultiplayerData);
+//		MultiplayerThread.start();
+		
 		init();
 	}
 	
 	public void init() {
-		lb = new Leaderboard();
+		lb = new Leaderboard(true);
 		cam = new Camera(0, 0, 1, 1);
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
-	}
+		
+		}
 	
 	public void initDraw (Graphics graphics, JPanel jpanel) {	//get the graphics and panel to process draw method in here
 		g = graphics;
@@ -89,31 +100,47 @@ public class MultiplayerGameState {
 				cam.Update(MultiplayerCell.cells.get(i));	// update current position
 			}
 		}
-
-		// Generate all players
-		for (int i = MultiplayerCell.cellCount; i < Clients.size(); i++) {
-			MultiplayerCell.cells.add(new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(), (int) Math.floor(Math.random() * 10001), (int) Math.floor(Math.random() * 2801), false));
-		}
 		
 		if (!isHost) {
 			// if not host
 			// Get food from host
 		} else {
-			// if host generate foods
-			if (Particle.particleCount < 5000) {	// generate food
-				Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001), (int) Math.floor(Math.random() * 10001), 1, false));
+			
+			for (int i = MultiplayerCell.cellCount; i < Clients.size(); i++) {
+				boolean isPlayer = false;
+				if (i == 0) {
+					isPlayer = true;
+				}
+				int x = (int) Math.floor(Math.random() * 10001);
+				int y = (int) Math.floor(Math.random() * 2801);
+				MultiplayerCell.cells.add(new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(),x , y, isPlayer));
+				Network.sendAsServer("CELLADD:" + Clients.get(i).getUserID() + ":" + x + ":" + y );
+				// Send as server to all
+			}
+			// if host then generate foods
+			// DEBUG
+			if (Particle.particleCount < 500) {	// generate food
+				int x = (int) Math.floor(Math.random() * 10001);
+				int y = (int) Math.floor(Math.random() * 10001);
+				Particle.particles.add(new Particle(x, y, 1, false));
+				Network.sendAsServer("FOODADD:" + x + ":" + y);
 				// add to server queue
 			}
-			
-			for (Iterator<Particle> it = Particle.particles.iterator(); it.hasNext();) {
-				Particle p = it.next();
-				if (!p.getHealth()) {	// check the food been eaten or not
-					p.Update();
-					// add to server queue
+		}
+		
+		for (Iterator<Particle> it = Particle.particles.iterator(); it.hasNext();) {
+			Particle p = it.next();
+			if (!p.getHealth()) {	// check the food been eaten or not
+				p.Update(true);
+				// add to server queue
+			} else {
+				it.remove();
+				if (!isHost) {
+					Clients.get(0).sendMessage("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).mass);
 				} else {
-					it.remove();
-					// add to server queue
+					Network.sendAsServer("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).mass);
 				}
+				// add to server queue
 			}
 		}
 				
@@ -123,6 +150,11 @@ public class MultiplayerGameState {
 		
 	}
 	
+	public void generateFood(int x, int y) {
+		int mass = 1;
+		boolean p = false;
+		Particle.particles.add(new Particle(x, y, mass, p));
+	}
 	
 	public void mouseMoved(MouseEvent e) {	// update current location
 		for (MultiplayerCell cell : MultiplayerCell.cells) {
@@ -131,7 +163,20 @@ public class MultiplayerGameState {
 				cell.getMouseX((int) (e.getX() / cam.sX + cam.x));
 				cell.getMouseY((int) (e.getY() / cam.sY + cam.y));
 				// add to server queue
+				if (!isHost) {
+					Clients.get(0).sendMessage("MOVE:" + Clients.get(0).getUserID() + ":" + ((int)(e.getX() / cam.sX + cam.x)) +":" + ((int)(e.getY() / cam.sY + cam.y)));
+				} else {
+					Network.sendAsServer("MOVE:" + Clients.get(0).getUserID() + ":" + ((int)(e.getX() / cam.sX + cam.x)) +":" + ((int)(e.getY() / cam.sY + cam.y)));
+				}
 			}
 		}
+	}
+	
+	public boolean getRunning() {
+		return isRunning;
+	}
+	
+	public boolean getIsHost() {
+		return isHost;
 	}
 }

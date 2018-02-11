@@ -7,13 +7,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import Multiplayer.MultiplayerCell;
+import Multiplayer.MultiplayerGameState;
+
 public class ServerHost implements Runnable {
 	private ServerSocket ServerSocket;
 	private ArrayList<Client> Clients;
+	private MultiplayerGameState MultiplayerGameState;
 
-	ServerHost(ServerSocket ServerSocket, ArrayList<Client> Clients){
+	ServerHost(ServerSocket ServerSocket, ArrayList<Client> Clients, MultiplayerGameState MultiplayerGameState){
 		this.ServerSocket = ServerSocket;
 		this.Clients = Clients;
+		this.MultiplayerGameState = MultiplayerGameState;
 	}
 	
 	public void run() {
@@ -30,7 +35,7 @@ public class ServerHost implements Runnable {
 				System.out.println("Client : " + Client.getUserID() + " connected from IP " + Client.getIP() + " .");
 				
 				// Send Client own ID
-				Client.sendMessage("ClientID" + i);
+				Client.sendMessage("CLIENTID:" + i);
 				// Send the Clients list
 				String message = "CLIENTLIST:";
 				for (Client c : Clients) {
@@ -40,12 +45,23 @@ public class ServerHost implements Runnable {
 				}
 				Client.sendMessage(message);
 				
+				if (MultiplayerGameState.getRunning()) {
+					for (MultiplayerCell c : MultiplayerCell.cells) {
+						int x = (int) Math.floor(Math.random() * 10001);
+						int y = (int) Math.floor(Math.random() * 2801);
+						c.goalX = x;
+						c.goalY = y;
+						Client.sendMessage("CELLADD:" + c.id + ":" + x +":" + y);
+					}
+				}
+				
+				
 				ServerSender ServerSender = new ServerSender(output,Clients,i);
 				Thread SenderThread = new Thread(ServerSender);
 				SenderThread.start();
 				System.out.println("Output stream for client " + Client.getUserID() + " established.");
 
-				ServerReceiver ServerReceiver = new ServerReceiver(input,Clients,i);
+				ServerReceiver ServerReceiver = new ServerReceiver(input,Clients,i,MultiplayerGameState);
 				Thread ReceiverThread = new Thread(ServerReceiver);
 				ReceiverThread.start();
 				System.out.println("Input stream for client " + Client.getUserID() + " established.");
