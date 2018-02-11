@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import Local.Particle;
 import Multiplayer.MultiplayerCell;
 import Multiplayer.MultiplayerGameState;
 
@@ -45,6 +47,7 @@ public class ServerHost implements Runnable {
 				}
 				Client.sendMessage(message);
 				
+				// if game already running
 				if (MultiplayerGameState.getRunning()) {
 					for (MultiplayerCell c : MultiplayerCell.cells) {
 						int x = (int) Math.floor(Math.random() * 10001);
@@ -53,6 +56,14 @@ public class ServerHost implements Runnable {
 						c.goalY = y;
 						Client.sendMessage("CELLADD:" + c.id + ":" + x +":" + y);
 					}
+					
+					message = "FOODADD";
+					for (Particle p : Particle.particles) {
+						if (!p.getHealth()) {
+							message  = message + ":" + p.x + ":" + p.y;
+						}
+					}
+					Client.sendMessage(message);
 				}
 				
 				

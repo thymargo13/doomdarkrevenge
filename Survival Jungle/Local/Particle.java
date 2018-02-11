@@ -3,6 +3,7 @@ package Local;
 import java.util.ArrayList;
 
 import Multiplayer.MultiplayerCell;
+import Multiplayer.MultiplayerGameState;
 
 import java.awt.*;
 
@@ -34,7 +35,6 @@ public class Particle {
 	public void Update() {
 		for (Cell cell : Cell.cells) {
 			if (this.checkCollide(cell.x, cell.y, cell.mass) && !cellParticle) {
-				
 				// mass = exp
 				if (cell.mass <= 200) {
 					cell.addMass(this.mass);
@@ -69,7 +69,7 @@ public class Particle {
 	}
 	
 	// KSFOONG Multiplayer
-	public void Update(boolean multiplayer) {
+	public void Update(boolean multiplayer, MultiplayerGameState MultiplayerGameState) {
 		if (multiplayer == true) {
 			for (MultiplayerCell cell : MultiplayerCell.cells) {
 				// This is only for the player in this pc
@@ -90,6 +90,9 @@ public class Particle {
 					}
 					this.x = (int) Math.floor(Math.random() * 10001);
 					this.y = (int) Math.floor(Math.random() * 10001);
+					String message = "SCORE:" + cell.id + ":" + cell.mass;
+					MultiplayerGameState.sendMessage(message);
+
 				} 
 //				else if (this.checkCollide(cell.x, cell.y, cell.mass) && cellParticle && !cell.isPlayer) {
 //					cell.addMass(this.mass);

@@ -67,6 +67,7 @@ public class MultiplayerCell {
 			if (this.checkCollide(cell.x, cell.y, cell.mass) && this != cell && this.mass > cell.mass + 10) {
 				if (1 / (this.mass / cell.mass) >= .4 && this.mass < 4000) {
 					addMass(cell.mass);
+					// If player eats player
 				}
 				respawn(cell);
 			}

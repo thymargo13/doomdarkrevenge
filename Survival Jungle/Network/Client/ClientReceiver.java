@@ -35,7 +35,7 @@ public class ClientReceiver implements Runnable{
 				case "CLIENTID":
 					//Sample Message : "CLIENTID:ID"
 					MultiplayerGameState.Clients.get(0).setUserID(Integer.parseInt(message[1]));
-					MultiplayerGameState.Clients.get(0).sendMessage("NAME:" + MultiplayerGameState.Clients.get(0).getUsername());
+					MultiplayerGameState.Clients.get(0).sendMessage("NAME:" + message[1] + ":" + MultiplayerGameState.Clients.get(0).getUsername());
 					break;
 				case "CLIENTLIST":
 					//Sample Message : "CLIENTLIST:ID:USERNAME"
@@ -45,21 +45,28 @@ public class ClientReceiver implements Runnable{
 					break;
 				case "FOODADD":
 					//Sample Message : "FOODADD:X:Y"
-					MultiplayerGameState.generateFood(Integer.parseInt(message[1]), Integer.parseInt(message[2]));
+					for (int i = 1; i < message.length; i = i + 2) {
+						MultiplayerGameState.generateFood(Integer.parseInt(message[i]), Integer.parseInt(message[i+1]));
+					}
+//					MultiplayerGameState.generateFood(Integer.parseInt(message[1]), Integer.parseInt(message[2]));
 					break;
 				case "CELLADD":
 					//Sample Message : "CELLADD:ID:X:Y"
+					// Set loaded = true, player only can play when loaded = true 
 					if (Integer.parseInt(message[1]) == MultiplayerGameState.Clients.get(0).getUserID()) {
 						MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[1]), searchClients(Integer.parseInt(message[1])).getUsername() ,Double.parseDouble(message[2]) , Double.parseDouble(message[3]), true));
 					} else {
 						MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[1]), searchClients(Integer.parseInt(message[1])).getUsername() ,Double.parseDouble(message[2]) , Double.parseDouble(message[3]), false));
 					}
-
 					break;
 				case "MOVE":
 					//Sample Message : "MOVE:ID:X:Y"
-					MultiplayerCell.cells.get(Integer.parseInt(message[1])).goalX = Double.parseDouble(message[2]);
-					MultiplayerCell.cells.get(Integer.parseInt(message[1])).goalY = Double.parseDouble(message[3]);
+					searchCell(Integer.parseInt(message[1])).goalX = Double.parseDouble(message[2]);
+					searchCell(Integer.parseInt(message[1])).goalY = Double.parseDouble(message[3]);
+					break;
+				case "SCORE":
+					// Sample Message : "SCORE:ID:MASS"
+					searchCell(Integer.parseInt(message[1])).mass = Double.parseDouble(message[2]);
 					break;
 				default:
 					break;
@@ -71,6 +78,15 @@ public class ClientReceiver implements Runnable{
 		for (Client Client : MultiplayerGameState.Clients) {
 			if (Client.getUserID() == ClientID) {
 				return Client;
+			}
+		}
+		return null;
+	}
+	
+	public MultiplayerCell searchCell(int ClientID) {
+		for (MultiplayerCell Cell : MultiplayerCell.cells) {
+			if (Cell.id == ClientID) {
+				return Cell;
 			}
 		}
 		return null;

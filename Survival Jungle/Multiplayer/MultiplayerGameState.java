@@ -113,7 +113,9 @@ public class MultiplayerGameState {
 				}
 				int x = (int) Math.floor(Math.random() * 10001);
 				int y = (int) Math.floor(Math.random() * 2801);
-				MultiplayerCell.cells.add(new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(),x , y, isPlayer));
+				MultiplayerCell c = new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(),x , y, isPlayer); 
+				MultiplayerCell.cells.add(c);
+				c.Update();
 				Network.sendAsServer("CELLADD:" + Clients.get(i).getUserID() + ":" + x + ":" + y );
 				// Send as server to all
 			}
@@ -128,13 +130,12 @@ public class MultiplayerGameState {
 			}
 		}
 		
-		for (Iterator<Particle> it = Particle.particles.iterator(); it.hasNext();) {
-			Particle p = it.next();
+		for (Particle p : Particle.particles) {
 			if (!p.getHealth()) {	// check the food been eaten or not
-				p.Update(true);
-				// add to server queue
+				p.Update(true, this);
 			} else {
-				it.remove();
+				Particle.particles.remove(p);
+
 				if (!isHost) {
 					Clients.get(0).sendMessage("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).mass);
 				} else {
@@ -143,6 +144,22 @@ public class MultiplayerGameState {
 				// add to server queue
 			}
 		}
+//		
+//		for (Iterator<Particle> it = Particle.particles.iterator(); it.hasNext();) {
+//			Particle p = it.next();
+//			if (!p.getHealth()) {	// check the food been eaten or not
+//				p.Update(true);
+//				// add to server queue
+//			} else {
+//				it.remove();
+//				if (!isHost) {
+//					Clients.get(0).sendMessage("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).mass);
+//				} else {
+//					Network.sendAsServer("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).mass);
+//				}
+//				// add to server queue
+//			}
+//		}
 				
 		for (MultiplayerCell cell : MultiplayerCell.cells) {
 			cell.Update();
@@ -178,5 +195,13 @@ public class MultiplayerGameState {
 	
 	public boolean getIsHost() {
 		return isHost;
+	}
+	
+	public void sendMessage(String message) {
+		if (isHost) {
+			Network.sendAsServer(message);
+		} else {
+			Clients.get(0).sendMessage(message);
+		}
 	}
 }

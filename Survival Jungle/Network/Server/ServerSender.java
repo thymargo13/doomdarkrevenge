@@ -17,11 +17,11 @@ public class ServerSender implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				Thread.sleep(15);
+//				Thread.sleep(15);
 
 				String message = searchClients(ClientID).getQueue().take();
 				output.writeBytes(message);
-				System.out.println("Server output : " + message);
+				System.out.print("Server output : " + message);
 				System.out.println("Client ID: " + searchClients(ClientID).getUserID());
 				System.out.println("Client IP: " + searchClients(ClientID).getIP());
 			} catch(Exception ex) {
