@@ -24,7 +24,7 @@ public class Particle {
 		particleCount++;
 		this.x = x;
 		this.y = y;
-		this.mass = mass;
+		this.mass = 10;
 		cellParticle = p;
 	}
 

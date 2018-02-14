@@ -139,18 +139,24 @@ public class Cell {
 			this.levelNum = 7;
 		}
 		for (Cell cell : cells) {
-			if(this.checkCollide(cell)) {
-				if(this.levelNum > cell.levelNum) {
+			if (this.checkCollide(cell)) {
+				if (this.levelNum > cell.levelNum) {
 					cell.currentHp -= this.currentLv.getAttack();
-					if(cell.currentHp <=0 || this.currentHp <=0) {
-						if(cell.levelNum <=0 || this.levelNum <=0)
-							die();
-						else {
-							downgrade();
+					if (cell.currentHp <= 0) {
+						if (cell.levelNum <= 0) {
+							die(cell);
+						} else {
+							downgrade(cell);
+						}
+					} else if (this.currentHp <= 0) {
+						if (this.levelNum <= 0) {
+							die(this);
+						} else {
+							downgrade(this);
 						}
 					}
 				}
-					boundsOut(cell);
+				boundsOut(cell);
 			}
 		}
 		/*
@@ -235,21 +241,35 @@ public class Cell {
 	public void getMouseY(int my) {
 		goalY = my;
 	}
-	
+
+	public void die(Cell cell) {
+		cell.levelNum = 0;
+		cell.currentLv =level.get(cell.levelNum);
+		cell.currentHp = cell.currentLv.getHealth();
+		cell.currentExp = 0;
+	}
+
+	public void downgrade(Cell cell) {
+		cell.levelNum = cell.levelNum-1;
+		cell.currentLv = level.get(cell.levelNum);
+		cell.currentHp = currentLv.getHealth();
+		cell.currentExp = 0;
+	}
+
 	public void boundsOut(Cell cell) {
-		if(this.x < cell.x ) {
-			this.x -=5;
-			cell.x+=5;
+		if (this.x < cell.x) {
+			this.x -= 5;
+			cell.x += 5;
 		} else {
-			this.x +=5;
-			cell.x -=5;
+			this.x += 5;
+			cell.x -= 5;
 		}
-		if(this.y < cell.y ) {
-			this.y -=5;
-			cell.y +=5;
+		if (this.y < cell.y) {
+			this.y -= 5;
+			cell.y += 5;
 		} else {
-			this.y +=5;
-			cell.y -=5;
+			this.y += 5;
+			cell.y -= 5;
 		}
 	}
 
@@ -263,15 +283,17 @@ public class Cell {
 
 	// collision
 	public boolean checkCollide(Cell cell) {
-		//Math.sqrt((x2 − x1)^2 + (y2 − y1)^2)
-		double centre_x1 = this.x+50;
-		double centre_y1 = this.y+50;
-		double centre_x2 = cell.x+50;
-		double centre_y2 = cell.y+50;
-		double distance = Math.sqrt( Math.pow((centre_x1-centre_x2), 2)+Math.pow((centre_y1-centre_y2),2));
+		// Math.sqrt((x2 − x1)^2 + (y2 − y1)^2)
+		double centre_x1 = this.x + 50;
+		double centre_y1 = this.y + 50;
+		double centre_x2 = cell.x + 50;
+		double centre_y2 = cell.y + 50;
+		double distance = Math.sqrt(Math.pow((centre_x1 - centre_x2), 2) + Math.pow((centre_y1 - centre_y2), 2));
 		return distance < 100;
-		//return (((this.x + 50) - (cell.x + 50)) < 100 || ((this.y + 50) - (cell.y + 50)) < 100
-			//	|| ((cell.x + 50) - (this.x + 50)) < 100 || ((cell.y + 50) - (this.y + 50)) < 100);
+		// return (((this.x + 50) - (cell.x + 50)) < 100 || ((this.y + 50) - (cell.y +
+		// 50)) < 100
+		// || ((cell.x + 50) - (this.x + 50)) < 100 || ((cell.y + 50) - (this.y + 50)) <
+		// 100);
 		/*
 		 * if this.cell centre(x,y) and cell centre(x,y) distance > this.cell radius +
 		 * cell.radius then they collided.
