@@ -76,11 +76,9 @@ public class Cell {
 	}
 
 	public void attack(int currentHp) {
-		// this.mass += mass;
+		
 		currentHp = currentHp - this.currentLv.getAttack(); // get attacked.
-		// if (mass > currentLv.getExp()) {
-		// currentLv = level.get(1 + (currentLv.getLevel()));
-		// }
+		//check level up: if true: reset exp && hp;
 	}
 
 	public void addExp(double exp) {
@@ -88,6 +86,7 @@ public class Cell {
 		// LevelUp();
 		if (currentExp > currentLv.getExp()) {
 			currentLv = level.get(++levelNum);
+			currentExp = 0;
 		}
 	}
 
@@ -135,6 +134,10 @@ public class Cell {
 
 	public void Update() {
 		// in case it grow out of bound.
+		if (this.currentExp >= this.currentLv.getExp()) {
+			this.levelNum += 1;
+			this.currentLv = level.get(levelNum);
+		}
 		if (this.levelNum > 7) {
 			this.levelNum = 7;
 		}
@@ -144,17 +147,28 @@ public class Cell {
 					cell.currentHp -= this.currentLv.getAttack();
 					if (cell.currentHp <= 0) {
 						if (cell.levelNum <= 0) {
+							this.currentExp += cell.currentExp;
+//							if (this.currentExp >= this.currentLv.getExp()) {
+//								this.levelNum += 1;
+//							}
 							die(cell);
+
 						} else {
 							downgrade(cell);
 						}
 					} else if (this.currentHp <= 0) {
 						if (this.levelNum <= 0) {
+							cell.currentExp += this.currentExp;
+							if (cell.currentExp >= cell.currentLv.getExp()) {
+								cell.levelNum += 1;
+							}
 							die(this);
 						} else {
 							downgrade(this);
 						}
-					}
+					}							
+		
+					
 				}
 				boundsOut(cell);
 			}
@@ -244,15 +258,15 @@ public class Cell {
 
 	public void die(Cell cell) {
 		cell.levelNum = 0;
-		cell.currentLv =level.get(cell.levelNum);
+		cell.currentLv = level.get(cell.levelNum);
 		cell.currentHp = cell.currentLv.getHealth();
 		cell.currentExp = 0;
 	}
 
 	public void downgrade(Cell cell) {
-		cell.levelNum = cell.levelNum-1;
+		cell.levelNum = cell.levelNum - 1;
 		cell.currentLv = level.get(cell.levelNum);
-		cell.currentHp = currentLv.getHealth();
+		cell.currentHp = cell.currentLv.getHealth();
 		cell.currentExp = 0;
 	}
 
@@ -312,11 +326,22 @@ public class Cell {
 		// draw the hp bar but n
 		bbg.drawString(currentHp + "/ " + player.getHealth(), (int) x, (int) y - 20);
 		// draw the exp bar but without scaled.
-		bbg.drawRect((int) x, (int) y + 60, player.getExp(), 10);
+		bbg.drawRect((int) x, (int) y + 60, 100, 10);
 		bbg.setColor(Color.YELLOW);
-		bbg.fillRect((int) x, (int) y + 60, currentExp, 10);
+		if (this.name == "Bruce") {
+			System.out.println("current:" + currentExp);
+			System.out.println("Scaled current:" + (int) ((float) currentExp / player.getExp()) * 100);
+		}
+
+		bbg.fillRect((int) x, (int) y + 60, (int) (((float) currentExp / player.getExp()) * 100), 10);
 		bbg.setColor(Color.BLACK);
 		bbg.drawString("Exp:", ((int) x - 50), (int) y + 60);
 	}
+	// public int scale() {
+	// float curexp = this.currentExp;
+	// float maxexp = this.currentLv.getExp();
+	// int curbar = (int)(curexp/maxexp)*100;
+	// return curbar;
+	// }
 
 }
