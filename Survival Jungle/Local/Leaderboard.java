@@ -39,9 +39,10 @@ public class Leaderboard {
 			bbg.setColor(color);
 			bbg.drawRect(x, y + spots[i], 125, 30);
 			bbg.fillRect(x, y + spots[i], 125, 30);
-			bbg.setColor(Color.WHITE);	//color of the leader board string
+			bbg.setColor(Color.BLACK);	//color of the leader board string
 			if (Cell.cells.size() >= z) {
-				bbg.drawString("#" + (i + 1) + ": " + cellsCopy.get(i).name + " : " + (int) cellsCopy.get(i).mass, x,
+				String co = "x: " +cellsCopy.get(i).x+" y:"+ cellsCopy.get(i).y;
+				bbg.drawString("#" + (i + 1) + ": " + cellsCopy.get(i).name + " : " + (int) cellsCopy.get(i).currentExp + co , x,
 						y + spots[i] + 25);
 			}
 		}
@@ -50,9 +51,9 @@ public class Leaderboard {
 	private class leaderComparator implements Comparator<Cell> {
 		@Override
 		public int compare(Cell c1, Cell c2) {
-			if (c1.mass == c2.mass) {
+			if (c1.currentExp == c2.currentExp) {
 				return 0;
-			} else if (c1.mass > c2.mass) {
+			} else if (c1.currentExp > c2.currentExp) {
 				return -1;
 			} else {
 				return 1;

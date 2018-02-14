@@ -24,19 +24,19 @@ public class Particle {
 		particleCount++;
 		this.x = x;
 		this.y = y;
-		this.mass = mass;
+		this.mass = 10;
 		cellParticle = p;
 	}
 
 	public void Update() {
 		for (Cell cell : Cell.cells) {
-			if (this.checkCollide(cell.x, cell.y, cell.mass) && !cellParticle) {
+			if (this.checkCollide(cell.x, cell.y, cell.currentExp) && !cellParticle) {
 				
 				// mass = exp
-				if (cell.mass <= 200) {
-					cell.addMass(this.mass);
+				if (cell.currentExp <= 200) {
+					cell.addExp(this.mass); //add exp
 				}
-				if (cell.mass >= 200) {
+				if (cell.currentExp >= 200) {
 					cell.isTarget = false;
 					cell.goalReached = true;
 					cell.targetType = "c";
@@ -47,8 +47,8 @@ public class Particle {
 				}
 				this.x = (int) Math.floor(Math.random() * 10001);
 				this.y = (int) Math.floor(Math.random() * 10001);
-			} else if (this.checkCollide(cell.x, cell.y, cell.mass) && cellParticle && !cell.isPlayer) {
-				cell.addMass(this.mass);
+			} else if (this.checkCollide(cell.x, cell.y, cell.currentExp) && cellParticle && !cell.isPlayer) {
+				cell.addExp(this.mass); //add exp
 				this.die = true;
 			}
 		}
