@@ -68,9 +68,13 @@ public class GameState {
 				String pos = ("X: " + (int) cell.x + " Y: " + (int) cell.y);
 				bbg2.setColor(Color.BLACK);
 				bbg2.drawString(pos, (800 - pos.length() * pos.length()), 10);	// current location
+				
+				bbg2.drawRect(50, 700, 500, 50);
+				bbg2.setColor(Color.YELLOW);
+				bbg2.fillRect(50, 700, 500, 50);//currentExp
 			}
 		}
-
+		
 		lb.Draw(bbg2);
 
 		g.drawImage(backBuffer, 0, 0, jpanel);
