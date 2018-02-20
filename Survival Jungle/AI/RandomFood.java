@@ -11,19 +11,20 @@ import java.util.ArrayList;
 import java.util.Random; 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import Entity.Player;
 
-//随机设置water出现的位置，并且在消失后进行刷新
-public class Food extends JFrame {
-	//借用其他类
-	private GamePanel gamepanel;
+
+public class RandomFood  {
+	
+	private JPanel gamepanel;
 	private Player player;
-	//小球自身性质
+	
 	public Point location;
 	private Random rand=new Random();
-	public ArrayList<Food> ball =new ArrayList<Food>();	//建立放食物球的容器
-	public Food(GamePanel gp, Player p) {
+	public ArrayList<RandomFood> ball =new ArrayList<RandomFood>();	
+	public RandomFood(JPanel gp, Player p) {
 		gamepanel=gp;
 		player=p;
 //		x=rand.nextInt(800);
@@ -48,9 +49,8 @@ public class Food extends JFrame {
 //		food=new ImageIcon().getImage();
 	public void regenerate() {
 		if((player.getX()-location.x)*(player.getX()-location.x)+(player.getY()-location.y)*(player.getY()-location.y)<(player.getDegree()*player.getDegree())){  
-            //若贪吃蛇的蛇头与食物发生碰撞，则随机生成新的食物位置  
-            location=new Point(Math.abs(rand.nextInt(gp.getWidth())%gamepanel.getWidth()),Math.abs(rand.nextInt(gp.getHeight())%gamepanel.getHeight()));  
             
+			location=new Point(Math.abs(rand.nextInt(gp.getWidth())%gamepanel.getWidth()),Math.abs(rand.nextInt(gp.getHeight())%gamepanel.getHeight()));  
         }               
 	}
 }

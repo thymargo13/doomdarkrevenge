@@ -3,17 +3,23 @@ package Command;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Main.Game;
+
+import Map.Board;
 
 public class LocalGame extends Command{
-
+	private JPanel localgame;
+	public LocalGame() {
+		localgame = new JPanel();
+		localgame.add(new Board());
+	}
 	@Override
 	public JPanel execute() {
-		// TODO Auto-generated method stub
-		System.out.println("LocalGame");
+		//add(new Board());
+		return localgame;
 		
-		
-		return null;
+//		Local local = new Local();
+//		local.run();
+//		return null;
 	}
 
 }
