@@ -18,7 +18,6 @@ public class LocalGame extends Command{
 //		Local local = new Local();
 //		local.run();
 //		return null;
-
 	}
 
 }
