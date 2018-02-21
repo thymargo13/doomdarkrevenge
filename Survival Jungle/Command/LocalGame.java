@@ -1,6 +1,8 @@
 package Command;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 import Map.Board;
 
