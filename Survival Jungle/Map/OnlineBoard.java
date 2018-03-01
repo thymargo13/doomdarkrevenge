@@ -18,16 +18,14 @@ import javax.swing.border.EmptyBorder;
 import Command.OnlineGame;
 
 @SuppressWarnings("serial")
-public class OnlineBoard extends JPanel{
+public class OnlineBoard extends JPanel {
 
-	
 	private JPanel contentPane;
 	private JTextField text;
-	int xx,xy;
-	
-	
+	int xx, xy;
+
 	setBackground(Color.WHITE);
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(100, 100, 729, 476);
 
 	contentPane = new JPanel();
