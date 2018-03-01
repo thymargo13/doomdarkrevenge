@@ -64,7 +64,8 @@ public class GameState {
 		
 		ArrayList<Particle> pCopy = new ArrayList<Particle>(Particle.particles);	// this should be change to food
 		for (Particle p : pCopy) {
-			p.Draw(bbg);
+//			p.Draw(bbg);
+			p.Draw(bbg, jpanel);
 		}
 
 		for (Cell cell : Cell.cells) {	// this should be change to player

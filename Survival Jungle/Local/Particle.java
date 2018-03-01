@@ -1,6 +1,10 @@
 package Local;
 
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
 import java.awt.*;
 
 public class Particle {
@@ -12,7 +16,8 @@ public class Particle {
 	public int x, y, r, g, b, mass;
 	public double speed, angle, dx, dy;
 	private double goalX, goalY;
-
+	protected String img; 
+	protected Image image; 
 	private boolean cellParticle = false;
 	private boolean die = false;
 	public boolean isShot;
@@ -24,10 +29,13 @@ public class Particle {
 		particleCount++;
 		this.x = x;
 		this.y = y;
-		this.mass = 10;
+		this.mass = 20;
 		cellParticle = p;
+		this.img= "/Resource/objects/bread.png";
+		ImageIcon ii = new ImageIcon(getClass().getResource(img)); 
+		this.image = ii.getImage();
 	}
-
+	
 	public void Update() {
 		for (Cell cell : Cell.cells) {
 			if (this.checkCollide(cell.x, cell.y, cell.currentExp) && !cellParticle) {
@@ -69,14 +77,26 @@ public class Particle {
 		return x < this.x + 10 && x + mass > this.x && y < this.y + 10 && y + mass > this.y;
 	}
 
-	public void Draw(Graphics bbg) {
-		bbg.setColor(color);
-		bbg.fillRect(x, y, 10, 10);
-		bbg.drawRect(x, y, 10, 10);
+	public void Draw(Graphics bbg, JPanel jpanel) {
+		Particle p=new Particle(x,y,mass,cellParticle);
+		bbg.drawImage(p.getImage(),(int) x, (int) y, (int) mass, (int) mass, jpanel);
+//		bbg.setColor(color);
+//		bbg.fillRect(x, y, 10, 10);
+//		bbg.drawRect(x, y, 10, 10);
 	}
 
 	public boolean getHealth() {
 		return die;
 	}
+	public String getImg() {
+		return img;
+	}
 
+	public void setImg(String img) {
+		this.img = img;
+	}
+	
+	public Image getImage() {
+		return image;
+	}
 }
