@@ -7,7 +7,7 @@ import Command.*;
 
 @SuppressWarnings("serial")
 public class Button extends JButton {
-	private String[] cmd = { "LocalGame", "OnlineGame", "Setting", "Exit","Backbutton" };
+	private String[] cmd = { "LocalGame", "OnlineGame", "Setting", "Exit" };
 
 	public Button(String imgPath, int panel) {
 		setIcon(new ImageIcon(getClass().getResource(imgPath)));
