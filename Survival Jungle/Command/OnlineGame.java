@@ -25,8 +25,6 @@ public class OnlineGame extends JFrame{
 	private JTextField text;
 	int xx,xy;
 	
-	
-	
 	public OnlineGame() {
 		
 		setBackground(Color.WHITE);
@@ -84,7 +82,7 @@ public class OnlineGame extends JFrame{
 
 		panel.add(label);
 
-		JLabel lblWeGotYou = new JLabel("Online Login");
+		JLabel lblWeGotYou = new JLabel("Enter username");
 
 		lblWeGotYou.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWeGotYou.setForeground(new Color(240, 248, 255));
@@ -129,4 +127,9 @@ public class OnlineGame extends JFrame{
 
 	}
 
+	public JPanel execute(){
+		
+		return contentPane;
+		
+	}
 }
