@@ -11,5 +11,6 @@ public class Wolf extends Player{
 		ImageIcon ii = new ImageIcon(getClass().getResource(img));
 		super.image = ii.getImage();
 		super.level =3;
+		super.addUpExp = 20;
 	}
 }

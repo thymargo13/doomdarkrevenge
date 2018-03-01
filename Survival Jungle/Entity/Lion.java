@@ -11,5 +11,6 @@ public class Lion extends Player{
 		ImageIcon ii = new ImageIcon(getClass().getResource(img));
 		super.image = ii.getImage();
 		super.level =6;
+		super.addUpExp = 70;
 	}
 }

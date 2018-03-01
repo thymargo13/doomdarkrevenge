@@ -18,8 +18,8 @@ public class Cell {
 	public int levelNum = 0; // Type : int --> change while level up / down.
 	public String name; // player name
 	double radius = 50; // the radius of the animals
-	int currentExp;
-	public int currentHp;
+	int currentExp; // instant experience
+	public int currentHp; // instant health value
 	int size = 100;
 	int speed = 1;
 	boolean isPlayer = false;
@@ -35,8 +35,6 @@ public class Cell {
 	public double x; // each cell x-coordinate
 	public double y; // each cell y-coordinate
 
-	Color cellColor;
-
 	double goalX, goalY; // target x-coordinate.
 	boolean goalReached = true;
 
@@ -46,7 +44,7 @@ public class Cell {
 		this.x = x;
 		this.y = y;
 		this.isPlayer = isPlayer;
-		this.randomColor();
+		// this.randomColor();
 		this.currentExp = 0;
 		this.currentLv = level.get(levelNum);
 		this.currentHp = currentLv.getHealth();
@@ -65,133 +63,94 @@ public class Cell {
 		level.add(new Elephant());
 	}
 
-	public void randomColor() {
-
-		int r = (int) (Math.random() * 256);
-		int g = (int) (Math.random() * 256);
-		int b = (int) (Math.random() * 256);
-		Color randomColor = new Color(r, g, b);
-
-		cellColor = randomColor;
-	}
-
 	public void attack(int currentHp) {
-		
 		currentHp = currentHp - this.currentLv.getAttack(); // get attacked.
-		//check level up: if true: reset exp && hp;
+		// check level up: if true: reset exp && hp;
 	}
 
-	public void addExp(double exp) {
-		currentExp += exp;
-		// LevelUp();
-		if (currentExp > currentLv.getExp()) {
-			currentLv = level.get(++levelNum);
-			currentExp = 0;
+	public void addExp(int exp, Cell cell) {
+		cell.currentExp += exp;
+		levelUp(cell);
+		// if (currentExp > currentLv.getExp()) {
+		// currentLv = level.get(++levelNum);
+		// currentExp = 0;
+		// }
+	}
+
+	public void levelUp(Cell cell) {
+		if (cell.currentLv instanceof Elephant) {
+			cell.currentLv = level.get(7);
+		} else {
+			cell.currentLv = level.get(++levelNum);
+			cell.currentExp = 0;
+			cell.currentHp = cell.currentLv.getHealth();
 		}
 	}
 
-	public int returnNearestCell() {
-		//
-		// int x = 0;
-		// int distance = 9999999;
-		// int min = distance;
-		// int max = 500;
-		// for (Cell cell : cells) {
-		// if (this != cell) {
-		// distance = (int) Math
-		// .sqrt((this.x - cell.x) * (this.x - cell.x) + (cell.y - this.y) * (cell.y -
-		// this.y));
-		// if (distance < min && this.mass > cell.mass + 10) {
-		// min = distance;
-		// x = cells.indexOf(cell);
-		// } else if (distance < min && this.mass < cell.mass + 10 && cell.cellCount ==
-		// cells.size()) {
-		// x = -1;
-		// }
-		// }
-		// }
-		// return x;
-		return 1;
+	public void die(Cell cell, Cell winner) {
+		int expAdd = cell.currentExp + cell.currentLv.getAddUpExp();
+		addExp(expAdd, winner);
+		// winner.currentExp += expAdd;
+		cell.levelNum = 0;
+		cell.currentLv = level.get(cell.levelNum);
+		cell.currentHp = cell.currentLv.getHealth();
+		cell.currentExp = 0;
+		respawn(cell);
 	}
 
-	public int returnNearestP() {
-
-		int x = 0;
-		// int distance = 99999999;
-		// int min = distance;
-		//
-		// for (Particle p : Particle.particles) {
-		// distance = (int) Math.sqrt((this.x - p.x) * (this.x - p.x) + (this.y - p.y) *
-		// (this.y - p.y));
-		// if (distance < min && this.mass > p.mass) {
-		// min = distance;
-		// x = Particle.particles.indexOf(p);
-		// }
-		// }
-
-		return x;
+	public void downgrade(Cell cell) {
+		cell.levelNum = cell.levelNum - 1;
+		cell.currentLv = level.get(cell.levelNum);
+		cell.currentHp = cell.currentLv.getHealth();
+		cell.currentExp = 0;
 	}
 
 	public void Update() {
+		if (this.levelNum > 7) { // not working!!!! elephant will become mouse
+									// again~
+			this.levelNum = 7;
+		}
 		// in case it grow out of bound.
 		if (this.currentExp >= this.currentLv.getExp()) {
 			this.levelNum += 1;
 			this.currentLv = level.get(levelNum);
 		}
-		if (this.levelNum > 7) {
-			this.levelNum = 7;
-		}
+
 		for (Cell cell : cells) {
 			if (this.checkCollide(cell)) {
-				if (this.levelNum > cell.levelNum) {
-					cell.currentHp -= this.currentLv.getAttack();
-					if (cell.currentHp <= 0) {
-						if (cell.levelNum <= 0) {
-							this.currentExp += cell.currentExp;
-//							if (this.currentExp >= this.currentLv.getExp()) {
-//								this.levelNum += 1;
-//							}
-							die(cell);
-
+				if (this.levelNum > cell.levelNum) { // attacker level > cell
+														// level
+					cell.currentHp -= this.currentLv.getAttack(); // cell Health
+																	// value -=
+																	// attacker
+																	// attackValue
+					if (cell.currentHp <= 0) { // HP <= 0 die
+						if (cell.levelNum == 0) {
+							// addExp(this);
+							// this.currentExp += cell.currentExp;
+							die(cell, this);
 						} else {
 							downgrade(cell);
 						}
-					} else if (this.currentHp <= 0) {
-						if (this.levelNum <= 0) {
-							cell.currentExp += this.currentExp;
-							if (cell.currentExp >= cell.currentLv.getExp()) {
-								cell.levelNum += 1;
-							}
-							die(this);
-						} else {
-							downgrade(this);
-						}
-					}							
-		
-					
+					}
+					// } else if (this.currentHp <= 0) {
+					// if (this.levelNum <= 0) {
+					// cell.currentExp += this.currentExp;
+					// if (cell.currentExp >= cell.currentLv.getExp()) {
+					// cell.levelNum += 1;
+					// }
+					// die(this);
+					// } else {
+					// downgrade(this);
+					// }
+					// }
 				}
 				boundsOut(cell);
 			}
 		}
-		/*
-		 * check it collide? true: check level: 1. one high one low: reduce lower level
-		 * hp with higher level attack value. 2. same level: separate. check HP: if
-		 * currentHp == 0: die(){ levelNum > 0: levelNum-1 if isPlayer: levelNum == 0:
-		 * Game over. else: repaint with full hp & levelNum ==0; }
-		 */
-
-		/*
-		 * for (Cell cell : cells) { if (this.checkCollide(cell.x, cell.y, cell.mass) &&
-		 * this != cell && this.mass > cell.mass + 10) { if (1 / (this.mass / cell.mass)
-		 * >= .4 && this.mass < 5000) { attack(cell.currentHp);// get the attacker value
-		 * System.out.println("this:" + this.name + " Loser:" + cell.name); } if
-		 * (currentHp <= 0 && currentLv != level.get(0)) { respawn(cell);
-		 * addExp(cell.currentExp); } respawn(cell); } }
-		 */
-
 		if (!isPlayer) {
 			if (goalReached) {
-				if (returnNearestCell() > -1) { // No Cell Found
+				if (returnNearestCell() > -1) {
 					if (!isTarget) {
 						target = cells.get(returnNearestCell());
 						isTarget = true;
@@ -200,7 +159,7 @@ public class Cell {
 						targetType = "n";
 						isTarget = false;
 					}
-				} else if (returnNearestCell() == -1) { // Cell Found
+				} else if (returnNearestCell() == -1) {
 					if (!isTarget) {
 						pTarget = Particle.particles.get(returnNearestP());
 						isTarget = true;
@@ -213,7 +172,6 @@ public class Cell {
 				goalReached = false;
 			} else {
 				double dx = 0;
-
 				double dy = 0;
 				if (targetType.equals("c")) {
 					if (returnNearestCell() > -1) {
@@ -256,20 +214,6 @@ public class Cell {
 		goalY = my;
 	}
 
-	public void die(Cell cell) {
-		cell.levelNum = 0;
-		cell.currentLv = level.get(cell.levelNum);
-		cell.currentHp = cell.currentLv.getHealth();
-		cell.currentExp = 0;
-	}
-
-	public void downgrade(Cell cell) {
-		cell.levelNum = cell.levelNum - 1;
-		cell.currentLv = level.get(cell.levelNum);
-		cell.currentHp = cell.currentLv.getHealth();
-		cell.currentExp = 0;
-	}
-
 	public void boundsOut(Cell cell) {
 		if (this.x < cell.x) {
 			this.x -= 5;
@@ -285,6 +229,44 @@ public class Cell {
 			this.y += 5;
 			cell.y -= 5;
 		}
+	}
+
+	public int returnNearestCell() {
+
+		int x = 0;
+		int distance = 9999999;
+		int min = distance;
+		int max = 200;
+		for (Cell cell : cells) {
+			if (this != cell) {
+				distance = (int) Math
+						.sqrt((this.x - cell.x) * (this.x - cell.x) + (cell.y - this.y) * (cell.y - this.y));
+				if (distance < min && distance <= max && this.levelNum > cell.levelNum) {
+					min = distance;
+					x = cells.indexOf(cell);
+				} else if (distance < min && this.levelNum < cell.levelNum) {
+					x = -1;
+				}
+			}
+		}
+		return x;
+	}
+
+	public int returnNearestP() {
+
+		int x = 0;
+		int distance = 99999999;
+		int min = distance;
+
+		for (Particle p : Particle.particles) {
+			distance = (int) Math.sqrt((this.x - p.x) * (this.x - p.x) + (this.y - p.y) * (this.y - p.y));
+			if (distance < min) {  //particle level
+				min = distance;
+				x = Particle.particles.indexOf(p);
+			}
+		}
+
+		return x;
 	}
 
 	// the HP value is reached.
@@ -304,20 +286,23 @@ public class Cell {
 		double centre_y2 = cell.y + 50;
 		double distance = Math.sqrt(Math.pow((centre_x1 - centre_x2), 2) + Math.pow((centre_y1 - centre_y2), 2));
 		return distance < 100;
-		// return (((this.x + 50) - (cell.x + 50)) < 100 || ((this.y + 50) - (cell.y +
+		// return (((this.x + 50) - (cell.x + 50)) < 100 || ((this.y + 50) -
+		// (cell.y +
 		// 50)) < 100
-		// || ((cell.x + 50) - (this.x + 50)) < 100 || ((cell.y + 50) - (this.y + 50)) <
+		// || ((cell.x + 50) - (this.x + 50)) < 100 || ((cell.y + 50) - (this.y
+		// + 50)) <
 		// 100);
 		/*
-		 * if this.cell centre(x,y) and cell centre(x,y) distance > this.cell radius +
-		 * cell.radius then they collided.
+		 * if this.cell centre(x,y) and cell centre(x,y) distance > this.cell
+		 * radius + cell.radius then they collided.
 		 */
-		// return x < this.x + this.size && x + mass > this.x && y < this.y + this.size
+		// return x < this.x + this.size && x + mass > this.x && y < this.y +
+		// this.size
 		// && y + mass > this.y;
 	}
 
 	public void Draw(Graphics bbg, JPanel jpanel) {
-		bbg.setColor(cellColor);
+		// bbg.setColor(cellColor);
 		Player player = currentLv;
 		bbg.drawImage(player.getImage(), (int) x, (int) y, (int) size, (int) size, jpanel);
 		bbg.setColor(Color.BLACK);
@@ -337,11 +322,5 @@ public class Cell {
 		bbg.setColor(Color.BLACK);
 		bbg.drawString("Exp:", ((int) x - 50), (int) y + 60);
 	}
-	// public int scale() {
-	// float curexp = this.currentExp;
-	// float maxexp = this.currentLv.getExp();
-	// int curbar = (int)(curexp/maxexp)*100;
-	// return curbar;
-	// }
 
 }

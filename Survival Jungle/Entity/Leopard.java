@@ -11,5 +11,7 @@ public class Leopard extends Player{
 		ImageIcon ii = new ImageIcon(getClass().getResource(img));
 		super.image = ii.getImage();
 		super.level =4;
+		super.addUpExp = 30;
+		
 	}
 }
