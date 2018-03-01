@@ -70,7 +70,10 @@ public class Cell {
 
 	public void addExp(int exp, Cell cell) {
 		cell.currentExp += exp;
-		levelUp(cell);
+		if (cell.currentExp == cell.currentLv.getExp()) {
+			levelUp(cell);
+		}
+
 		// if (currentExp > currentLv.getExp()) {
 		// currentLv = level.get(++levelNum);
 		// currentExp = 0;
@@ -131,21 +134,11 @@ public class Cell {
 							die(cell, this);
 						} else {
 							downgrade(cell);
+							boundsOut(cell);
 						}
 					}
-					// } else if (this.currentHp <= 0) {
-					// if (this.levelNum <= 0) {
-					// cell.currentExp += this.currentExp;
-					// if (cell.currentExp >= cell.currentLv.getExp()) {
-					// cell.levelNum += 1;
-					// }
-					// die(this);
-					// } else {
-					// downgrade(this);
-					// }
-					// }
 				}
-				boundsOut(cell);
+//				boundsOut(cell);
 			}
 		}
 		if (!isPlayer) {
@@ -260,7 +253,7 @@ public class Cell {
 
 		for (Particle p : Particle.particles) {
 			distance = (int) Math.sqrt((this.x - p.x) * (this.x - p.x) + (this.y - p.y) * (this.y - p.y));
-			if (distance < min) {  //particle level
+			if (distance < min) { // particle level
 				min = distance;
 				x = Particle.particles.indexOf(p);
 			}
