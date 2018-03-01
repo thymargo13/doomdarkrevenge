@@ -25,9 +25,10 @@ public class OnlineBoard extends JPanel{
 	private JTextField text;
 	int xx,xy;
 	
-	
+	public OnlineBoard(){
 	setBackground(Color.WHITE);
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//System.exit(0);
+	//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(100, 100, 729, 476);
 
 	contentPane = new JPanel();
@@ -70,7 +71,7 @@ public class OnlineBoard extends JPanel{
 			int x = arg0.getXOnScreen();
 			int y = arg0.getYOnScreen();
 
-			OnlineGame.this.setLocation(x - xx, y - xy);
+			OnlineBoard.this.setLocation(x - xx, y - xy);
 		}
 
 	});
@@ -123,6 +124,6 @@ public class OnlineBoard extends JPanel{
 	lbl_close.setFont(new Font("Tahoma", Font.PLAIN, 18));
 	lbl_close.setBounds(691, 0, 37, 27);
 	contentPane.add(lbl_close);
-
-}
+	
+	}
 }

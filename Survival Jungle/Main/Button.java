@@ -22,6 +22,7 @@ public class Button extends JButton {
 				JFrame jf = (JFrame) getRootPane().getParent();
 				try {
 					Command functionCmd = (Command) Class.forName("Command." + cmd[panel]).newInstance();
+					
 					jf.setContentPane(functionCmd.execute());
 				} catch (Exception ex) {
 					ex.printStackTrace();
