@@ -1,7 +1,6 @@
 package Command;
-
-
 import javax.swing.JPanel;
+
 
 import Map.OnlineBoard;
 

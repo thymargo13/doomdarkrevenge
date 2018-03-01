@@ -35,7 +35,9 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 		bgPanel = new JPanel(); // instance for bg panel
 		this.frame = frame; // get the main frame
 		setLayout(new BorderLayout()); // root panel layout
-		setPreferredSize(new Dimension(frame.getWidth(), frame.getHeight()));// root panel dimension
+		setPreferredSize(new Dimension(frame.getWidth(), frame.getHeight()));// root
+																				// panel
+																				// dimension
 		setFocusable(true);
 		requestFocus();
 
@@ -69,10 +71,15 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 		btnPanel.setBackground(new Color(0, 0, 0, 0));
 		btnPanel.setBounds(280, 400, 250, 200);
 		btnPanel.setOpaque(true);
-		btnPanel.setLayout(new GridLayout(4, 0)); // GridLayout(int rows, int cols, int hgap, int vgap)
+		btnPanel.setLayout(new GridLayout(4, 0)); // GridLayout(int rows, int
+													// cols, int hgap, int vgap)
 
 		for (int i = 0; i < imgSrc.length; i++) {
-			btnPanel.add(new Button(imgSrc[i], i));
+			if (i == 1) {
+				btnPanel.add(new Button(imgSrc[i],i,this));
+			} else {
+				btnPanel.add(new Button(imgSrc[i], i));
+			}
 		}
 	}
 

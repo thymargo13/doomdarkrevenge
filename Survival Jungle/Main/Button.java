@@ -24,6 +24,7 @@ public class Button extends JButton {
 					Command functionCmd = (Command) Class.forName("Command." + cmd[panel]).newInstance();
 					
 					jf.setContentPane(functionCmd.execute());
+
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				} // jump to next panel
@@ -31,6 +32,25 @@ public class Button extends JButton {
 				JPanel imagePanel = (JPanel) jf.getContentPane();
 				imagePanel.setOpaque(false);
 			}
+		});
+	}
+
+	public Button(String imgPath, int panel, MenuPanel bgPanel) {
+		setIcon(new ImageIcon(getClass().getResource(imgPath)));
+		setFocusPainted(false);
+		setBorderPainted(false);
+		setContentAreaFilled(false);
+		setFont(new Font("Marker Felt", Font.BOLD, 40));
+		// Action Listener
+		addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+					bgPanel.getComponent(0).setVisible(false);
+					
+				}
+				// bthPanel.setVisible(false);
+
+			
 		});
 	}
 }
