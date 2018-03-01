@@ -71,30 +71,31 @@ public class Cell {
 	public void addExp(int exp, Cell cell) {
 		cell.currentExp += exp;
 		levelUp(cell);
-//		if (currentExp > currentLv.getExp()) {
-//			currentLv = level.get(++levelNum);
-//			currentExp = 0;
-//		}
+		// if (currentExp > currentLv.getExp()) {
+		// currentLv = level.get(++levelNum);
+		// currentExp = 0;
+		// }
 	}
+
 	public void levelUp(Cell cell) {
-		if(cell.currentLv instanceof Elephant) {
+		if (cell.currentLv instanceof Elephant) {
 			cell.currentLv = level.get(7);
-		}
-		else {
+		} else {
 			cell.currentLv = level.get(++levelNum);
 			cell.currentExp = 0;
 			cell.currentHp = cell.currentLv.getHealth();
 		}
 	}
-	
+
 	public void die(Cell cell, Cell winner) {
 		int expAdd = cell.currentExp + cell.currentLv.getAddUpExp();
 		addExp(expAdd, winner);
-		//winner.currentExp += expAdd;
+		// winner.currentExp += expAdd;
 		cell.levelNum = 0;
 		cell.currentLv = level.get(cell.levelNum);
 		cell.currentHp = cell.currentLv.getHealth();
 		cell.currentExp = 0;
+		respawn(cell);
 	}
 
 	public void downgrade(Cell cell) {
@@ -105,7 +106,8 @@ public class Cell {
 	}
 
 	public void Update() {
-		if (this.levelNum > 7) { //not working!!!!  elephant will become mouse again~
+		if (this.levelNum > 7) { // not working!!!! elephant will become mouse
+									// again~
 			this.levelNum = 7;
 		}
 		// in case it grow out of bound.
@@ -113,38 +115,42 @@ public class Cell {
 			this.levelNum += 1;
 			this.currentLv = level.get(levelNum);
 		}
-		
+
 		for (Cell cell : cells) {
 			if (this.checkCollide(cell)) {
-				if (this.levelNum > cell.levelNum) { // attacker level > cell level
-					cell.currentHp -= this.currentLv.getAttack(); // cell Health value -= attacker attackValue 
+				if (this.levelNum > cell.levelNum) { // attacker level > cell
+														// level
+					cell.currentHp -= this.currentLv.getAttack(); // cell Health
+																	// value -=
+																	// attacker
+																	// attackValue
 					if (cell.currentHp <= 0) { // HP <= 0 die
 						if (cell.levelNum == 0) {
-							//addExp(this);
-							//this.currentExp += cell.currentExp;
+							// addExp(this);
+							// this.currentExp += cell.currentExp;
 							die(cell, this);
 						} else {
 							downgrade(cell);
 						}
 					}
-//					} else if (this.currentHp <= 0) {
-//						if (this.levelNum <= 0) {
-//							cell.currentExp += this.currentExp;
-//							if (cell.currentExp >= cell.currentLv.getExp()) {
-//								cell.levelNum += 1;
-//							}
-//							die(this);
-//						} else {
-//							downgrade(this);
-//						}
-//					}
+					// } else if (this.currentHp <= 0) {
+					// if (this.levelNum <= 0) {
+					// cell.currentExp += this.currentExp;
+					// if (cell.currentExp >= cell.currentLv.getExp()) {
+					// cell.levelNum += 1;
+					// }
+					// die(this);
+					// } else {
+					// downgrade(this);
+					// }
+					// }
 				}
 				boundsOut(cell);
 			}
 		}
 		if (!isPlayer) {
 			if (goalReached) {
-				if (returnNearestCell() > -1) { // No Cell Found
+				if (returnNearestCell() > -1) {
 					if (!isTarget) {
 						target = cells.get(returnNearestCell());
 						isTarget = true;
@@ -153,7 +159,7 @@ public class Cell {
 						targetType = "n";
 						isTarget = false;
 					}
-				} else if (returnNearestCell() == -1) { // Cell Found
+				} else if (returnNearestCell() == -1) {
 					if (!isTarget) {
 						pTarget = Particle.particles.get(returnNearestP());
 						isTarget = true;
@@ -166,7 +172,6 @@ public class Cell {
 				goalReached = false;
 			} else {
 				double dx = 0;
-
 				double dy = 0;
 				if (targetType.equals("c")) {
 					if (returnNearestCell() > -1) {
@@ -227,43 +232,39 @@ public class Cell {
 	}
 
 	public int returnNearestCell() {
-		//
-		// int x = 0;
-		// int distance = 9999999;
-		// int min = distance;
-		// int max = 500;
-		// for (Cell cell : cells) {
-		// if (this != cell) {
-		// distance = (int) Math
-		// .sqrt((this.x - cell.x) * (this.x - cell.x) + (cell.y - this.y) * (cell.y -
-		// this.y));
-		// if (distance < min && this.mass > cell.mass + 10) {
-		// min = distance;
-		// x = cells.indexOf(cell);
-		// } else if (distance < min && this.mass < cell.mass + 10 && cell.cellCount ==
-		// cells.size()) {
-		// x = -1;
-		// }
-		// }
-		// }
-		// return x;
-		return 1;
+
+		int x = 0;
+		int distance = 9999999;
+		int min = distance;
+		int max = 200;
+		for (Cell cell : cells) {
+			if (this != cell) {
+				distance = (int) Math
+						.sqrt((this.x - cell.x) * (this.x - cell.x) + (cell.y - this.y) * (cell.y - this.y));
+				if (distance < min && distance <= max && this.levelNum > cell.levelNum) {
+					min = distance;
+					x = cells.indexOf(cell);
+				} else if (distance < min && this.levelNum < cell.levelNum) {
+					x = -1;
+				}
+			}
+		}
+		return x;
 	}
 
 	public int returnNearestP() {
 
 		int x = 0;
-		// int distance = 99999999;
-		// int min = distance;
-		//
-		// for (Particle p : Particle.particles) {
-		// distance = (int) Math.sqrt((this.x - p.x) * (this.x - p.x) + (this.y - p.y) *
-		// (this.y - p.y));
-		// if (distance < min && this.mass > p.mass) {
-		// min = distance;
-		// x = Particle.particles.indexOf(p);
-		// }
-		// }
+		int distance = 99999999;
+		int min = distance;
+
+		for (Particle p : Particle.particles) {
+			distance = (int) Math.sqrt((this.x - p.x) * (this.x - p.x) + (this.y - p.y) * (this.y - p.y));
+			if (distance < min) {  //particle level
+				min = distance;
+				x = Particle.particles.indexOf(p);
+			}
+		}
 
 		return x;
 	}
@@ -285,15 +286,18 @@ public class Cell {
 		double centre_y2 = cell.y + 50;
 		double distance = Math.sqrt(Math.pow((centre_x1 - centre_x2), 2) + Math.pow((centre_y1 - centre_y2), 2));
 		return distance < 100;
-		// return (((this.x + 50) - (cell.x + 50)) < 100 || ((this.y + 50) - (cell.y +
+		// return (((this.x + 50) - (cell.x + 50)) < 100 || ((this.y + 50) -
+		// (cell.y +
 		// 50)) < 100
-		// || ((cell.x + 50) - (this.x + 50)) < 100 || ((cell.y + 50) - (this.y + 50)) <
+		// || ((cell.x + 50) - (this.x + 50)) < 100 || ((cell.y + 50) - (this.y
+		// + 50)) <
 		// 100);
 		/*
-		 * if this.cell centre(x,y) and cell centre(x,y) distance > this.cell radius +
-		 * cell.radius then they collided.
+		 * if this.cell centre(x,y) and cell centre(x,y) distance > this.cell
+		 * radius + cell.radius then they collided.
 		 */
-		// return x < this.x + this.size && x + mass > this.x && y < this.y + this.size
+		// return x < this.x + this.size && x + mass > this.x && y < this.y +
+		// this.size
 		// && y + mass > this.y;
 	}
 
