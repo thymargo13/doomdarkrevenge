@@ -30,11 +30,11 @@ public class Particle {
 
 	public void Update() {
 		for (Cell cell : Cell.cells) {
-			if (this.checkCollide(cell.x, cell.y, cell.currentExp) && !cellParticle) {
+			if (this.checkCollide(cell.x, cell.y) && !cellParticle) {
 				
 				// mass = exp
 				if (cell.currentExp <= 200) {
-					cell.addExp(this.mass,cell); //add exp
+					cell.addExp(5,cell); //add exp
 				}
 				if (cell.currentExp >= 200) {
 					cell.isTarget = false;
@@ -47,8 +47,8 @@ public class Particle {
 				}
 				this.x = (int) Math.floor(Math.random() * 10001);
 				this.y = (int) Math.floor(Math.random() * 10001);
-			} else if (this.checkCollide(cell.x, cell.y, cell.currentExp) && cellParticle && !cell.isPlayer) {
-				cell.addExp(this.mass,cell); //add exp
+			} else if (this.checkCollide(cell.x, cell.y) && cellParticle && !cell.isPlayer) {
+				cell.addExp(5,cell); //add exp
 				this.die = true;
 			}
 		}
@@ -65,8 +65,13 @@ public class Particle {
 		}
 	}
 
-	private boolean checkCollide(double x, double y, double mass) {
-		return x < this.x + 10 && x + mass > this.x && y < this.y + 10 && y + mass > this.y;
+	private boolean checkCollide(double x, double y) {
+		double centre_x1 = x + 50;
+		double centre_y1 = y + 50;
+		//this.x & this.y is particle coordinate.
+		double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
+		return distance < 50;
+	//	return x < this.x + 10 && x + mass > this.x && y < this.y + 10 && y + mass > this.y;
 	}
 
 	public void Draw(Graphics bbg) {
