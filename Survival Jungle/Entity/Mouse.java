@@ -11,5 +11,6 @@ public class Mouse extends Player {
 		ImageIcon ii = new ImageIcon(getClass().getResource(img));
 		super.image = ii.getImage();
 		super.level =0;
+		super.addUpExp = 5;
 	}
 }

@@ -11,5 +11,6 @@ public class Dog extends Player{
 		ImageIcon ii = new ImageIcon(getClass().getResource(img));
 		super.image = ii.getImage();
 		super.level =2;
+		super.addUpExp = 15;
 	}
 }

@@ -12,12 +12,21 @@ public class Player {
 	protected Image image;
 	protected int attack;
 	protected int level;
+	protected int addUpExp;
 
 	// constructor
 
 
 	public int getLevel() {
 		return level;
+	}
+
+	public int getAddUpExp() {
+		return addUpExp;
+	}
+
+	public void setAddUpExp(int addUpExp) {
+		this.addUpExp = addUpExp;
 	}
 
 	public void setLevel(int level) {

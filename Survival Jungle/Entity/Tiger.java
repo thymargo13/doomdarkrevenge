@@ -11,5 +11,6 @@ public class Tiger extends Player{
 		ImageIcon ii = new ImageIcon(getClass().getResource(img));
 		super.image = ii.getImage();
 		super.level =5;
+		super.addUpExp = 50;
 	}
 }
