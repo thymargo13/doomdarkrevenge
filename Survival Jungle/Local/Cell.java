@@ -35,8 +35,6 @@ public class Cell {
 	public double x; // each cell x-coordinate
 	public double y; // each cell y-coordinate
 
-	// Color cellColor;
-
 	double goalX, goalY; // target x-coordinate.
 	boolean goalReached = true;
 
@@ -66,23 +64,33 @@ public class Cell {
 	}
 
 	public void attack(int currentHp) {
-
 		currentHp = currentHp - this.currentLv.getAttack(); // get attacked.
 		// check level up: if true: reset exp && hp;
 	}
 
-	public void addExp(double exp) {
-		currentExp += exp;
-		// LevelUp();
-		if (currentExp > currentLv.getExp()) {
-			currentLv = level.get(++levelNum);
-			currentExp = 0;
+	public void addExp(int exp, Cell cell) {
+		cell.currentExp += exp;
+		levelUp(cell);
+//		if (currentExp > currentLv.getExp()) {
+//			currentLv = level.get(++levelNum);
+//			currentExp = 0;
+//		}
+	}
+	public void levelUp(Cell cell) {
+		if(cell.currentLv instanceof Elephant) {
+			cell.currentLv = level.get(7);
+		}
+		else {
+			cell.currentLv = level.get(++levelNum);
+			cell.currentExp = 0;
+			cell.currentHp = cell.currentLv.getHealth();
 		}
 	}
-
+	
 	public void die(Cell cell, Cell winner) {
 		int expAdd = cell.currentExp + cell.currentLv.getAddUpExp();
-		winner.currentExp += expAdd;
+		addExp(expAdd, winner);
+		//winner.currentExp += expAdd;
 		cell.levelNum = 0;
 		cell.currentLv = level.get(cell.levelNum);
 		cell.currentHp = cell.currentLv.getHealth();
@@ -112,7 +120,8 @@ public class Cell {
 					cell.currentHp -= this.currentLv.getAttack(); // cell Health value -= attacker attackValue 
 					if (cell.currentHp <= 0) { // HP <= 0 die
 						if (cell.levelNum == 0) {
-							this.currentExp += cell.currentExp;
+							//addExp(this);
+							//this.currentExp += cell.currentExp;
 							die(cell, this);
 						} else {
 							downgrade(cell);

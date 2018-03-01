@@ -34,7 +34,7 @@ public class Particle {
 				
 				// mass = exp
 				if (cell.currentExp <= 200) {
-					cell.addExp(this.mass); //add exp
+					cell.addExp(this.mass,cell); //add exp
 				}
 				if (cell.currentExp >= 200) {
 					cell.isTarget = false;
@@ -48,7 +48,7 @@ public class Particle {
 				this.x = (int) Math.floor(Math.random() * 10001);
 				this.y = (int) Math.floor(Math.random() * 10001);
 			} else if (this.checkCollide(cell.x, cell.y, cell.currentExp) && cellParticle && !cell.isPlayer) {
-				cell.addExp(this.mass); //add exp
+				cell.addExp(this.mass,cell); //add exp
 				this.die = true;
 			}
 		}
