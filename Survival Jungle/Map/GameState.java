@@ -67,7 +67,13 @@ public class GameState {
 //			p.Draw(bbg);
 			p.Draw(bbg, jpanel);
 		}
-
+//		test!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//		ArrayList<Cheese> cCopy = new ArrayList<Cheese>(Cheese.cheeses);	// this should be change to food
+//		for (Cheese c : cCopy) {
+////			p.Draw(bbg);
+//			c.Draw(bbg, jpanel);
+//		}
+		
 		for (Cell cell : Cell.cells) {	// this should be change to player
 			cell.Draw(bbg, jpanel);
 		}
@@ -117,10 +123,28 @@ public class GameState {
 					(int) Math.floor(Math.random() * 2801), false));
 		}
 
-		if (Particle.particleCount < 5000) {	// generate food
+		if (Particle.particleCount < 7000) {	// generate food
+			String img1="/Resource/objects/bread.png";
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001), 1, false));
+					(int) Math.floor(Math.random() * 10001), 1, false, img1));
+			String img2="/Resource/objects/cheese.png";
+			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
+					(int) Math.floor(Math.random() * 10001), 1, false, img2));
+			
+			String img3="/Resource/objects/steak.png";
+			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
+					(int) Math.floor(Math.random() * 10001), 1, false, img3));
+//			
+//			String img4="/Resource/objects/water.png";
+//			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
+//					(int) Math.floor(Math.random() * 10001), 1, false, img4));
 		}
+		
+//		test!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//		if (Cheese.particleCount < 5000) {	// generate food
+//			Cheese.particles.add(new Cheese((int) Math.floor(Math.random() * 10001),
+//					(int) Math.floor(Math.random() * 10001), 1, false));
+//		}
 		
 		//Forest&&Pool&&Mud!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		
@@ -151,6 +175,15 @@ public class GameState {
 				it.remove();
 			}
 		}
+//		test!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//		for (Iterator<Cheese> it2 = Cheese.cheeses.iterator(); it2.hasNext();) {
+//			Cheese c = it2.next();
+//			if (!c.getHealth()) {	// check the food been eaten or not
+//				c.Update();
+//			} else {
+//				it2.remove();
+//			}
+//		}
 
 		for (Cell cell : Cell.cells) {
 			cell.Update();

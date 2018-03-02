@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import Entity.foodonMap;
+
 import java.awt.*;
 
 public class Particle {
@@ -25,13 +27,15 @@ public class Particle {
 	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 			(int) Math.floor(Math.random() * 256));
 
-	public Particle(int x, int y, int mass, boolean p) {
+	public Particle(int x, int y, int mass, boolean p, String img) {
 		particleCount++;
 		this.x = x;
 		this.y = y;
 		this.mass = 20;
 		cellParticle = p;
-		this.img= "/Resource/objects/bread.png";
+//		this.img=foodonMap.getCheese();
+//		this.img= "/Resource/objects/bread.png";
+		this.img=img;
 		ImageIcon ii = new ImageIcon(getClass().getResource(img)); 
 		this.image = ii.getImage();
 	}
@@ -83,7 +87,8 @@ public class Particle {
 	}
 
 	public void Draw(Graphics bbg, JPanel jpanel) {
-		Particle p=new Particle(x,y,mass,cellParticle);
+//		img= "/Resource/objects/bread.png";
+		Particle p=new Particle(x,y,mass,cellParticle,img);
 		bbg.drawImage(p.getImage(),(int) x, (int) y, (int) mass, (int) mass, jpanel);
 //		bbg.setColor(color);
 //		bbg.fillRect(x, y, 10, 10);
