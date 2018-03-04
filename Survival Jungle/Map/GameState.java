@@ -29,7 +29,9 @@ public class GameState {
 	public static boolean playerCreated;
 	private Graphics g;
 	private JPanel jpanel;
-	
+	public String img1="/Resource/objects/bread.png";
+	public String img2="/Resource/objects/cheese.png";
+	public String img3="/Resource/objects/steak.png";
 	private Audio_player music ;
 	
 	public GameState() {
@@ -170,7 +172,7 @@ public class GameState {
 		for (Iterator<Particle> it = Particle.particles.iterator(); it.hasNext();) {
 			Particle p = it.next();
 			if (!p.getHealth()) {	// check the food been eaten or not
-				p.Update();
+				p.Update(p.img);
 			} else {
 				it.remove();
 			}
