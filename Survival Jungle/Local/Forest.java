@@ -1,10 +1,13 @@
 package Local;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class Forest {
@@ -14,7 +17,7 @@ public class Forest {
 	protected Image image; 
 	private int x;
 	private int y;
-	private int d=200;
+	private int d=400;
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //			(int) Math.floor(Math.random() * 256));
 	public Forest(int x,int y, int d) {
@@ -23,9 +26,11 @@ public class Forest {
 		this.y=y;
 		this.d=d;
 		this.img= "/Resource/objects/forest.png";
-		ImageIcon ii = new ImageIcon(getClass().getResource(img));
+		ImageIcon ii = new ImageIcon(getClass().getResource(img)); 
 		this.image = ii.getImage();
+
 	}
+
 //	public void draw(Graphics bbg) {
 //		bbg.setColor(color);
 //		bbg.fillOval(x, y, d, d);
@@ -40,6 +45,10 @@ public class Forest {
 		Forest f= new Forest(x,y,d);
 		bbg.drawImage(f.getImage(),(int) x, (int) y, (int) d, (int) d, jpanel);
 	}
+	
+//	private boolean checkCollide(double x, double y, double mass) {
+//		return x < this.x + 10 && x + mass > this.x && y < this.y + 10 && y + mass > this.y;
+//	}
 	public int getX() {
 		return x;
 	}

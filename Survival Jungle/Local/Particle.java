@@ -84,6 +84,7 @@ public class Particle {
 				
 				// mass = exp
 				if (cell.currentExp <= 200) {
+//					cell.addExp(300, cell);
 					if(img==img1) {
 						cell.addExp(5,cell); 
 					}else if(img==img2){
@@ -112,7 +113,7 @@ public class Particle {
 				}else if(img==img3) {
 					cell.addExp(15,cell); 
 				}
-//				cell.addExp(5,cell); //add exp
+//				cell.addExp(300,cell); //add exp
 				this.die = true;
 			}
 		}

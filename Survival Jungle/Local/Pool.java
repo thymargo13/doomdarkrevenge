@@ -1,10 +1,17 @@
 package Local;
+import java.awt.*;  
+import javax.swing.*; 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 public class Pool {
 		public static ArrayList<Pool> pools = new ArrayList<Pool>();
@@ -13,7 +20,9 @@ public class Pool {
 		protected Image image; 
 		private int x;
 		private int y;
-		private int d=200;
+		private int d=400;
+//		BufferedImage bg = null; 
+
 //		private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //				(int) Math.floor(Math.random() * 256));
 		public Pool(int x,int y, int d) {
@@ -25,7 +34,11 @@ public class Pool {
 			ImageIcon ii = new ImageIcon(getClass().getResource(img));
 			this.image = ii.getImage();
 		}
-		
+//		public void Draw(Graphics bbg) {
+//			bbg.setColor(color);
+//			bbg.fillRect(x, y, 10, 10);
+//			bbg.drawRect(x, y, 10, 10);
+//		}
 		public void draw(Graphics bbg, JPanel jpanel) {
 			Pool p= new Pool(x,y,d);
 			bbg.drawImage(p.getImage(),(int) x, (int) y, (int) d, (int) d, jpanel);

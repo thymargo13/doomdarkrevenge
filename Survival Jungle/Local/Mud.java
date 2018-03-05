@@ -13,7 +13,7 @@ public class Mud {
 	protected Image image; 
 	private int x;
 	private int y;
-	private int d=200;
+	private int d=400;
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //			(int) Math.floor(Math.random() * 256));
 	public Mud(int x,int y, int d) {
