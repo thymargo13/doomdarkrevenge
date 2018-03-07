@@ -120,10 +120,17 @@ public class GameState {
 				cam.Update(Cell.cells.get(i));	// update current position
 			}
 		}
-
+//		if (Cell.cellCount < 50) {	// generate NPC
+//			Cell.cells.add(new Cell(("Cell " + Cell.cellCount), (int) Math.floor(Math.random() * 3000),
+//					(int) Math.floor(Math.random() * 2801), false));
+//		}
+//		if (Cell.cellCount < 150) {	// generate NPC
+//			Cell.cells.add(new Cell(("Cell " + Cell.cellCount), (int) Math.floor(Math.random() * 10001),
+//					(int) Math.floor(Math.random() * 2801), false));
+//		}
 		if (Cell.cellCount < 150) {	// generate NPC
 			Cell.cells.add(new Cell(("Cell " + Cell.cellCount), (int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 2801), false));
+					(int) Math.floor(Math.random() * 10001), false));
 		}
 
 		if (Particle.particleCount < 7000) {	// generate food
