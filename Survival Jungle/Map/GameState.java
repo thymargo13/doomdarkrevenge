@@ -11,6 +11,7 @@ import java.util.Iterator;
 import javax.swing.JPanel;
 
 import Audio.*;
+import Entity.foodonMap;
 import Local.Camera;
 import Local.Cell;
 import Local.Forest;
@@ -29,9 +30,9 @@ public class GameState {
 	public static boolean playerCreated;
 	private Graphics g;
 	private JPanel jpanel;
-	public String img1="/Resource/objects/bread.png";
-	public String img2="/Resource/objects/cheese.png";
-	public String img3="/Resource/objects/steak.png";
+//	public String img1="/Resource/objects/bread.png";
+//	public String img2="/Resource/objects/cheese.png";
+//	public String img3="/Resource/objects/steak.png";
 	private Audio_player music ;
 	
 	public GameState() {
@@ -126,14 +127,14 @@ public class GameState {
 		}
 
 		if (Particle.particleCount < 7000) {	// generate food
-			String img1="/Resource/objects/bread.png";
+			String img1=foodonMap.getBread();
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001), 1, false, img1));
-			String img2="/Resource/objects/cheese.png";
+			String img2=foodonMap.getCheese();
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001), 1, false, img2));
 			
-			String img3="/Resource/objects/steak.png";
+			String img3=foodonMap.getSteak();
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001), 1, false, img3));
 //			
