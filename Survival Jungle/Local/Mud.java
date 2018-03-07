@@ -46,6 +46,14 @@ public class Mud {
 		this.y = y;
 	}
 	
+	public int getD() {
+		return d;
+	}
+	
+	public void setD(int d) {
+		this.d=d;
+	}
+	
 	public String getImg() {
 		return img;
 	}

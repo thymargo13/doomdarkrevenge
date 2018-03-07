@@ -11,32 +11,32 @@ public class foodonMap {
 	private int x;
 	private int y;
 	private int exp;
-	private String cheese = "/Resource/objects/cheese.png";
-	private String water = "/Resource/objects/water.png";
-	private String steak = "/Resource/objects/steak.png";
-	private String bread = "/Resource/objects/bread.png";
-	private String reborn = "/Resource/objects/reborn.png";
+	protected static String cheese = "/Resource/objects/cheese.png";
+	protected static String water = "/Resource/objects/water.png";
+	protected static String steak = "/Resource/objects/steak.png";
+	protected static String bread = "/Resource/objects/bread.png";
+	protected static String reborn = "/Resource/objects/reborn.png";
 	protected String img;// location of img
 	protected Image image;
 	private boolean eaten = false; // on the map? or not now
 
-	public String getCheese() {
+	public static String getCheese() {
 		return cheese;
 	}
 
-	public String getWater() {
+	public static String getWater() {
 		return water;
 	}
 
-	public String getSteak() {
+	public static String getSteak() {
 		return steak;
 	}
 
-	public String getBread() {
+	public static String getBread() {
 		return bread;
 	}
 
-	public String getReborn() {
+	public static String getReborn() {
 		return reborn;
 	}
 

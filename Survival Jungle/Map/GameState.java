@@ -134,16 +134,16 @@ public class GameState {
 		}
 
 		if (Particle.particleCount < 7000) {	// generate food
-			String img1=foodonMap.getBread();
+			String imgBread=foodonMap.getBread();
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001), 1, false, img1));
-			String img2=foodonMap.getCheese();
+					(int) Math.floor(Math.random() * 10001), 1, false, imgBread));
+			String imgCheese=foodonMap.getCheese();
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001), 1, false, img2));
+					(int) Math.floor(Math.random() * 10001), 1, false, imgCheese));
 			
-			String img3=foodonMap.getSteak();
+			String imgSteak=foodonMap.getSteak();
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001), 1, false, img3));
+					(int) Math.floor(Math.random() * 10001), 1, false, imgSteak));
 //			
 //			String img4="/Resource/objects/water.png";
 //			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
@@ -159,8 +159,9 @@ public class GameState {
 		//Forest&&Pool&&Mud!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		
 		if(Forest.forestCount < 500) {
+//			int dForest=Forest.getD();
 			Forest.forests.add(new Forest((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001),400));
+					(int) Math.floor(Math.random() * 10001),350));
 		}
 		if(Pool.poolCount < 500) {
 			Pool.pools.add(new Pool((int) Math.floor(Math.random() * 10001),
@@ -168,7 +169,7 @@ public class GameState {
 		}
 		if(Mud.mudCount < 500) {
 			Mud.muds.add(new Mud((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001),400));
+					(int) Math.floor(Math.random() * 10001),350));
 		}
 
 		if (!playerCreated) {	// generate player

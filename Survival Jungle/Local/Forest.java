@@ -17,7 +17,7 @@ public class Forest {
 	protected Image image; 
 	private int x;
 	private int y;
-	private int d=400;
+	private int d=300;
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //			(int) Math.floor(Math.random() * 256));
 	public Forest(int x,int y, int d) {
@@ -63,6 +63,14 @@ public class Forest {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public int getD() {
+		return d;
+	}
+	
+	public void setD(int d) {
+		this.d=d;
 	}
 	
 	public String getImg() {

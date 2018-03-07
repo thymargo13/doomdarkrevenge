@@ -33,7 +33,7 @@ public class Particle {
 		particleCount++;
 		this.x = x;
 		this.y = y;
-		this.mass = 20;
+		this.mass = 60;
 		cellParticle = p;
 //		this.img=foodonMap.getCheese();
 //		this.img= "/Resource/objects/bread.png";
