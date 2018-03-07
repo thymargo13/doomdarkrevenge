@@ -14,7 +14,7 @@ public class Cell {
 	public static ArrayList<Cell> cells = new ArrayList<Cell>();
 	public static ArrayList<Player> level = new ArrayList<Player>();
 	public static int cellCount;
-	
+
 	public Player currentLv; // Type: Player --> get the current Level animal.
 	public int levelNum = 0; // Type : int --> change while level up / down.
 	public String name; // player name
@@ -70,9 +70,13 @@ public class Cell {
 	}
 
 	public void addExp(int exp, Cell cell) {
-		cell.currentExp += exp;
-		if (cell.currentExp == cell.currentLv.getExp()) {
-			levelUp(cell);
+		if (cell.levelNum == 7 && currentExp >= cell.currentLv.getExp()) {
+
+		} else {
+			cell.currentExp += exp;
+			if (cell.currentExp == cell.currentLv.getExp()) {
+				levelUp(cell);
+			}
 		}
 	}
 
@@ -113,7 +117,7 @@ public class Cell {
 				boundsOut(cell);
 				if (this.levelNum > cell.levelNum) {
 					cell.currentHp -= this.currentLv.getAttack();
-					
+
 					if (cell.currentHp <= 0) { // HP <= 0 die
 						if (cell.levelNum == 0) {
 							die(cell, this);
@@ -173,7 +177,7 @@ public class Cell {
 				}
 
 			}
-		} else {   
+		} else {
 			double dx = (goalX - this.x);
 			double dy = (goalY - this.y);
 			this.x += (dx) * 1 / 100;
@@ -215,7 +219,8 @@ public class Cell {
 		int max = 200;
 		for (Cell cell : cells) {
 			if (this != cell) {
-				distance = (int) Math.sqrt((this.x - cell.x) * (this.x - cell.x) + (cell.y - this.y) * (cell.y - this.y));
+				distance = (int) Math
+						.sqrt((this.x - cell.x) * (this.x - cell.x) + (cell.y - this.y) * (cell.y - this.y));
 				if (distance < min && distance <= max && this.levelNum > cell.levelNum) {
 					min = distance;
 					x = cells.indexOf(cell);
@@ -253,7 +258,7 @@ public class Cell {
 	}
 
 	// collision
-	//hehe
+
 	public boolean checkCollide(Cell cell) {
 		// Math.sqrt((x2 − x1)^2 + (y2 − y1)^2)
 		double centre_x1 = this.x + 50;
@@ -262,7 +267,7 @@ public class Cell {
 		double centre_y2 = cell.y + 50;
 		double distance = Math.sqrt(Math.pow((centre_x1 - centre_x2), 2) + Math.pow((centre_y1 - centre_y2), 2));
 		return distance < 100;
-		
+
 	}
 
 	public void Draw(Graphics bbg, JPanel jpanel) {

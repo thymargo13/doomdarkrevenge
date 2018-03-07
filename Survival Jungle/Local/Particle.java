@@ -32,10 +32,8 @@ public class Particle {
 		for (Cell cell : Cell.cells) {
 			if (this.checkCollide(cell.x, cell.y) && !cellParticle) {
 				
-				// mass = exp
-				if (cell.currentExp <= 200) {
-					cell.addExp(5,cell); //add exp
-				}
+				cell.addExp(1000,cell); //add exp
+				
 				if (cell.currentExp >= 200) {
 					cell.isTarget = false;
 					cell.goalReached = true;
@@ -51,18 +49,19 @@ public class Particle {
 				cell.addExp(5,cell); //add exp
 				this.die = true;
 			}
+		}if(isShot)
+
+	{
+		dx = (speed) * Math.cos(angle);
+		dy = (speed) * Math.sin(angle);
+		x += dx;
+		y += dy;
+		speed -= 0.1;
+		if (speed <= 0) {
+			isShot = false;
+			speed = 0;
 		}
-		if (isShot) {
-			dx = (speed) * Math.cos(angle);
-			dy = (speed) * Math.sin(angle);
-			x += dx;
-			y += dy;
-			speed -= 0.1;
-			if (speed <= 0) {
-				isShot = false;
-				speed = 0;
-			}
-		}
+	}
 	}
 
 	private boolean checkCollide(double x, double y) {
