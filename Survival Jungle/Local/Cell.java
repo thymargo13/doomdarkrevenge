@@ -89,6 +89,12 @@ public class Cell {
 			cell.currentHp = cell.currentLv.getHealth();
 		}
 	}
+	public void levelUp_m_eat_e(Cell cell) {
+		cell.levelNum = 3;
+		cell.currentLv = level.get(cell.levelNum);
+		cell.currentExp = 0;
+		cell.currentHp = cell.currentLv.getHealth();
+	}
 
 	public void die(Cell cell, Cell winner) {
 		int expAdd = cell.currentExp + cell.currentLv.getAddUpExp();
@@ -105,6 +111,7 @@ public class Cell {
 		cell.currentLv = level.get(cell.levelNum);
 		cell.currentHp = cell.currentLv.getHealth();
 		cell.currentExp = 0;
+		respawn(cell);
 	}
 
 	public void Update() {
@@ -115,7 +122,16 @@ public class Cell {
 		for (Cell cell : cells) {
 			if (this.checkCollide(cell)) {
 				boundsOut(cell);
+			
 				if (this.levelNum > cell.levelNum) {
+					if(this.levelNum == 7 && cell.levelNum ==0) {
+						this.currentHp -= cell.currentLv.getAttack();
+						if(this.currentHp<=0) {
+							downgrade(this);
+							levelUp_m_eat_e(cell);
+							
+						}
+					}
 					cell.currentHp -= this.currentLv.getAttack();
 
 					if (cell.currentHp <= 0) { // HP <= 0 die

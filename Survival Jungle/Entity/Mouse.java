@@ -6,7 +6,7 @@ public class Mouse extends Player {
 	public Mouse() {
 		super.health = 50;
 		super.exp = 50;
-		super.attack = 5;
+		super.attack = 2000;
 		super.img = "/Resource/animals/mouse.png";
 		ImageIcon ii = new ImageIcon(getClass().getResource(img));
 		super.image = ii.getImage();
