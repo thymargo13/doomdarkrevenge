@@ -42,14 +42,14 @@ public class OnlineBoard extends JPanel implements ActionListener {
 		panel.setLayout(null);
 		panel.add(label);
 
-		JLabel lblWeGotYou = new JLabel("Enter username");
+		JLabel lbl = new JLabel("Enter username");
 
-		lblWeGotYou.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWeGotYou.setForeground(new Color(240, 248, 255));
-		lblWeGotYou.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblWeGotYou.setBounds(111, 343, 141, 27);
+		lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl.setForeground(new Color(240, 248, 255));
+		lbl.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbl.setBounds(111, 343, 141, 27);
 
-		panel.add(lblWeGotYou);
+		panel.add(lbl);
 
 		Button button = new Button("SignUp");
 
