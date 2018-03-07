@@ -5,17 +5,16 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Audio.Audio_player;
 import Entity.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Cell {
 
 	public static ArrayList<Cell> cells = new ArrayList<Cell>();
 	public static ArrayList<Player> level = new ArrayList<Player>();
 	public static int cellCount;
+	
 	public Player currentLv; // Type: Player --> get the current Level animal.
 	public int levelNum = 0; // Type : int --> change while level up / down.
 	public String name; // player name
@@ -28,8 +27,6 @@ public class Cell {
 	int centre_x;
 	int centre_y;
 
-	private HashMap<String, Audio_player> sfx;
-	
 	Cell target; // AI use..
 	Particle pTarget; // AI use..
 
@@ -53,9 +50,6 @@ public class Cell {
 		this.currentLv = level.get(levelNum);
 		this.currentHp = currentLv.getHealth();
 		cellCount++;
-		sfx = new HashMap<String, Audio_player>();
-		sfx.put("exdown",new Audio_player("/Audio/exdown.mp3"));
-		sfx.put("exup",new Audio_player("/Audio/exup.mp3"));
 	}
 
 	// set the level array list.
@@ -72,7 +66,6 @@ public class Cell {
 
 	public void attack(int currentHp) {
 		currentHp = currentHp - this.currentLv.getAttack(); // get attacked.
-		//sfx.get("exdown").play();
 		// check level up: if true: reset exp && hp;
 	}
 
@@ -80,32 +73,22 @@ public class Cell {
 		cell.currentExp += exp;
 		if (cell.currentExp == cell.currentLv.getExp()) {
 			levelUp(cell);
-			sfx.get("exup").play();
 		}
-
-		// if (currentExp > currentLv.getExp()) {
-		// currentLv = level.get(++levelNum);
-		// currentExp = 0;
-		// }
 	}
 
 	public void levelUp(Cell cell) {
-		if (cell.currentLv instanceof Elephant) {
+		if (cell.levelNum == 7) {
 			cell.currentLv = level.get(7);
 		} else {
 			cell.currentLv = level.get(++levelNum);
 			cell.currentExp = 0;
 			cell.currentHp = cell.currentLv.getHealth();
-			
 		}
-		
-		
 	}
 
 	public void die(Cell cell, Cell winner) {
 		int expAdd = cell.currentExp + cell.currentLv.getAddUpExp();
 		addExp(expAdd, winner);
-		// winner.currentExp += expAdd;
 		cell.levelNum = 0;
 		cell.currentLv = level.get(cell.levelNum);
 		cell.currentHp = cell.currentLv.getHealth();
@@ -118,41 +101,27 @@ public class Cell {
 		cell.currentLv = level.get(cell.levelNum);
 		cell.currentHp = cell.currentLv.getHealth();
 		cell.currentExp = 0;
-		//sfx.get("exdown").play();
 	}
 
 	public void Update() {
-		if (this.levelNum > 7) { // not working!!!! elephant will become mouse
-									// again~
-			this.levelNum = 7;
-		}
-		// in case it grow out of bound.
 		if (this.currentExp >= this.currentLv.getExp()) {
-			this.levelNum += 1;
-			this.currentLv = level.get(levelNum);
+			levelUp(this);
 		}
-
+		// check whether elephant or mouse..<-- special case
 		for (Cell cell : cells) {
 			if (this.checkCollide(cell)) {
-				if (this.levelNum > cell.levelNum) { // attacker level > cell
-														// level
-					cell.currentHp -= this.currentLv.getAttack(); // cell Health
-																	// value -=
-																	// attacker
-																	// attackValue
+				boundsOut(cell);
+				if (this.levelNum > cell.levelNum) {
+					cell.currentHp -= this.currentLv.getAttack();
+					
 					if (cell.currentHp <= 0) { // HP <= 0 die
 						if (cell.levelNum == 0) {
-							// addExp(this);
-							// this.currentExp += cell.currentExp;
 							die(cell, this);
 						} else {
 							downgrade(cell);
-							boundsOut(cell);
-							
 						}
 					}
 				}
-//				boundsOut(cell);
 			}
 		}
 		if (!isPlayer) {
@@ -204,12 +173,12 @@ public class Cell {
 				}
 
 			}
-		} else {
+		} else {   
 			double dx = (goalX - this.x);
 			double dy = (goalY - this.y);
-			this.x += (dx) * 1 / 50;
-			this.y += (dy) * 1 / 50;
-			// addMass(10);
+			this.x += (dx) * 1 / 100;
+			this.y += (dy) * 1 / 100;
+
 		}
 	}
 
@@ -223,18 +192,18 @@ public class Cell {
 
 	public void boundsOut(Cell cell) {
 		if (this.x < cell.x) {
-			this.x -= 5;
-			cell.x += 5;
+			this.x -= 15;
+			cell.x += 15;
 		} else {
-			this.x += 5;
-			cell.x -= 5;
+			this.x += 15;
+			cell.x -= 15;
 		}
 		if (this.y < cell.y) {
-			this.y -= 5;
-			cell.y += 5;
+			this.y -= 15;
+			cell.y += 15;
 		} else {
-			this.y += 5;
-			cell.y -= 5;
+			this.y += 15;
+			cell.y -= 15;
 		}
 	}
 
@@ -246,8 +215,7 @@ public class Cell {
 		int max = 200;
 		for (Cell cell : cells) {
 			if (this != cell) {
-				distance = (int) Math
-						.sqrt((this.x - cell.x) * (this.x - cell.x) + (cell.y - this.y) * (cell.y - this.y));
+				distance = (int) Math.sqrt((this.x - cell.x) * (this.x - cell.x) + (cell.y - this.y) * (cell.y - this.y));
 				if (distance < min && distance <= max && this.levelNum > cell.levelNum) {
 					min = distance;
 					x = cells.indexOf(cell);
@@ -285,6 +253,7 @@ public class Cell {
 	}
 
 	// collision
+	//hehe
 	public boolean checkCollide(Cell cell) {
 		// Math.sqrt((x2 − x1)^2 + (y2 − y1)^2)
 		double centre_x1 = this.x + 50;
@@ -293,23 +262,10 @@ public class Cell {
 		double centre_y2 = cell.y + 50;
 		double distance = Math.sqrt(Math.pow((centre_x1 - centre_x2), 2) + Math.pow((centre_y1 - centre_y2), 2));
 		return distance < 100;
-		// return (((this.x + 50) - (cell.x + 50)) < 100 || ((this.y + 50) -
-		// (cell.y +
-		// 50)) < 100
-		// || ((cell.x + 50) - (this.x + 50)) < 100 || ((cell.y + 50) - (this.y
-		// + 50)) <
-		// 100);
-		/*
-		 * if this.cell centre(x,y) and cell centre(x,y) distance > this.cell
-		 * radius + cell.radius then they collided.
-		 */
-		// return x < this.x + this.size && x + mass > this.x && y < this.y +
-		// this.size
-		// && y + mass > this.y;
+		
 	}
 
 	public void Draw(Graphics bbg, JPanel jpanel) {
-		// bbg.setColor(cellColor);
 		Player player = currentLv;
 		bbg.drawImage(player.getImage(), (int) x, (int) y, (int) size, (int) size, jpanel);
 		bbg.setColor(Color.BLACK);
@@ -318,16 +274,11 @@ public class Cell {
 		// draw the hp bar but n
 		bbg.drawString(currentHp + "/ " + player.getHealth(), (int) x, (int) y - 20);
 		// draw the exp bar but without scaled.
-		bbg.drawRect((int) x, (int) y + 60, 100, 10);
+		bbg.drawRect((int) x, (int) y + 100, 100, 10);
 		bbg.setColor(Color.YELLOW);
-		if (this.name == "Bruce") {
-			System.out.println("current:" + currentExp);
-			System.out.println("Scaled current:" + (int) ((float) currentExp / player.getExp()) * 100);
-		}
-
-		bbg.fillRect((int) x, (int) y + 60, (int) (((float) currentExp / player.getExp()) * 100), 10);
+		bbg.fillRect((int) x, (int) y + 100, (int) (((float) currentExp / player.getExp()) * 100), 10);
 		bbg.setColor(Color.BLACK);
-		bbg.drawString("Exp:", ((int) x - 50), (int) y + 60);
+		bbg.drawString("Exp:", ((int) x - 30), (int) y + 105);
 	}
 
 }
