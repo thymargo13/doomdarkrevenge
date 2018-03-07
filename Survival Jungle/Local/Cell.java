@@ -234,14 +234,14 @@ public class Cell {
 		if (this.x < cell.x) {
 			this.colX = this.x - distance;
 			cell.colX = cell.x + distance;
-		} else {
+		} else if (this.x > cell.x){
 			this.colX = this.x + distance;
 			cell.colX = cell.x - distance;
 		}
 		if (this.y < cell.y) {
 			this.colY = this.y - distance;
 			this.colY = cell.y + distance;
-		} else {
+		} else if (this.y > cell.y){
 			this.colY = this.y + distance;
 			cell.colY = cell.y - distance;
 		}
