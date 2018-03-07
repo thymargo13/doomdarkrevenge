@@ -14,3 +14,7 @@
 /MultiplayerGameState.class
 /MultiplayerCell.class
 /MultiplayerData.class
+/MultiplayerLeaderboard$leaderComparator.class
+/MultiplayerLeaderboard.class
+/MultiplayerCamera.class
+/MultiplayerParticle.class

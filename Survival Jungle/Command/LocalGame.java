@@ -1,6 +1,8 @@
 package Command;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 import Map.Board;
 
@@ -14,6 +16,10 @@ public class LocalGame extends Command{
 	public JPanel execute() {
 		//add(new Board());
 		return localgame;
+		
+//		Local local = new Local();
+//		local.run();
+//		return null;
 	}
 
 }

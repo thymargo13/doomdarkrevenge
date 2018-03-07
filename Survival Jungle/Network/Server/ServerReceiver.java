@@ -27,8 +27,6 @@ public class ServerReceiver implements Runnable {
 				processMessage(message);
 				// Process message
 				// catch SocketException remove client from client lists and remove cells
-			} catch (SocketException e) {
-				
 			}
 			catch (Exception ex) {
 				// Remove client from client lists and send to all clients
@@ -55,7 +53,7 @@ public class ServerReceiver implements Runnable {
 					break;
 				case "SCORE":
 					// Sample Message : "SCORE:ID:MASS"
-					cell.mass = Double.parseDouble(message[2]);
+					// cell.addExp(exp, cell); = Double.parseDouble(message[2]);
 					break;
 				default:
 					break;

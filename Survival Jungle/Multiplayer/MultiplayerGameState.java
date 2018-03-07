@@ -5,20 +5,16 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JPanel;
 
-import Local.Camera;
-import Local.Leaderboard;
-import Local.Particle;
 import Network.Network;
 import Network.Server.Client;
 
 public class MultiplayerGameState {
 	
-	public static Leaderboard lb;
-	public static Camera cam;
+	public static MultiplayerLeaderboard lb;
+	public static MultiplayerCamera cam;
 	private BufferedImage backBuffer;
 	private Graphics g;
 	private JPanel jpanel;
@@ -44,8 +40,8 @@ public class MultiplayerGameState {
 	}
 	
 	public void init() {
-		lb = new Leaderboard(true);
-		cam = new Camera(0, 0, 1, 1);
+		lb = new MultiplayerLeaderboard();
+		cam = new MultiplayerCamera(0, 0, 1, 1);
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		
 		}
@@ -65,8 +61,8 @@ public class MultiplayerGameState {
 
 		cam.set(bbg);
 		
-		ArrayList<Particle> pCopy = new ArrayList<Particle>(Particle.particles);	// this should be change to food
-		for (Particle p : pCopy) {
+		ArrayList<MultiplayerParticle> pCopy = new ArrayList<MultiplayerParticle>(MultiplayerParticle.particles);	// this should be change to food
+		for (MultiplayerParticle p : pCopy) {
 			p.Draw(bbg);
 		}
 
@@ -121,25 +117,25 @@ public class MultiplayerGameState {
 			}
 			// if host then generate foods
 			// DEBUG
-			if (Particle.particleCount < 500) {	// generate food
+			if (MultiplayerParticle.particleCount < 500) {	// generate food
 				int x = (int) Math.floor(Math.random() * 10001);
 				int y = (int) Math.floor(Math.random() * 10001);
-				Particle.particles.add(new Particle(x, y, 1, false));
+				MultiplayerParticle.particles.add(new MultiplayerParticle(x, y, 1, false));
 				Network.sendAsServer("FOODADD:" + x + ":" + y);
 				// add to server queue
 			}
 		}
 		
-		for (Particle p : Particle.particles) {
+		for (MultiplayerParticle p : MultiplayerParticle.particles) {
 			if (!p.getHealth()) {	// check the food been eaten or not
-				p.Update(true, this);
+				p.Update(this);
 			} else {
-				Particle.particles.remove(p);
+				MultiplayerParticle.particles.remove(p);
 
 				if (!isHost) {
-					Clients.get(0).sendMessage("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).mass);
+					Clients.get(0).sendMessage("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).currentExp);
 				} else {
-					Network.sendAsServer("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).mass);
+					Network.sendAsServer("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).currentExp);
 				}
 				// add to server queue
 			}
@@ -170,7 +166,7 @@ public class MultiplayerGameState {
 	public void generateFood(int x, int y) {
 		int mass = 1;
 		boolean p = false;
-		Particle.particles.add(new Particle(x, y, mass, p));
+		MultiplayerParticle.particles.add(new MultiplayerParticle(x, y, mass, p));
 	}
 	
 	public void mouseMoved(MouseEvent e) {	// update current location

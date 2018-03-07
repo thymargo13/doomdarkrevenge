@@ -66,7 +66,7 @@ public class ClientReceiver implements Runnable{
 					break;
 				case "SCORE":
 					// Sample Message : "SCORE:ID:MASS"
-					searchCell(Integer.parseInt(message[1])).mass = Double.parseDouble(message[2]);
+					searchCell(Integer.parseInt(message[1])).currentExp = (int) Double.parseDouble(message[2]);
 					break;
 				default:
 					break;

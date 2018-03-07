@@ -2,8 +2,6 @@ package Local;
 
 import java.awt.*;
 
-import Multiplayer.*;
-
 public class Camera {
 
 	public double x;
@@ -37,33 +35,18 @@ public class Camera {
 		sX = sx;
 		sY = sy;
 	}
-	
+
 	public void Update(Cell cell) {	// scale the camera if cell mass increase
 		double scaleFactor;
 
-		if (cell.mass < 1000) {
-			scaleFactor = map(cell.mass, 10, 1000, 1.2, 0.1);
+		if (cell.size < 1000) {
+			scaleFactor = map(cell.size, 10, 1000, 1.2, 0.1);
 		} else {
 			scaleFactor = 0.1;
 		}
 
 		scale(scaleFactor, scaleFactor);
-		x = ((cell.x + cell.mass * 0.5) - 800 / sX * 0.5);
-		y = ((cell.y + cell.mass * 0.5) - 600 / sY * 0.5);
-	}
-	
-	// KSFOONG for multiplayer	
-	public void Update(MultiplayerCell cell) {
-		double scaleFactor;
-
-		if (cell.mass < 1000) {
-			scaleFactor = map(cell.mass, 10, 1000, 1.2, 0.1);
-		} else {
-			scaleFactor = 0.1;
-		}
-
-		scale(scaleFactor, scaleFactor);
-		x = ((cell.x + cell.mass * 0.5) - 800 / sX * 0.5);
-		y = ((cell.y + cell.mass * 0.5) - 600 / sY * 0.5);
+		x = ((cell.x + cell.size * 0.5) - 800 / sX * 0.5);
+		y = ((cell.y + cell.size * 0.5) - 600 / sY * 0.5);
 	}
 }

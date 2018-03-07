@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
+import Audio.*;
 import Local.Camera;
 import Local.Cell;
 import Local.Leaderboard;
@@ -26,6 +27,8 @@ public class GameState {
 	private Graphics g;
 	private JPanel jpanel;
 	
+	private Audio_player music ;
+	
 	public GameState() {
 		init();
 	}
@@ -35,6 +38,9 @@ public class GameState {
 		cam = new Camera(0, 0, 1, 1);
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		playerCreated = false;
+		
+		music = new Audio_player("/Audio/music.mp3");
+		music.play();
 	}
 	
 	public void initDraw (Graphics graphics, JPanel jpanel) {	//get the graphics and panel to process draw method in here
@@ -68,9 +74,13 @@ public class GameState {
 				String pos = ("X: " + (int) cell.x + " Y: " + (int) cell.y);
 				bbg2.setColor(Color.BLACK);
 				bbg2.drawString(pos, (800 - pos.length() * pos.length()), 10);	// current location
+				
+				bbg2.drawRect(50, 700, 500, 50);
+				bbg2.setColor(Color.YELLOW);
+				bbg2.fillRect(50, 700, 500, 50);//currentExp
 			}
 		}
-
+		
 		lb.Draw(bbg2);
 
 		g.drawImage(backBuffer, 0, 0, jpanel);
