@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -19,32 +20,61 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import Command.OnlineGame;
+import Main.MenuPanel;
 
 @SuppressWarnings("serial")
 public class OnlineBoard extends JPanel implements ActionListener {
 	
-	private static final int WIDTH = 300;
-	private static final int HEIGHT = 300;
+	private static final int WIDTH = 250;
+	private static final int HEIGHT = 200;
 	private String playerName;
 	private JPanel panel;
 	private JTextField text;
 	int xx, xy;
 	
 
-	public OnlineBoard(){
-		setBackground(Color.GREEN);
-		setBounds(250,300 , WIDTH, HEIGHT);														// dimension
+	public OnlineBoard(MenuPanel bgPanel){
+		setBackground(new Color(0,0,0,0));
+		setBounds(280,400 , WIDTH, HEIGHT);	
+		//setLayout(Grid)// dimension
 		setFocusable(true);
 		requestFocus();
 		setVisible(true);
 		
-		JLabel label = new JLabel("");
-		panel.setLayout(null);
-		panel.add(label);
+		JLabel label = new JLabel("Enter username");
+		label.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		//label.setForeground(Color.red);
+		this.add(label);
+		text = new JTextField();
+		text.setBounds(150, 200,100, 100);
+		this.add(text);
+		text.setColumns(20);
+		
+		JButton button= new JButton("OK");
+		button.setSize(500, 500);
+		button.setBounds(600, 600, 500, 500);
+		
+		
+		button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				playerName = text.getText();
+				System.out.println(playerName);
+				HostJoinBoard hj = new HostJoinBoard(bgPanel);
+				bgPanel.remove(0);
+				bgPanel.add(hj,0);
+			}
+		});
+		
+		JButton button1 = new JButton("Back");
+		this.add(button);
+		this.add(button1);
+		
+	//	panel.setLayout(null);
+	//	panel.add(label);
 
-		JLabel lbl = new JLabel("Enter username");
+	//	JLabel lbl = new JLabel("Enter username");
 
-		lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		/*lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl.setForeground(new Color(240, 248, 255));
 		lbl.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lbl.setBounds(111, 343, 141, 27);
@@ -75,7 +105,7 @@ public class OnlineBoard extends JPanel implements ActionListener {
 		lbl_close.setForeground(new Color(241, 57, 83));
 		lbl_close.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lbl_close.setBounds(691, 0, 37, 27);
-		panel.add(lbl_close);
+		panel.add(lbl_close);*/
 	}
 	
 

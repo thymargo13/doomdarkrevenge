@@ -46,7 +46,7 @@ public class Button extends JButton {
 		addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				OnlineBoard ob = new OnlineBoard();
+				OnlineBoard ob = new OnlineBoard(bgPanel);
 				bgPanel.remove(0);
 				bgPanel.add(ob, 0);
 					//bgPanel.getComponent(0).setVisible(false);
