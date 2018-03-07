@@ -11,7 +11,7 @@ public class OnlineGame extends Command{
 	private JFrame frame;
 	public OnlineGame() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		onlinegame = new JPanel();
-		onlinegame.add( new OnlineBoard(frame));
+		onlinegame.add( new OnlineBoard());
 		
 	}
 	public JPanel execute(){

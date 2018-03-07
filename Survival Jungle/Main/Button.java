@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.*;
 import javax.swing.*;
 import Command.*;
+import Map.OnlineBoard;
 
 @SuppressWarnings("serial")
 public class Button extends JButton {
@@ -45,7 +46,10 @@ public class Button extends JButton {
 		addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-					bgPanel.getComponent(0).setVisible(false);
+				OnlineBoard ob = new OnlineBoard();
+				bgPanel.remove(0);
+				bgPanel.add(ob, 0);
+					//bgPanel.getComponent(0).setVisible(false);
 					
 				}
 				// bthPanel.setVisible(false);
