@@ -12,5 +12,6 @@ public class Cat extends Player {
 		super.image = ii.getImage();
 		super.level =1;
 		super.addUpExp = 10;
+		super.forestHide=true;
 	}
 }

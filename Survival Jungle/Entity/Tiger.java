@@ -12,5 +12,6 @@ public class Tiger extends Player{
 		super.image = ii.getImage();
 		super.level =5;
 		super.addUpExp = 50;
+		super.forestHide=true;
 	}
 }

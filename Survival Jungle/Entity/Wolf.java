@@ -12,5 +12,6 @@ public class Wolf extends Player{
 		super.image = ii.getImage();
 		super.level =3;
 		super.addUpExp = 20;
+		super.forestHide=false;
 	}
 }

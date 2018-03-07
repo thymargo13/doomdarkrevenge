@@ -23,9 +23,9 @@ public class Particle {
 	private boolean cellParticle = false;
 	private boolean die = false;
 	public boolean isShot;
-	public String img1="/Resource/objects/bread.png";
-	public String img2="/Resource/objects/cheese.png";
-	public String img3="/Resource/objects/steak.png";
+	public String imgBread="/Resource/objects/bread.png";
+	public String imgCheese="/Resource/objects/cheese.png";
+	public String imgSteak="/Resource/objects/steak.png";
 	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 			(int) Math.floor(Math.random() * 256));
 
@@ -85,11 +85,11 @@ public class Particle {
 				// mass = exp
 				if (cell.currentExp <= 200) {
 //					cell.addExp(300, cell);
-					if(img==img1) {
+					if(img==imgBread) {
 						cell.addExp(5,cell); 
-					}else if(img==img2){
+					}else if(img==imgCheese){
 						cell.addExp(10,cell); 
-					}else if(img==img3) {
+					}else if(img==imgBreak) {
 						cell.addExp(15,cell); 
 					}
 //					cell.addExp(5,cell); //add exp
@@ -106,11 +106,11 @@ public class Particle {
 				this.x = (int) Math.floor(Math.random() * 10001);
 				this.y = (int) Math.floor(Math.random() * 10001);
 			} else if (this.checkCollide(cell.x, cell.y) && cellParticle && !cell.isPlayer) {
-				if(img==img1) {
+				if(img==imgBread) {
 					cell.addExp(5,cell); 
-				}else if(img==img2){
+				}else if(img==imgCheese){
 					cell.addExp(10,cell); 
-				}else if(img==img3) {
+				}else if(img==imgBreak) {
 					cell.addExp(15,cell); 
 				}
 //				cell.addExp(300,cell); //add exp

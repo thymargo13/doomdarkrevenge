@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import Entity.Player;
+
 public class Forest {
 	public static ArrayList<Forest> forests = new ArrayList<Forest>();
 	public static int forestCount;
@@ -17,7 +19,9 @@ public class Forest {
 	protected Image image; 
 	private int x;
 	private int y;
-	private int d=300;
+	private int d=350;
+	boolean couldHide=false;	//default----->no special events
+
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //			(int) Math.floor(Math.random() * 256));
 	public Forest(int x,int y, int d) {
@@ -30,7 +34,13 @@ public class Forest {
 		this.image = ii.getImage();
 
 	}
-
+	
+	public boolean CheckHide(int level) {
+		if(level==1 || level==4 || level ==5) {
+			couldHide=true;
+		}
+		return couldHide;
+	}
 //	public void draw(Graphics bbg) {
 //		bbg.setColor(color);
 //		bbg.fillOval(x, y, d, d);

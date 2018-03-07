@@ -12,5 +12,6 @@ public class Lion extends Player{
 		super.image = ii.getImage();
 		super.level =6;
 		super.addUpExp = 70;
+		super.forestHide=false;
 	}
 }

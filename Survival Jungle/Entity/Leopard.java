@@ -12,6 +12,6 @@ public class Leopard extends Player{
 		super.image = ii.getImage();
 		super.level =4;
 		super.addUpExp = 30;
-		
+		super.forestHide=true;
 	}
 }

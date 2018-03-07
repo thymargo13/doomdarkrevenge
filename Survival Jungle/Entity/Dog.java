@@ -12,5 +12,6 @@ public class Dog extends Player{
 		super.image = ii.getImage();
 		super.level =2;
 		super.addUpExp = 15;
+		super.forestHide=false;
 	}
 }

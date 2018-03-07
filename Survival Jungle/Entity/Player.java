@@ -13,10 +13,17 @@ public class Player {
 	protected int attack;
 	protected int level;
 	protected int addUpExp;
-
+	protected boolean forestHide;
 	// constructor
 
-
+	public boolean getForestHide() {
+		return forestHide;
+	}
+	
+	public void setForestHide(boolean forestHide) {
+		this.forestHide=forestHide;
+	}
+	
 	public int getLevel() {
 		return level;
 	}

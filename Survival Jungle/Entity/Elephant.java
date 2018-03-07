@@ -12,5 +12,6 @@ public class Elephant extends Player {
 		super.image = ii.getImage();
 		super.level =7;
 		super.addUpExp = 100;
+		super.forestHide=false;
 	}
 }
