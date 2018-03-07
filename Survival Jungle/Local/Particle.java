@@ -32,7 +32,7 @@ public class Particle {
 		for (Cell cell : Cell.cells) {
 			if (this.checkCollide(cell.x, cell.y) && !cellParticle) {
 				
-				cell.addExp(1000,cell); //add exp
+				cell.addExp(5,cell); //add exp
 				
 				if (cell.currentExp >= 200) {
 					cell.isTarget = false;
