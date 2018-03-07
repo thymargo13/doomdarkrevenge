@@ -277,13 +277,19 @@ public class Cell {
 		bbg.drawString(name, ((int) x + (int) size / 2 - name.length() * 3),
 				((int) y + (int) size / 2 + name.length()));
 		// draw the hp bar but n
-		bbg.drawString(currentHp + "/ " + player.getHealth(), (int) x, (int) y - 20);
-		// draw the exp bar but without scaled.
-		bbg.drawRect((int) x, (int) y + 100, 100, 10);
-		bbg.setColor(Color.YELLOW);
-		bbg.fillRect((int) x, (int) y + 100, (int) (((float) currentExp / player.getExp()) * 100), 10);
+		//bbg.drawString(currentHp + "/ " + player.getHealth(), (int) x, (int) y - 20);
+		bbg.drawRect((int)x, (int)y+100, 100, 10);
+		bbg.setColor(Color.RED);
+		bbg.fillRect((int) x, (int) y + 100, (int) (((float) currentHp / player.getHealth()) * 100), 10);
 		bbg.setColor(Color.BLACK);
-		bbg.drawString("Exp:", ((int) x - 30), (int) y + 105);
+		bbg.drawString("HP:", ((int) x - 30), (int) y + 110);
+		
+		// draw the exp bar but without scaled.
+		bbg.drawRect((int) x, (int) y + 120, 100, 10);
+		bbg.setColor(Color.YELLOW);
+		bbg.fillRect((int) x, (int) y + 120, (int) (((float) currentExp / player.getExp()) * 100), 10);
+		bbg.setColor(Color.BLACK);
+		bbg.drawString("Exp:", ((int) x - 30), (int) y + 130);
 	}
 
 }
