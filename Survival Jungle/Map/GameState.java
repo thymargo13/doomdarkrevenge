@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.swing.JPanel;
@@ -115,6 +116,7 @@ public class GameState {
 			Particle p = it.next();
 			if (!p.getHealth()) {	// check the food been eaten or not
 				p.Update();
+				
 			} else {
 				it.remove();
 			}

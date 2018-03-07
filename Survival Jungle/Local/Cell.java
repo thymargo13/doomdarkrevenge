@@ -5,9 +5,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Audio.Audio_player;
 import Entity.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Cell {
 
@@ -26,6 +28,8 @@ public class Cell {
 	int centre_x;
 	int centre_y;
 
+	private HashMap<String, Audio_player> sfx;
+	
 	Cell target; // AI use..
 	Particle pTarget; // AI use..
 
@@ -49,6 +53,9 @@ public class Cell {
 		this.currentLv = level.get(levelNum);
 		this.currentHp = currentLv.getHealth();
 		cellCount++;
+		sfx = new HashMap<String, Audio_player>();
+		sfx.put("exdown",new Audio_player("/Audio/exdown.mp3"));
+		sfx.put("exup",new Audio_player("/Audio/exup.mp3"));
 	}
 
 	// set the level array list.
@@ -65,6 +72,7 @@ public class Cell {
 
 	public void attack(int currentHp) {
 		currentHp = currentHp - this.currentLv.getAttack(); // get attacked.
+		//sfx.get("exdown").play();
 		// check level up: if true: reset exp && hp;
 	}
 
@@ -72,6 +80,7 @@ public class Cell {
 		cell.currentExp += exp;
 		if (cell.currentExp == cell.currentLv.getExp()) {
 			levelUp(cell);
+			sfx.get("exup").play();
 		}
 
 		// if (currentExp > currentLv.getExp()) {
@@ -87,7 +96,10 @@ public class Cell {
 			cell.currentLv = level.get(++levelNum);
 			cell.currentExp = 0;
 			cell.currentHp = cell.currentLv.getHealth();
+			
 		}
+		
+		
 	}
 
 	public void die(Cell cell, Cell winner) {
@@ -106,6 +118,7 @@ public class Cell {
 		cell.currentLv = level.get(cell.levelNum);
 		cell.currentHp = cell.currentLv.getHealth();
 		cell.currentExp = 0;
+		//sfx.get("exdown").play();
 	}
 
 	public void Update() {
@@ -135,6 +148,7 @@ public class Cell {
 						} else {
 							downgrade(cell);
 							boundsOut(cell);
+							
 						}
 					}
 				}
