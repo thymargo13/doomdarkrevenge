@@ -12,10 +12,14 @@ import java.util.Iterator;
 import javax.swing.JPanel;
 
 import Audio.*;
+import Entity.foodonMap;
 import Local.Camera;
 import Local.Cell;
+import Local.Forest;
 import Local.Leaderboard;
+import Local.Mud;
 import Local.Particle;
+import Local.Pool;
 
 
 
@@ -61,13 +65,27 @@ public class GameState {
 		
 		ArrayList<Particle> pCopy = new ArrayList<Particle>(Particle.particles);	// this should be change to food
 		for (Particle p : pCopy) {
-			p.Draw(bbg);
+//			p.Draw(bbg);
+			p.Draw(bbg, jpanel);
 		}
-
+		
 		for (Cell cell : Cell.cells) {	// this should be change to player
 			cell.Draw(bbg, jpanel);
 		}
-
+		
+		ArrayList<Forest> fCopy=new ArrayList<Forest>(Forest.forests);
+		for(Forest f: fCopy) {
+			f.draw(bbg, jpanel);
+		}
+		ArrayList<Pool> poolCopy=new ArrayList<Pool>(Pool.pools);
+		for(Pool p:poolCopy) {
+			p.draw(bbg, jpanel);
+		}
+		ArrayList<Mud> mudCopy=new ArrayList<Mud>(Mud.muds);
+		for(Mud m:mudCopy) {
+			m.draw(bbg, jpanel);
+		}
+		
 		cam.unset(bbg);
 
 		for (Cell cell : Cell.cells) {
@@ -101,11 +119,40 @@ public class GameState {
 					(int) Math.floor(Math.random() * 2801), false));
 		}
 
-		if (Particle.particleCount < 5000) {	// generate food
+		if (Particle.particleCount < 7000) {	// generate food
+			String imgBread=foodonMap.getBread();
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001), 1, false));
+					(int) Math.floor(Math.random() * 10001), 1, false, imgBread));
+			String imgCheese=foodonMap.getCheese();
+			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
+					(int) Math.floor(Math.random() * 10001), 1, false, imgCheese));
+			
+			String imgSteak=foodonMap.getSteak();
+			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
+					(int) Math.floor(Math.random() * 10001), 1, false, imgSteak));
+//			
+//			String img4="/Resource/objects/water.png";
+//			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
+//					(int) Math.floor(Math.random() * 10001), 1, false, img4));
 		}
 
+		
+		//Forest&&Pool&&Mud!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		if(Forest.forestCount < 500) {
+	//		int dForest=Forest.getD();
+			Forest.forests.add(new Forest((int) Math.floor(Math.random() * 10001),
+					(int) Math.floor(Math.random() * 10001),350));
+		}
+		if(Pool.poolCount < 500) {
+				Pool.pools.add(new Pool((int) Math.floor(Math.random() * 10001),
+					(int) Math.floor(Math.random() * 10001),400));
+		}
+		if(Mud.mudCount < 500) {
+				Mud.muds.add(new Mud((int) Math.floor(Math.random() * 10001),
+						(int) Math.floor(Math.random() * 10001),350));
+		}
+				
 		if (!playerCreated) {	// generate player
 			playerCreated = true;
 			Cell.cells.add(new Cell("Bruce", (int) Math.floor(Math.random() * 10001),
