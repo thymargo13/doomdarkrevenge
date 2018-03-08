@@ -89,7 +89,7 @@ public class Particle {
 						cell.addExp(5,cell); 
 					}else if(img==imgCheese){
 						cell.addExp(10,cell); 
-					}else if(img==imgBreak) {
+					}else if(img==imgSteak) {
 						cell.addExp(15,cell); 
 					}
 //					cell.addExp(5,cell); //add exp
@@ -110,7 +110,7 @@ public class Particle {
 					cell.addExp(5,cell); 
 				}else if(img==imgCheese){
 					cell.addExp(10,cell); 
-				}else if(img==imgBreak) {
+				}else if(img==imgSteak) {
 					cell.addExp(15,cell); 
 				}
 //				cell.addExp(300,cell); //add exp
