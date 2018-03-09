@@ -44,6 +44,7 @@ public class GameState {
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		playerCreated = false;
 		
+		//play music
 		music = new Audio_player("/Audio/music.mp3");
 		music.play();
 	}

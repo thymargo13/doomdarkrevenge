@@ -5,9 +5,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Audio.Audio_player;
 import Entity.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Cell {
 
@@ -44,6 +46,9 @@ public class Cell {
 	int colCount = 0;
 	Cell colCell;
 
+	private HashMap<String, Audio_player> sfx;
+
+	
 	public Cell(String name, int x, int y, boolean isPlayer) {
 		initLevel();
 		this.name = name;
@@ -55,6 +60,12 @@ public class Cell {
 		this.currentLv = level.get(levelNum);
 		this.currentHp = currentLv.getHealth();
 		cellCount++;
+		 
+		//add audio
+		sfx = new HashMap<String, Audio_player>();
+		sfx.put("exdown",new Audio_player("/Audio/exdown.mp3"));
+		sfx.put("exup",new Audio_player("/Audio/exup.mp3"));
+
 	}
 
 	// set the level array list.
@@ -81,6 +92,8 @@ public class Cell {
 			cell.currentExp += exp;
 			if (cell.currentExp == cell.currentLv.getExp()) {
 				levelUp(cell);
+				//play audio
+				sfx.get("exup").play();
 			}
 		}
 	}
@@ -92,6 +105,8 @@ public class Cell {
 			cell.currentLv = level.get(++levelNum);
 			cell.currentExp = 0;
 			cell.currentHp = cell.currentLv.getHealth();
+			//play audio
+			sfx.get("exup").play();
 		}
 	}
 
@@ -118,6 +133,8 @@ public class Cell {
 		cell.currentHp = cell.currentLv.getHealth();
 		cell.currentExp = 0;
 		respawn(cell);
+		//play audio
+		sfx.get("exdown").play();
 	}
 
 	public void Update() {
