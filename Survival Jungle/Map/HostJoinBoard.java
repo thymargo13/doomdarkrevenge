@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import Main.MenuPanel;
 
+@SuppressWarnings("serial")
 public class HostJoinBoard extends JPanel implements ActionListener{
 	
 	private static final int WIDTH = 300;
@@ -21,21 +23,33 @@ public class HostJoinBoard extends JPanel implements ActionListener{
 		requestFocus();
 		setVisible(true);
 		
-		JButton button = new JButton("Host");
-		this.add(button);
+		String[] ipString = {"1","2","3","4"};
 		
+		//create the combo box
+		JComboBox ips  = new JComboBox(ipString);
+		ips.setSelectedIndex(3);
+		ips.addActionListener(this);
 		
+		//create Join button
 		JButton button1 = new JButton("Join");
 		this.add(button1);
-		button.addActionListener(new ActionListener(){
+		button1.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				JoinBoard j = new JoinBoard(bgPanel);
-				bgPanel.remove(0);
-				bgPanel.add(j,0);
+				
+				//move to Join panel
+				//JoinBoard j = new JoinBoard(bgPanel);
+			//	bgPanel.remove(0);
+			//	bgPanel.add(j,0);
 			}
 		});
+		
+		//create Host button
+		JButton button = new JButton("Back");
+		//button.setLocation(500, 500);
+		this.add(button);
 	}
-
+	
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

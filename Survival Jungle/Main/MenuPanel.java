@@ -17,15 +17,12 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 
 	// ALL Panel
 	private JPanel btnPanel;
-	// private JLayeredPane basePanel;
 	private JPanel bgPanel;
 	
-	//private JPanel loginPanel;
 	
 	// arrayList for imgSrc	
 	private String[] imgSrc = { "/Resource/background/btn_local_2.png", "/Resource/background/btn_online_2.png",
 			"/Resource/background/btn_setting_2.png", "/Resource/background/btn_exit_2.png" };
-	//private String[] imgSrc2 = { "/Resource/background/ok_btn.png", "/Resource/background/Backbutton_1.png" };
 
 	// dimensions
 	public static final int WIDTH = 800; // background width
@@ -38,7 +35,6 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 		
 		btnPanel = new JPanel(); // instance for btn panel.
 		bgPanel = new JPanel(); // instance for bg panel
-	//	loginPanel = new JPanel();
 		
 		this.frame = frame; // get the main frame
 		setLayout(new BorderLayout()); // root panel layout
@@ -51,20 +47,17 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 		init();
 		btnPanel.setVisible(true);
 		bgPanel.setVisible(true);
-		//loginPanel.setVisible(false);
-		// gsm = new GameStateManager();
 	}
 
 	// build the base panel component.
 	private void init() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 
-		// running = true;
 		setBackground();// set Background Panel
 		setBtnPanel(); // set Button Panel
-		//setLoginPanel();
+		
 		add(btnPanel); // add Button Panel to BasePanel
 		add(bgPanel); // add Background Panel to BasePanel
-	//	add(loginPanel);
+	
 	}
 
 	// Setting Background panel and add the background image.
@@ -77,14 +70,6 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 		bgPanel.setOpaque(false);
 	}
 
-/*private void setLoginPanel() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
-		
-		loginPanel.setBackground(new Color(0, 0, 0, 0));
-		loginPanel.setBounds(280, 400, 250, 200);
-		loginPanel.setOpaque(true);
-		loginPanel.setLayout(new GridLayout(4, 0)); 
-		
-	}*/
 	// Setting the Button Panel and add btn into bthPanel
 	private void setBtnPanel() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		btnPanel.setBackground(new Color(0, 0, 0, 0));
@@ -98,12 +83,7 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 		for (int i = 0; i < imgSrc.length; i++) {
 			if (i == 1) {
 				
-				btnPanel.add(new Button(imgSrc[i],i,this));
-				//for (int h =0; h< imgSrc2.length; h++){
-				//loginPanel.setVisible(true);
-			//	loginPanel.add(new Button(imgSrc2[0], 0));
-				//loginPanel.add(new Button(imgSrc2[1], 1));
-				//}
+				btnPanel.add(new Button(imgSrc[i],i,this));				
 				
 			} else {
 				btnPanel.add(new Button(imgSrc[i], i));
