@@ -52,13 +52,14 @@ public class OnlineBoard extends JPanel implements ActionListener {
 		
 		JButton button= new JButton("OK");
 		button.setSize(500, 500);
-		button.setBounds(600, 600, 500, 500);
-		
+		button.setBounds(600, 600, 500, 500);		
 		
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				//get username
 				playerName = text.getText();
 				System.out.println(playerName);
+				//remove OnlineBoard panel and get HostJoinBoard panel
 				HostJoinBoard hj = new HostJoinBoard(bgPanel);
 				bgPanel.remove(0);
 				bgPanel.add(hj,0);
