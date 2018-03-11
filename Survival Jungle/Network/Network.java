@@ -31,12 +31,12 @@ public class Network {
 		Server = new Server(Clients, MultiplayerGameState);
 //		Server.setName(name);
 		Server.startServer();
-		isConnected = true;
+//		isConnected = true;
 	}
 	
 	public void stopServer() {
 		Server.stopServer();
-		isConnected = false;
+//		isConnected = false;
 	}
 	
 	public void ClientStartDiscovery() {
