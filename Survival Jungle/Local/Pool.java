@@ -21,6 +21,7 @@ public class Pool {
 		private int x;
 		private int y;
 		private int d=400;
+		public boolean isShot=true;
 //		BufferedImage bg = null; 
 
 //		private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
@@ -34,14 +35,37 @@ public class Pool {
 			ImageIcon ii = new ImageIcon(getClass().getResource(img));
 			this.image = ii.getImage();
 		}
-//		public void Draw(Graphics bbg) {
-//			bbg.setColor(color);
-//			bbg.fillRect(x, y, 10, 10);
-//			bbg.drawRect(x, y, 10, 10);
-//		}
+
 		public void draw(Graphics bbg, JPanel jpanel) {
 			Pool p= new Pool(x,y,d);
 			bbg.drawImage(p.getImage(),(int) x, (int) y, (int) d, (int) d, jpanel);
+		}
+		public void Update() {
+			for (Cell cell : Cell.cells) {
+				if (this.checkCollide(cell.x, cell.y)) {
+					
+					cell.reduceHp(1, cell);
+					if(cell.currentHp<30) {
+//						cell.currentHp=cell.currentHp;
+						break;
+					}
+//					cell.addExp(5,cell); //add exp
+				} 
+				
+			}
+		}
+		private boolean checkCollide(double x, double y) {
+			double centre_x1 = x ;
+			double centre_y1 = y ;
+			//this.x & this.y is particle coordinate.
+			double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
+//			if(distance<500) {
+//				isShot=true;
+//			}
+//			System.out.println("test!!");
+			return distance < 200;
+//			return isShot;
+		//	return x < this.x + 10 && x + mass > this.x && y < this.y + 10 && y + mass > this.y;
 		}
 		public int getX() {
 			return x;

@@ -131,10 +131,6 @@ public class GameState {
 			String imgSteak=foodonMap.getSteak();
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001), 1, false, imgSteak));
-//			
-//			String img4="/Resource/objects/water.png";
-//			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
-//					(int) Math.floor(Math.random() * 10001), 1, false, img4));
 		}
 
 		
@@ -160,11 +156,18 @@ public class GameState {
 					(int) Math.floor(Math.random() * 10001), true));
 		}
 
+		for (Iterator<Pool> pl = Pool.pools.iterator(); pl.hasNext();) {
+			Pool p = pl.next();
+			
+			if (p.isShot) {	// check the food been eaten or not
+//				System.out.println("Ê§Íû");
+				p.Update();
+			}
+		}
 		for (Iterator<Particle> it = Particle.particles.iterator(); it.hasNext();) {
 			Particle p = it.next();
 			if (!p.getHealth()) {	// check the food been eaten or not
 				p.Update();
-				
 			} else {
 				it.remove();
 			}

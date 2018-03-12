@@ -45,7 +45,6 @@ public class Particle {
 	public void Update() {
 		for (Cell cell : Cell.cells) {
 			if (this.checkCollide(cell.x, cell.y) && !cellParticle) {
-				
 				if(img==imgBread) {
 					cell.addExp(5,cell); 
 				}else if(img==imgCheese){
@@ -79,18 +78,17 @@ public class Particle {
 				this.die = true;
 			}
 		}if(isShot)
-
-	{
-		dx = (speed) * Math.cos(angle);
-		dy = (speed) * Math.sin(angle);
-		x += dx;
-		y += dy;
-		speed -= 0.1;
-		if (speed <= 0) {
-			isShot = false;
-			speed = 0;
+		{
+			dx = (speed) * Math.cos(angle);
+			dy = (speed) * Math.sin(angle);
+			x += dx;
+			y += dy;
+			speed -= 0.1;
+			if (speed <= 0) {
+				isShot = false;
+				speed = 0;
+			}
 		}
-	}
 	}
 
 	private boolean checkCollide(double x, double y) {

@@ -29,6 +29,7 @@ public class Cell {
 	int centre_x;
 	int centre_y;
 
+	public int index=0;
 	Cell target; // AI use..
 	Particle pTarget; // AI use..
 
@@ -97,7 +98,19 @@ public class Cell {
 			}
 		}
 	}
-
+//	Test!!!!!!!!!!!!!!!!!!!!!!!
+	public void reduceHp(int hp, Cell cell) {
+		
+//		if(cell.currentHp>0) {
+			cell.currentHp-=hp;
+			if(cell.currentHp<=30) {
+				cell.currentHp=30;
+			}
+			if(cell.currentHp==0) {
+				die(cell,this);
+			}
+//		}
+	}
 	public void levelUp(Cell cell) {
 		if (cell.levelNum == 7) {
 			cell.currentLv = level.get(7);
@@ -126,7 +139,7 @@ public class Cell {
 		cell.currentExp = 0;
 		respawn(cell);
 	}
-
+	
 	public void downgrade(Cell cell) {
 		cell.levelNum = cell.levelNum - 1;
 		cell.currentLv = level.get(cell.levelNum);
@@ -328,7 +341,7 @@ public class Cell {
 		if (this.name.equals(cell.name)) {
 			return false;
 		}
-		// Math.sqrt((x2 − x1)^2 + (y2 − y1)^2)
+		// Math.sqrt((x2 鈭� x1)^2 + (y2 鈭� y1)^2)
 		double centre_x1 = this.x + 50;
 		double centre_y1 = this.y + 50;
 		double centre_x2 = cell.x + 50;
