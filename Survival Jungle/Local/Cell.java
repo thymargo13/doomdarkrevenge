@@ -99,7 +99,7 @@ public class Cell {
 		}
 	}
 //	Test!!!!!!!!!!!!!!!!!!!!!!!
-	public void reduceHp(int hp, Cell cell) {
+	public void reduceHp(double hp, Cell cell) {
 		
 //		if(cell.currentHp>0) {
 			cell.currentHp-=hp;

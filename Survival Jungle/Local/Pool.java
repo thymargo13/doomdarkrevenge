@@ -42,10 +42,16 @@ public class Pool {
 		}
 		public void Update() {
 			for (Cell cell : Cell.cells) {
+
+				int index=cell.currentLv.getHealth();
 				if (this.checkCollide(cell.x, cell.y)) {
-					
-					cell.reduceHp(1, cell);
-					if(cell.currentHp<30) {
+					if(cell.currentLv != cell.level.get(2) || cell.currentLv != cell.level.get(3)) {
+						cell.reduceHp(1, cell);
+					}
+//					if(cell.currentLv == cell.level.get(0)) {
+//						cell.reduceHp(1, cell);
+//					}
+					if(cell.currentHp<index-20) {
 //						cell.currentHp=cell.currentHp;
 						break;
 					}
@@ -55,15 +61,15 @@ public class Pool {
 			}
 		}
 		private boolean checkCollide(double x, double y) {
-			double centre_x1 = x ;
-			double centre_y1 = y ;
+			double centre_x1 = x-150;
+			double centre_y1 = y-150 ;
 			//this.x & this.y is particle coordinate.
 			double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
 //			if(distance<500) {
 //				isShot=true;
 //			}
 //			System.out.println("test!!");
-			return distance < 200;
+			return distance < 230;
 //			return isShot;
 		//	return x < this.x + 10 && x + mass > this.x && y < this.y + 10 && y + mass > this.y;
 		}

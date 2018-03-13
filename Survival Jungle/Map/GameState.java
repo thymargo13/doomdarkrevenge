@@ -141,7 +141,7 @@ public class GameState {
 			Forest.forests.add(new Forest((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001),350));
 		}
-		if(Pool.poolCount < 500) {
+		if(Pool.poolCount < 5000) {
 				Pool.pools.add(new Pool((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001),400));
 		}
