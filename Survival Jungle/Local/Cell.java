@@ -100,13 +100,14 @@ public class Cell {
 	}
 //	Test!!!!!!!!!!!!!!!!!!!!!!!
 	public void reduceHp(double hp, Cell cell) {
-		
-		cell.currentHp--;
+		int index=cell.currentLv.getHealth();
+//		cell.currentHp--;
 //		if(cell.currentHp>0) {
-//		cell.currentHp-=hp;
-//			if(cell.currentHp<=30) {
-//				cell.currentHp=30;
-//			}
+		cell.currentHp-=hp;
+		
+			if(cell.currentHp<=index-30) {
+				cell.currentHp=index-30;
+			}
 			if(cell.currentHp==0) {
 				die(cell,this);
 			}
