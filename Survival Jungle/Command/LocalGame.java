@@ -15,13 +15,7 @@ public class LocalGame extends Command{
 	@Override
 	public JPanel execute() {
 		return localgame;
-		
-<<<<<<< HEAD
-//		Local local = new Local();
-//		local.run();
-//		return null;
-=======
->>>>>>> UI
+
 	}
 
 }
