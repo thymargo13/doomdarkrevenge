@@ -14,6 +14,7 @@ public class Mud {
 	private int x;
 	private int y;
 	private int d=400;
+	public boolean couldHide=false;
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //			(int) Math.floor(Math.random() * 256));
 	public Mud(int x,int y, int d) {
@@ -25,7 +26,29 @@ public class Mud {
 		ImageIcon ii = new ImageIcon(getClass().getResource(img));
 		this.image = ii.getImage();
 	}
-	
+	public void Update() {
+		for (Cell cell : Cell.cells) {
+			
+				if(checkCollide(cell.x,cell.y)) {
+					double centre_x1 = x-150 ;
+					double centre_y1 = y-150 ;
+					double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
+					if(distance<=230) {
+						cell.x-=50;
+						cell.y-=50;
+					}
+				}
+		}
+	}
+
+	private boolean checkCollide(double x, double y) {
+		double centre_x1 = x-150;
+		double centre_y1 = y-150 ;
+		//this.x & this.y is particle coordinate.
+		double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
+		return distance < 230;
+
+	}
 	public void draw(Graphics bbg, JPanel jpanel) {
 		Mud m= new Mud(x,y,d);
 		bbg.drawImage(m.getImage(),(int) x, (int) y, (int) d, (int) d, jpanel);

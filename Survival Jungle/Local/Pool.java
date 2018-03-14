@@ -51,7 +51,7 @@ public class Pool {
 //					if(cell.currentLv == cell.level.get(0)) {
 //						cell.reduceHp(1, cell);
 //					}
-					if(cell.currentHp<index-20) {
+					if(cell.currentHp<=index-30) {
 //						cell.currentHp=cell.currentHp;
 						break;
 					}

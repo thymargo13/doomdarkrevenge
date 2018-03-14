@@ -34,17 +34,23 @@ public class Forest {
 		this.image = ii.getImage();
 
 	}
+	public boolean checkHide(int level) {
+		if(level==1 || level==4|| level==5) {
+			couldHide=true;
+		}else {
+			couldHide=false;
+		}
+		return couldHide;
+	}
 	public void Update() {
 		for (Cell cell : Cell.cells) {
+			couldHide=false;
 			if(cell.currentLv == cell.level.get(1) || cell.currentLv == cell.level.get(4) || 
 					cell.currentLv == cell.level.get(5)) {
 				couldHide=true;
 			}else {
 				couldHide=false;
 				if(checkCollide(cell.x,cell.y)) {
-//					double comparex=cell.x;
-//					double comparey=cell.y;
-//					cell.reduceHp(1, cell);
 					double centre_x1 = x-150 ;
 					double centre_y1 = y-150 ;
 					double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));

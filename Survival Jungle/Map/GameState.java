@@ -174,13 +174,20 @@ public class GameState {
 			}
 		}
 		
-//		for (Iterator<Mud> md = Mud.muds.iterator(); md.hasNext();) {
-//			Mud m=md.next();
-//			if (m.Hide) {	// check the food been eaten or not
-////				System.out.println("Ê§Íû");
-//				m.Update();
-//			}
-//		}
+		for (Iterator<Mud> md = Mud.muds.iterator(); md.hasNext();) {
+			Mud m=md.next();
+			for (Cell cell : Cell.cells) {
+				if(cell.currentLv == cell.level.get(0)) {
+					
+				}else {
+					m.Update();
+				}
+//				if (!m.couldHide) {	// check the food been eaten or not
+//	//				System.out.println("Ê§Íû");
+//					m.Update();
+//				}
+			}
+		}
 		for (Iterator<Particle> it = Particle.particles.iterator(); it.hasNext();) {
 			Particle p = it.next();
 			if (!p.getHealth()) {	// check the food been eaten or not
