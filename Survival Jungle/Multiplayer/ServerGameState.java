@@ -52,7 +52,8 @@ public class ServerGameState implements ActionListener{
 				int y = (int) Math.floor(Math.random() * 2801);
 				MultiplayerCell c = new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(),x , y, isPlayer); 
 				MultiplayerCell.serverCells.add(c);
-				Network.sendAsServer("CELLADD:" + Clients.get(i).getUserID() + ":" + x + ":" + y );
+				// CELLADD:ID:X:Y:HP:SCORE
+				Network.sendAsServer("CELLADD:" + Clients.get(i).getUserID() + ":" + x + ":" + y + ":" + c.currentHp + ":" + c.currentExp);
 				// Send as server to all
 			}
 			
@@ -72,7 +73,7 @@ public class ServerGameState implements ActionListener{
 			for (Client Client : Clients) {
 				MultiplayerCell Cell = searchCell(Client.getUserID());
 				// GAMESTATE:ID:X:Y:HP:SCORE
-				message = message + Client.getUserID() + ":" + Cell.goalX + ":" + Cell.goalY + ":" + Cell.currentHp + ":" + Cell.currentExp;
+				message = message + Client.getUserID() + ":" + Cell.x + ":" + Cell.y + ":" + Cell.currentHp + ":" + Cell.currentExp;
 			}
 			
 			Network.sendAsServer(message);

@@ -5,12 +5,10 @@ import java.util.ArrayList;;
 
 public class ServerSender implements Runnable {
 	private DataOutputStream output;
-	private ArrayList<Client> Clients;
 	private int ClientID;
 	
-	public ServerSender(DataOutputStream output, ArrayList<Client> Clients, int ClientID) {
+	public ServerSender(DataOutputStream output, int ClientID) {
 		this.output = output;
-		this.Clients = Clients;
 		this.ClientID = ClientID;
 	}
 
@@ -37,7 +35,7 @@ public class ServerSender implements Runnable {
 	}
 	
 	public Client searchClients(int ClientID) {
-		for (Client Client : Clients) {
+		for (Client Client : Server.Clients) {
 			if (Client.getUserID() == ClientID) {
 				return Client;
 			}

@@ -14,12 +14,10 @@ import Multiplayer.ServerGameState;
 
 public class ServerHost implements Runnable {
 	private ServerSocket ServerSocket;
-	private ArrayList<Client> Clients;
 	private ServerGameState ServerGameState;
 
-	ServerHost(ServerSocket ServerSocket, ArrayList<Client> Clients, ServerGameState ServerGameState){
+	ServerHost(ServerSocket ServerSocket, ServerGameState ServerGameState){
 		this.ServerSocket = ServerSocket;
-		this.Clients = Clients;
 		this.ServerGameState = ServerGameState;
 	}
 	
@@ -33,14 +31,14 @@ public class ServerHost implements Runnable {
 				DataOutputStream output = new DataOutputStream(Socket.getOutputStream());
 
 				Client Client = new Client(i, Socket.getInetAddress());
-				Clients.add(Client);
+				Server.Clients.add(Client);
 				System.out.println("Client : " + Client.getUserID() + " connected from IP " + Client.getIP() + " .");
-				
+								
 				// Send Client own ID
 				Client.sendMessage("CLIENTID:" + i);
 				// Send the Clients list
 				String message = "CLIENTLIST:";
-				for (Client c : Clients) {
+				for (Client c : Server.Clients) {
 					if (c.getUserID() != i) {
 						message = message + c.getUserID() + ":" + c.getUsername() + ":";
 					}
@@ -49,13 +47,14 @@ public class ServerHost implements Runnable {
 				
 				// if game already running
 				if (ServerGameState.getRunning()) {
+					message = "CELLADD:";
 					for (MultiplayerCell c : MultiplayerCell.cells) {
-						int x = (int) Math.floor(Math.random() * 10001);
-						int y = (int) Math.floor(Math.random() * 2801);
-						c.goalX = x;
-						c.goalY = y;
-						Client.sendMessage("CELLADD:" + c.id + ":" + x +":" + y);
+						// CELLADD:ID:X:Y:HP:SCORE
+						message= c.id + ":" + c.x +":" + c.y + ":" + c.currentHp + ":" + c.currentExp + ":";
+
 					}
+					Client.sendMessage(message);
+
 					
 					message = "FOODADD";
 					for (Particle p : Particle.particles) {
@@ -67,12 +66,12 @@ public class ServerHost implements Runnable {
 				}
 				
 				
-				ServerSender ServerSender = new ServerSender(output,Clients,i);
+				ServerSender ServerSender = new ServerSender(output,i);
 				Thread SenderThread = new Thread(ServerSender);
 				SenderThread.start();
 				System.out.println("Output stream for client " + Client.getUserID() + " established.");
 
-				ServerReceiver ServerReceiver = new ServerReceiver(input,Clients,i,ServerGameState);
+				ServerReceiver ServerReceiver = new ServerReceiver(input,i,ServerGameState);
 				Thread ReceiverThread = new Thread(ServerReceiver);
 				ReceiverThread.start();
 				System.out.println("Input stream for client " + Client.getUserID() + " established.");

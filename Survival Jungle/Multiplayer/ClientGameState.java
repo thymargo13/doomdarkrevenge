@@ -99,36 +99,7 @@ public class ClientGameState {
 				cam.Update(MultiplayerCell.cells.get(i));	// update current position
 			}
 		}
-		
-		if (!isHost) {
-			// if not host
-			// Get food from host
-		} else {
 			
-			for (int i = MultiplayerCell.cellCount; i < Clients.size(); i++) {
-				boolean isPlayer = false;
-				if (i == 0) {
-					isPlayer = true;
-				}
-				int x = (int) Math.floor(Math.random() * 10001);
-				int y = (int) Math.floor(Math.random() * 2801);
-				MultiplayerCell c = new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(),x , y, isPlayer); 
-				MultiplayerCell.cells.add(c);
-				c.Update();
-				Network.sendAsServer("CELLADD:" + Clients.get(i).getUserID() + ":" + x + ":" + y );
-				// Send as server to all
-			}
-			// if host then generate foods
-			// DEBUG
-			if (MultiplayerParticle.particleCount < 500) {	// generate food
-				int x = (int) Math.floor(Math.random() * 10001);
-				int y = (int) Math.floor(Math.random() * 10001);
-				MultiplayerParticle.particles.add(new MultiplayerParticle(x, y, 1, false));
-				Network.sendAsServer("FOODADD:" + x + ":" + y);
-				// add to server queue
-			}
-		}
-		
 		for (MultiplayerParticle p : MultiplayerParticle.particles) {
 			if (!p.getHealth()) {	// check the food been eaten or not
 				p.Update(this);

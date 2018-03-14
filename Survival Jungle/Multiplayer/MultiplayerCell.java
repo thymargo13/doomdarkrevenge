@@ -59,6 +59,26 @@ public class MultiplayerCell {
 
 		cellCount++;
 	}
+	
+	public MultiplayerCell(int id, String name, double x, double y, boolean isPlayer, int currentHP , int currentExp) {
+		initLevel();
+		this.id = id;
+		this.name = name;
+		this.x = x;
+		this.y = y;
+		this.currentHp = currentHP;
+		this.currentExp = currentExp;
+		
+		this.isPlayer = isPlayer;
+
+		//this.randomColor();.
+		
+		this.currentExp = 0;
+		this.currentLv = level.get(levelNum);
+		this.currentHp = currentLv.getHealth();
+
+		cellCount++;
+	}
 
 	// set the level array list.
 	public void initLevel() {
@@ -109,6 +129,7 @@ public class MultiplayerCell {
 		cell.currentExp = 0;
 		respawn(cell);
 	}
+	
 
 	public void downgrade(MultiplayerCell cell) {
 		cell.levelNum = cell.levelNum - 1;
@@ -196,7 +217,7 @@ public class MultiplayerCell {
 
 	// collision
 	public boolean checkCollide(MultiplayerCell cell) {
-		// Math.sqrt((x2 âˆ? x1)^2 + (y2 âˆ? y1)^2)
+		// Math.sqrt((x2 ï¿½? x1)^2 + (y2 ï¿½? y1)^2)
 		double centre_x1 = this.x + 50;
 		double centre_y1 = this.y + 50;
 		double centre_x2 = cell.x + 50;

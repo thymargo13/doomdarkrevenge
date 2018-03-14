@@ -11,19 +11,20 @@ import javax.swing.JPanel;
 import Multiplayer.ServerGameState;
 
 public class Server {
+	static ArrayList<Client> Clients;
+
 	private static Thread HostThread, DiscoveryThread;
 	private static ServerSocket ServerSocket;
 	private static DatagramSocket DatagramSocket;
-	private static ArrayList<Client> Clients;
 	private final int ServerPort = 8888;
 	private final int DiscoveryPort = 8889;
 	private final JPanel errorPanel = new JPanel();
 	private ServerGameState ServerGameState;
-//	private String name;
-//	
-//	public void setName(String name){
-//		this.name = name;
-//	}
+	private String name;
+	
+	public void setName(String name){
+		this.name = name;
+	}
 	public Server (ArrayList<Client> Clients, ServerGameState ServerGameState){
 		this.ServerGameState = ServerGameState;
 		this.Clients = Clients;
@@ -33,7 +34,7 @@ public class Server {
 	public void startServer() {
 		try {		
 			ServerSocket = new ServerSocket(ServerPort);
-			ServerHost ServerHost = new ServerHost(ServerSocket, Clients, ServerGameState);
+			ServerHost ServerHost = new ServerHost(ServerSocket, ServerGameState);
 			HostThread = new Thread(ServerHost);
 			HostThread.start();
 			System.out.println("Server started.");

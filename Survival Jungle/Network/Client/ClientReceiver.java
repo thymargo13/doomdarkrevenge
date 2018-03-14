@@ -33,6 +33,10 @@ public class ClientReceiver implements Runnable{
 		if (data.length() > 0) {
 			String[] message = data.split(":");
 			switch (message[0]) {
+				case "NAME":
+					//Sample Message : "NAME:ID:USERNAME"
+					searchClients(Integer.parseInt(message[1])).setUsername(message[2]);
+					break;
 				case "CLIENTID":
 					//Sample Message : "CLIENTID:ID"
 					MultiplayerGameState.Clients.get(0).setUserID(Integer.parseInt(message[1]));
@@ -49,27 +53,28 @@ public class ClientReceiver implements Runnable{
 					for (int i = 1; i < message.length; i = i + 2) {
 						MultiplayerGameState.generateFood(Integer.parseInt(message[i]), Integer.parseInt(message[i+1]));
 					}
-//					MultiplayerGameState.generateFood(Integer.parseInt(message[1]), Integer.parseInt(message[2]));
 					break;
 				case "CELLADD":
-					//Sample Message : "CELLADD:ID:X:Y"
+					// CELLADD:ID:X:Y:HP:SCORE
 					// Looping
-					// Set loaded = true, player only can play when loaded = true 
-					if (Integer.parseInt(message[1]) == MultiplayerGameState.Clients.get(0).getUserID()) {
-						MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[1]), searchClients(Integer.parseInt(message[1])).getUsername() ,Double.parseDouble(message[2]) , Double.parseDouble(message[3]), true));
-					} else {
-						MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[1]), searchClients(Integer.parseInt(message[1])).getUsername() ,Double.parseDouble(message[2]) , Double.parseDouble(message[3]), false));
+					for (int i = 1; i < message.length; i = i + 5) {
+					
+						if (Integer.parseInt(message[1]) == MultiplayerGameState.Clients.get(0).getUserID()) {
+							MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), searchClients(Integer.parseInt(message[i])).getUsername() ,Double.parseDouble(message[1+1]) , Double.parseDouble(message[i+2]), true, Integer.parseInt(message[i+3]), Integer.parseInt(message[i+4]) ));
+						} else {
+							MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), searchClients(Integer.parseInt(message[i])).getUsername() ,Double.parseDouble(message[1+1]) , Double.parseDouble(message[i+2]), false, Integer.parseInt(message[i+3]), Integer.parseInt(message[i+4]) ));
+						}
 					}
 					break;
 				case "GAMESTATE":
 					// GAMESTATE:ID:X:Y:HP:SCORE
-					for (int i = 1; i < message.length; i = i + 5) {
-						MultiplayerCell Cell = searchCell(Integer.parseInt(message[i]));
-						Cell.goalX = Double.parseDouble(message[i+1]);
-						Cell.goalY = Double.parseDouble(message[i+2]);
-						Cell.currentHp = Integer.parseInt(message[i+3]);
-						Cell.currentExp = Integer.parseInt(message[i+4]);
-					}
+//					for (int i = 1; i < message.length; i = i + 5) {
+//						MultiplayerCell Cell = searchCell(Integer.parseInt(message[i]));
+//						Cell.x = Double.parseDouble(message[i+1]);
+//						Cell.y = Double.parseDouble(message[i+2]);
+//						Cell.currentHp = Integer.parseInt(message[i+3]);
+//						Cell.currentExp = Integer.parseInt(message[i+4]);
+//					}
 					break;
 //				case "MOVE":
 //					//Sample Message : "MOVE:ID:X:Y"

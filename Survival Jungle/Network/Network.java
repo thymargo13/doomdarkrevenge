@@ -35,7 +35,7 @@ public class Network {
 	
 	public void startServer(String name) {
 		Server = new Server(ServerGameState.getServerClients(), ServerGameState);
-//		Server.setName(name);
+		Server.setName(name);
 		Server.startServer();
 		ServerGameState.setRunning(true);
 //		isConnected = true;

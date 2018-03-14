@@ -1,6 +1,7 @@
 package Network.Server;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
 
@@ -9,18 +10,19 @@ import Multiplayer.ServerGameState;
 
 public class ServerReceiver implements Runnable {
 	private BufferedReader input;
-	private ArrayList<Client> Clients;
 	private int ClientID;
 	private ServerGameState ServerGameState;
-
-	ServerReceiver(BufferedReader input, ArrayList<Client> Clients, int ClientID, ServerGameState ServerGameState){
+	private boolean running = false;
+	
+	ServerReceiver(BufferedReader input, int ClientID, ServerGameState ServerGameState){
 		this.input = input;
-		this.Clients = Clients;
 		this.ClientID = ClientID;
+		this.ServerGameState = ServerGameState;
+		running = true;
 	}
 
 	public void run() {
-		while (true) {
+		while (running) {
 			try {
 				String message = input.readLine();
 				System.out.println("Server Receiver received: " + message);
@@ -32,7 +34,19 @@ public class ServerReceiver implements Runnable {
 				// Remove client from client lists and send to all clients
 				// Stop socket
 				System.out.println("Server receiver error: " + ex.getMessage());
-				ex.printStackTrace();
+				
+				Server.Clients.remove(searchClients(ClientID));
+				
+				String message = "CLIENTLIST:";
+				for (Client c : Server.Clients) {
+					message = message + c.getUserID() + ":" + c.getUsername() + ":";
+				}
+				ServerGameState.sendMessage(message);
+				
+				MultiplayerCell.cells.remove(searchCell(ClientID));
+
+				closeSocket();
+				running = false;
 			}
 		}
 	}
@@ -44,6 +58,7 @@ public class ServerReceiver implements Runnable {
 				case "NAME":
 					//Sample Message : "NAME:ID:USERNAME"
 					searchClients(Integer.parseInt(message[1])).setUsername(message[2]);
+					ServerGameState.sendMessage(data);
 					break;
 				case "MOVE":
 					//Sample Message : "MOVE:ID:X:Y"
@@ -59,7 +74,7 @@ public class ServerReceiver implements Runnable {
 					break;
 			}
 			
-			for(Client c : Clients) {
+			for(Client c : Server.Clients) {
 				if (c.getUserID() != Integer.parseInt(message[1]) && c.getUserID() != 0) {
 					c.getQueue().add(data);
 				}
@@ -67,8 +82,16 @@ public class ServerReceiver implements Runnable {
 		}
 	}
 	
+	public void closeSocket(){
+		try {
+			input.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 	public Client searchClients(int ClientID) {
-		for (Client Client : Clients) {
+		for (Client Client : Server.Clients) {
 			if (Client.getUserID() == ClientID) {
 				return Client;
 			}
