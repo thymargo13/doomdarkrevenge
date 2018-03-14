@@ -40,6 +40,7 @@ public class Forest {
 					cell.currentLv == cell.level.get(5)) {
 				couldHide=true;
 			}else {
+				couldHide=false;
 				if(checkCollide(cell.x,cell.y)) {
 //					double comparex=cell.x;
 //					double comparey=cell.y;
