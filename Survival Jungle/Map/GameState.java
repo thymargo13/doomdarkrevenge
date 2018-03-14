@@ -139,15 +139,15 @@ public class GameState {
 		if(Forest.forestCount < 500) {
 	//		int dForest=Forest.getD();
 			Forest.forests.add(new Forest((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001),350));
+					(int) Math.floor(Math.random() * 10001),400));
 		}
-		if(Pool.poolCount < 5000) {
+		if(Pool.poolCount < 500) {
 				Pool.pools.add(new Pool((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001),400));
 		}
 		if(Mud.mudCount < 500) {
 				Mud.muds.add(new Mud((int) Math.floor(Math.random() * 10001),
-						(int) Math.floor(Math.random() * 10001),350));
+						(int) Math.floor(Math.random() * 10001),400));
 		}
 				
 		if (!playerCreated) {	// generate player
@@ -164,6 +164,23 @@ public class GameState {
 				p.Update();
 			}
 		}
+		
+		for (Iterator<Forest> ft = Forest.forests.iterator(); ft.hasNext();) {
+			Forest f = ft.next();
+			
+			if (!f.couldHide) {	// check the food been eaten or not
+//				System.out.println("Ê§Íû");
+				f.Update();
+			}
+		}
+		
+		for (Iterator<Mud> md = Mud.muds.iterator(); md.hasNext();) {
+			Mud m=md.next();
+			if (!m.couldHide) {	// check the food been eaten or not
+//				System.out.println("Ê§Íû");
+				m.Update();
+			}
+		}
 		for (Iterator<Particle> it = Particle.particles.iterator(); it.hasNext();) {
 			Particle p = it.next();
 			if (!p.getHealth()) {	// check the food been eaten or not
@@ -172,7 +189,7 @@ public class GameState {
 				it.remove();
 			}
 		}
-
+		
 		for (Cell cell : Cell.cells) {
 			cell.Update();
 		}
