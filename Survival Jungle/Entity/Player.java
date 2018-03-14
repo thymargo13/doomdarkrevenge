@@ -1,9 +1,13 @@
 package Entity;
 
 import java.awt.Image;
+import java.util.HashMap;
+
+import Audio.Audio_player;
 
 public class Player {
 
+	
 	// player stuff
 	protected int health;
 	protected int exp;
@@ -14,6 +18,8 @@ public class Player {
 	protected int level;
 	protected int addUpExp;
 
+
+	//private HashMap<String, Audio_player> sfx;
 	// constructor
 
 
@@ -39,6 +45,7 @@ public class Player {
 
 	public void setAttack(int attack) {
 		this.attack = attack;
+		//sfx.put("eatfood",new Audio_player("/Audio/eatfood.mp3"));
 	}
 
 	// getter and setter
