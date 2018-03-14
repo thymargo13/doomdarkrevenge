@@ -5,15 +5,15 @@ import java.net.SocketException;
 import java.util.ArrayList;
 
 import Multiplayer.MultiplayerCell;
-import Multiplayer.MultiplayerGameState;
+import Multiplayer.ServerGameState;
 
 public class ServerReceiver implements Runnable {
 	private BufferedReader input;
 	private ArrayList<Client> Clients;
 	private int ClientID;
-	private MultiplayerGameState MultiplayerGameState;
+	private ServerGameState ServerGameState;
 
-	ServerReceiver(BufferedReader input, ArrayList<Client> Clients, int ClientID, MultiplayerGameState MultiplayerGameState){
+	ServerReceiver(BufferedReader input, ArrayList<Client> Clients, int ClientID, ServerGameState ServerGameState){
 		this.input = input;
 		this.Clients = Clients;
 		this.ClientID = ClientID;
@@ -40,14 +40,14 @@ public class ServerReceiver implements Runnable {
 	public void processMessage(String data) {
 		if (data.length() > 0) {
 			String[] message = data.split(":");
-			MultiplayerCell cell = searchCell(Integer.parseInt(message[1]));
 			switch (message[0]) {
 				case "NAME":
 					//Sample Message : "NAME:ID:USERNAME"
-					cell.name = message[2];
+					searchClients(Integer.parseInt(message[1])).setUsername(message[2]);
 					break;
 				case "MOVE":
 					//Sample Message : "MOVE:ID:X:Y"
+					MultiplayerCell cell = searchCell(Integer.parseInt(message[1]));
 					cell.goalX = Double.parseDouble(message[2]);
 					cell.goalY = Double.parseDouble(message[3]);
 					break;
@@ -77,7 +77,7 @@ public class ServerReceiver implements Runnable {
 	}
 	
 	public MultiplayerCell searchCell(int ClientID) {
-		for (MultiplayerCell Cell : MultiplayerCell.cells) {
+		for (MultiplayerCell Cell : MultiplayerCell.serverCells) {
 			if (Cell.id == ClientID) {
 				return Cell;
 			}

@@ -3,14 +3,14 @@ package Network.Client;
 import java.io.BufferedReader;
 
 import Multiplayer.MultiplayerCell;
-import Multiplayer.MultiplayerGameState;
+import Multiplayer.ClientGameState;
 import Network.Server.*;
 
 public class ClientReceiver implements Runnable{
 	private BufferedReader input;
-	private MultiplayerGameState MultiplayerGameState = null;
+	private ClientGameState MultiplayerGameState = null;
 	
-	ClientReceiver(BufferedReader input, MultiplayerGameState MultiplayerGameState){
+	ClientReceiver(BufferedReader input, ClientGameState MultiplayerGameState){
 		this.input = input;
 		this.MultiplayerGameState = MultiplayerGameState;
 	}
@@ -20,6 +20,7 @@ public class ClientReceiver implements Runnable{
 			try {
 				message = input.readLine();
 				processMessage(message);
+				// Create thread to process message
 				System.out.println("Received message from server: " + message);
 			} catch (Exception ex) {
 				System.out.println("Client receiver error: " + ex.getMessage());
@@ -52,6 +53,7 @@ public class ClientReceiver implements Runnable{
 					break;
 				case "CELLADD":
 					//Sample Message : "CELLADD:ID:X:Y"
+					// Looping
 					// Set loaded = true, player only can play when loaded = true 
 					if (Integer.parseInt(message[1]) == MultiplayerGameState.Clients.get(0).getUserID()) {
 						MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[1]), searchClients(Integer.parseInt(message[1])).getUsername() ,Double.parseDouble(message[2]) , Double.parseDouble(message[3]), true));
@@ -59,15 +61,25 @@ public class ClientReceiver implements Runnable{
 						MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[1]), searchClients(Integer.parseInt(message[1])).getUsername() ,Double.parseDouble(message[2]) , Double.parseDouble(message[3]), false));
 					}
 					break;
-				case "MOVE":
-					//Sample Message : "MOVE:ID:X:Y"
-					searchCell(Integer.parseInt(message[1])).goalX = Double.parseDouble(message[2]);
-					searchCell(Integer.parseInt(message[1])).goalY = Double.parseDouble(message[3]);
+				case "GAMESTATE":
+					// GAMESTATE:ID:X:Y:HP:SCORE
+					for (int i = 1; i < message.length; i = i + 5) {
+						MultiplayerCell Cell = searchCell(Integer.parseInt(message[i]));
+						Cell.goalX = Double.parseDouble(message[i+1]);
+						Cell.goalY = Double.parseDouble(message[i+2]);
+						Cell.currentHp = Integer.parseInt(message[i+3]);
+						Cell.currentExp = Integer.parseInt(message[i+4]);
+					}
 					break;
-				case "SCORE":
-					// Sample Message : "SCORE:ID:MASS"
-					searchCell(Integer.parseInt(message[1])).currentExp = (int) Double.parseDouble(message[2]);
-					break;
+//				case "MOVE":
+//					//Sample Message : "MOVE:ID:X:Y"
+//					searchCell(Integer.parseInt(message[1])).goalX = Double.parseDouble(message[2]);
+//					searchCell(Integer.parseInt(message[1])).goalY = Double.parseDouble(message[3]);
+//					break;
+//				case "SCORE":
+//					// Sample Message : "SCORE:ID:MASS"
+//					searchCell(Integer.parseInt(message[1])).currentExp = (int) Double.parseDouble(message[2]);
+//					break;
 				default:
 					break;
 			}

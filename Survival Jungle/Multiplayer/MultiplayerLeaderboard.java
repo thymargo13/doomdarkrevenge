@@ -39,11 +39,11 @@ public class MultiplayerLeaderboard {
 			bbg.setColor(color);
 			bbg.drawRect(x, y + spots[i], 125, 30);
 			bbg.fillRect(x, y + spots[i], 125, 30);
-			bbg.setColor(Color.BLACK);	//color of the leader board string
-			if (MultiplayerCell.cells.size() >= z) {
-				String co = "x: " +cellsCopy.get(i).x+" y:"+ cellsCopy.get(i).y;
-				bbg.drawString("#" + (i + 1) + ": " + cellsCopy.get(i).name + " : " + (int) cellsCopy.get(i).currentExp + co , x,
-						y + spots[i] + 25);
+			bbg.setColor(Color.BLACK);	//color of the leader board string		
+			try {
+				bbg.drawString("#" + (i + 1) + ": " + cellsCopy.get(i).name + " : " + (int) cellsCopy.get(i).currentExp, x,	y + spots[i] + 25);
+			} catch (Exception ex) {
+				
 			}
 		}
 	}

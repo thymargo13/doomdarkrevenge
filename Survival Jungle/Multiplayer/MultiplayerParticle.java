@@ -3,7 +3,7 @@ package Multiplayer;
 import java.util.ArrayList;
 
 import Multiplayer.MultiplayerCell;
-import Multiplayer.MultiplayerGameState;
+import Multiplayer.ClientGameState;
 
 import java.awt.*;
 
@@ -32,7 +32,7 @@ public class MultiplayerParticle {
 		cellParticle = p;
 	}
 
-	public void Update(MultiplayerGameState MultiplayerGameState) {
+	public void Update(ClientGameState MultiplayerGameState) {
 		for (MultiplayerCell cell : MultiplayerCell.cells) {
 				if (this.checkCollide(cell.x, cell.y) && !cellParticle) {
 				

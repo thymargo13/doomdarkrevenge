@@ -11,12 +11,18 @@ public class Network {
 	Server Server = null;
 	ClientDiscover ClientDiscover = null;
 	ClientConnect ClientConnect = null;
-	MultiplayerGameState MultiplayerGameState = null;
-	private boolean isConnected = false;
+	ClientGameState MultiplayerGameState = null;
+	ServerGameState ServerGameState = null;
+
+	boolean isConnected = false;
 	ArrayList<Client> Clients;
 	
-	public void setGameState(MultiplayerGameState MultiplayerGameState) {
+	public void setGameState(ClientGameState MultiplayerGameState) {
 		this.MultiplayerGameState = MultiplayerGameState;
+	}
+	
+	public void setServerGameState(ServerGameState ServerGameState) {
+		this.ServerGameState = ServerGameState;
 	}
 	
 	public void setClients(ArrayList<Client> Clients) {
@@ -28,9 +34,10 @@ public class Network {
 	}	
 	
 	public void startServer(String name) {
-		Server = new Server(Clients, MultiplayerGameState);
+		Server = new Server(ServerGameState.getServerClients(), ServerGameState);
 //		Server.setName(name);
 		Server.startServer();
+		ServerGameState.setRunning(true);
 //		isConnected = true;
 	}
 	

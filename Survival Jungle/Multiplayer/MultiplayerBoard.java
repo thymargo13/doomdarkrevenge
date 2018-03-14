@@ -18,7 +18,7 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 	private final int DELAY = 10;	// milliseconds delay
 	private Timer timer;
 	
-	private MultiplayerGameState MultiplayerGameState;
+	private ClientGameState ClientGameState;
 	private boolean multiplayer = true;
 	Network Network;
 	String Address;
@@ -31,22 +31,27 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 		addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
 //				System.out.println("X: "+e.getX()+", Y: "+e.getY());
-				MultiplayerGameState.mouseMoved(e);	// pass the mouse event to game state
+				ClientGameState.mouseMoved(e);	// pass the mouse event to game state
 			}
 		});
 	}
 
 	private void initMultiplayerBoard(ArrayList<Client> Clients, boolean isHost) {
-		MultiplayerGameState = new MultiplayerGameState(Clients, isHost, Network);
+		ClientGameState = new ClientGameState(Clients, Network);
 		Network.setClients(Clients);
-		Network.setGameState(MultiplayerGameState);
+		Network.setGameState(ClientGameState);
 		
 		if (isHost) {
 			// Host username
+			ServerGameState ServerGameState = new ServerGameState(new ArrayList<Client>(), Network);
+			Network.setServerGameState(ServerGameState);
 			Network.startServer("Dell");
+			Network.connectServer(Clients.get(0), "127.0.0.1");
+
 		} else {
 			Network.connectServer(Clients.get(0), Address);
 		}
+		
 
 		// while not connected
 		while(!Network.getIsConnected()) {
@@ -62,13 +67,13 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		MultiplayerGameState.initDraw(g, this);	// pass the graphics to game state to control all rendering
+		ClientGameState.initDraw(g, this);	// pass the graphics to game state to control all rendering
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MultiplayerGameState.update();
-		MultiplayerGameState.draw();
+		ClientGameState.update();
+		ClientGameState.draw();
 		repaint();
 	}
 }

@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Multiplayer.MultiplayerGameState;
+import Multiplayer.ClientGameState;
 import Network.Server.Client;
 
 public class ClientConnect {
@@ -23,9 +23,9 @@ public class ClientConnect {
 	private final int Port = 8888;
 	private final JPanel errorPanel = new JPanel();
 	Thread ReceiverThread, SenderThread;
-	private MultiplayerGameState MultiplayerGameState = null;
+	private ClientGameState MultiplayerGameState = null;
 	
-	public ClientConnect(Client Client, String address,MultiplayerGameState MultiplayerGameState){
+	public ClientConnect(Client Client, String address,ClientGameState MultiplayerGameState){
 		this.Client = Client;
 		this.queue = Client.getQueue();
 		this.address = address;

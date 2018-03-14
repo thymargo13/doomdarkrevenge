@@ -10,17 +10,17 @@ import java.util.Iterator;
 
 import Local.Particle;
 import Multiplayer.MultiplayerCell;
-import Multiplayer.MultiplayerGameState;
+import Multiplayer.ServerGameState;
 
 public class ServerHost implements Runnable {
 	private ServerSocket ServerSocket;
 	private ArrayList<Client> Clients;
-	private MultiplayerGameState MultiplayerGameState;
+	private ServerGameState ServerGameState;
 
-	ServerHost(ServerSocket ServerSocket, ArrayList<Client> Clients, MultiplayerGameState MultiplayerGameState){
+	ServerHost(ServerSocket ServerSocket, ArrayList<Client> Clients, ServerGameState ServerGameState){
 		this.ServerSocket = ServerSocket;
 		this.Clients = Clients;
-		this.MultiplayerGameState = MultiplayerGameState;
+		this.ServerGameState = ServerGameState;
 	}
 	
 	public void run() {
@@ -48,7 +48,7 @@ public class ServerHost implements Runnable {
 				Client.sendMessage(message);
 				
 				// if game already running
-				if (MultiplayerGameState.getRunning()) {
+				if (ServerGameState.getRunning()) {
 					for (MultiplayerCell c : MultiplayerCell.cells) {
 						int x = (int) Math.floor(Math.random() * 10001);
 						int y = (int) Math.floor(Math.random() * 2801);
@@ -72,7 +72,7 @@ public class ServerHost implements Runnable {
 				SenderThread.start();
 				System.out.println("Output stream for client " + Client.getUserID() + " established.");
 
-				ServerReceiver ServerReceiver = new ServerReceiver(input,Clients,i,MultiplayerGameState);
+				ServerReceiver ServerReceiver = new ServerReceiver(input,Clients,i,ServerGameState);
 				Thread ReceiverThread = new Thread(ServerReceiver);
 				ReceiverThread.start();
 				System.out.println("Input stream for client " + Client.getUserID() + " established.");

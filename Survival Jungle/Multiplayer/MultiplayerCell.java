@@ -7,11 +7,11 @@ import javax.swing.JPanel;
 
 import Entity.*;
 
-import Local.Particle;
 import java.util.ArrayList;
 
 public class MultiplayerCell {
 
+	public static ArrayList<MultiplayerCell> serverCells = new ArrayList<MultiplayerCell>();
 	public static ArrayList<MultiplayerCell> cells = new ArrayList<MultiplayerCell>();
 	public static ArrayList<Player> level = new ArrayList<Player>();
 	public static int cellCount;
@@ -30,7 +30,7 @@ public class MultiplayerCell {
 	public int id;
 
 	MultiplayerCell target; // AI use..
-	Particle pTarget; // AI use..
+	MultiplayerParticle pTarget; // AI use..
 
 	boolean isTarget = false;
 	String targetType = "p"; // to determine it is food or not.
@@ -43,6 +43,7 @@ public class MultiplayerCell {
 	boolean goalReached = true;
 
 	public MultiplayerCell(int id, String name, double x, double y, boolean isPlayer) {
+		initLevel();
 		this.id = id;
 		this.name = name;
 		this.x = x;
@@ -50,7 +51,11 @@ public class MultiplayerCell {
 
 		this.isPlayer = isPlayer;
 
-		//this.randomColor();
+		//this.randomColor();.
+		
+		this.currentExp = 0;
+		this.currentLv = level.get(levelNum);
+		this.currentHp = currentLv.getHealth();
 
 		cellCount++;
 	}
@@ -145,62 +150,13 @@ public class MultiplayerCell {
 //				boundsOut(cell);
 			}
 		}
-		if (!isPlayer) {
-			if (goalReached) {
-				if (returnNearestCell() > -1) {
-					if (!isTarget) {
-						target = cells.get(returnNearestCell());
-						isTarget = true;
-						targetType = "c";
-					} else if (isTarget && targetType.equals("c")) {
-						targetType = "n";
-						isTarget = false;
-					}
-				} else if (returnNearestCell() == -1) {
-					if (!isTarget) {
-						pTarget = Particle.particles.get(returnNearestP());
-						isTarget = true;
-						targetType = "p";
-					} else if (isTarget) {
-						targetType = "n";
-						isTarget = false;
-					}
-				}
-				goalReached = false;
-			} else {
-				double dx = 0;
-				double dy = 0;
-				if (targetType.equals("c")) {
-					if (returnNearestCell() > -1) {
-						target = cells.get(returnNearestCell());
-						dx = (target.x - this.x);
-						dy = (target.y - this.y);
-					} else {
-						goalReached = true;
-					}
-				} else if (targetType.equals("p")) {
-					pTarget = Particle.particles.get(returnNearestP());
-					dx = (pTarget.x - this.x);
-					dy = (pTarget.y - this.y);
-				} else {
-					goalReached = true;
-				}
-				double distance = Math.sqrt((dx) * (dx) + (dy) * (dy));
-				if (distance > 1) {
-					x += (dx) / distance * speed;
-					y += (dy) / distance * speed;
-				} else if (distance <= 1) {
-					goalReached = true;
-				}
 
-			}
-		} else {
-			double dx = (goalX - this.x);
-			double dy = (goalY - this.y);
-			this.x += (dx) * 1 / 50;
-			this.y += (dy) * 1 / 50;
-			// addMass(10);
-		}
+		double dx = (goalX - this.x);
+		double dy = (goalY - this.y);
+		this.x += (dx) * 1 / 50;
+		this.y += (dy) * 1 / 50;
+		// addMass(10);
+
 	}
 
 	public void getMouseX(int mx) {
@@ -228,43 +184,7 @@ public class MultiplayerCell {
 		}
 	}
 
-	public int returnNearestCell() {
 
-		int x = 0;
-		int distance = 9999999;
-		int min = distance;
-		int max = 200;
-		for (MultiplayerCell cell : cells) {
-			if (this != cell) {
-				distance = (int) Math
-						.sqrt((this.x - cell.x) * (this.x - cell.x) + (cell.y - this.y) * (cell.y - this.y));
-				if (distance < min && distance <= max && this.levelNum > cell.levelNum) {
-					min = distance;
-					x = cells.indexOf(cell);
-				} else if (distance < min && this.levelNum < cell.levelNum) {
-					x = -1;
-				}
-			}
-		}
-		return x;
-	}
-
-	public int returnNearestP() {
-
-		int x = 0;
-		int distance = 99999999;
-		int min = distance;
-
-		for (Particle p : Particle.particles) {
-			distance = (int) Math.sqrt((this.x - p.x) * (this.x - p.x) + (this.y - p.y) * (this.y - p.y));
-			if (distance < min) { // particle level
-				min = distance;
-				x = Particle.particles.indexOf(p);
-			}
-		}
-
-		return x;
-	}
 
 	// the HP value is reached.
 	public void respawn(MultiplayerCell cell) {
