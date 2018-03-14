@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 public class Mud {
+	public static ArrayList<Mud> serverMuds = new ArrayList<Mud>();
+
 	public static ArrayList<Mud> muds = new ArrayList<Mud>();
 	public static int mudCount;
 	protected String img; 

@@ -14,6 +14,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 public class Pool {
+	
+		public static ArrayList<Pool> serverPools = new ArrayList<Pool>();
+
 		public static ArrayList<Pool> pools = new ArrayList<Pool>();
 		public static int poolCount;
 		protected String img; 

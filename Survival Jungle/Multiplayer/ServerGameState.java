@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import Entity.foodonMap;
+import Local.Forest;
+import Local.Mud;
+import Local.Particle;
+import Local.Pool;
 import Network.Network;
 import Network.Server.Client;
 
@@ -50,30 +55,83 @@ public class ServerGameState implements ActionListener{
 				}
 				int x = (int) Math.floor(Math.random() * 10001);
 				int y = (int) Math.floor(Math.random() * 2801);
-				MultiplayerCell c = new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(),x , y, isPlayer); 
+				MultiplayerCell c = new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(),x , y, isPlayer);
+				c.goalX = x;
+				c.goalY = y;
 				MultiplayerCell.serverCells.add(c);
 				// CELLADD:ID:X:Y:HP:SCORE
 				Network.sendAsServer("CELLADD:" + Clients.get(i).getUserID() + ":" + x + ":" + y + ":" + c.currentHp + ":" + c.currentExp);
 				// Send as server to all
 			}
 			
-			if (MultiplayerParticle.particleCount < 500) {
+			if (MultiplayerParticle.particleCount < 500) {	// generate food
 				String message = "FOODADD:";
-				while (MultiplayerParticle.particleCount < 500) {	// generate food
+				while (MultiplayerParticle.particleCount < 500){
 					int x = (int) Math.floor(Math.random() * 10001);
 					int y = (int) Math.floor(Math.random() * 10001);
-					MultiplayerParticle.particles.add(new MultiplayerParticle(x, y, 1, false));
-					message = message + x + ":" + y + ":";
-					// add to server queue
+					String imgBread=foodonMap.getBread();
+					MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgBread));
+					// FOODADD:X:Y:B
+					message = message + x + ":" + y + ":B" + ":";
+					
+					x = (int) Math.floor(Math.random() * 10001);
+					y = (int) Math.floor(Math.random() * 10001);
+					String imgCheese=foodonMap.getCheese();
+					MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgCheese));
+					// FOODADD:X:Y:C
+					message = message + x + ":" + y + ":C" + ":";
+
+					
+					x = (int) Math.floor(Math.random() * 10001);
+					y = (int) Math.floor(Math.random() * 10001);
+					String imgSteak=foodonMap.getSteak();
+					MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgSteak));
+					//FOODADD:X:Y:S
+					message = message + x + ":" + y + ":S" + ":";
+				}
+				Network.sendAsServer(message);			
+			}
+			
+			if (Forest.forestCount < 500) {
+				String message = "FORESTADD:";
+				while (Forest.forestCount < 500) {
+					int x = (int) Math.floor(Math.random() * 10001);
+					int y = (int) Math.floor(Math.random() * 10001);
+					Forest.serverForests.add(new Forest(x, y,400));
+					message = message + x + ":" + y + ":" ;
 				}
 				Network.sendAsServer(message);
 			}
+			
+			if (Pool.poolCount < 500) {
+				String message = "POOLADD:";
+				while (Pool.poolCount < 500) {
+					int x = (int) Math.floor(Math.random() * 10001);
+					int y = (int) Math.floor(Math.random() * 10001);
+					Pool.serverPools.add(new Pool(x,y,400));
+					message = message + x + ":" + y + ":" ;
+				}
+				Network.sendAsServer(message);
+
+			}
+			
+			if (Mud.mudCount < 500) {
+				String message = "MUDADD:";
+				while (Mud.mudCount < 500) {
+					int x = (int) Math.floor(Math.random() * 10001);
+					int y = (int) Math.floor(Math.random() * 10001);
+					Mud.serverMuds.add(new Mud(x,y,400));
+					message = message + x + ":" + y + ":" ;
+				}
+				Network.sendAsServer(message);
+			}
+			
 			
 			String message= "GAMESTATE:";
 			for (Client Client : Clients) {
 				MultiplayerCell Cell = searchCell(Client.getUserID());
 				// GAMESTATE:ID:X:Y:HP:SCORE
-				message = message + Client.getUserID() + ":" + Cell.x + ":" + Cell.y + ":" + Cell.currentHp + ":" + Cell.currentExp;
+				message = message + Client.getUserID() + ":" + Cell.goalX + ":" + Cell.goalY + ":" + Cell.currentHp + ":" + Cell.currentExp;
 			}
 			
 			Network.sendAsServer(message);

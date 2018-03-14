@@ -54,9 +54,9 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 		
 
 		// while not connected
-		while(!Network.getIsConnected()) {
-			System.out.println("Connecting to server...");
-		}
+//		while(!Network.getIsConnected()) {
+//			System.out.println("Connecting to server...");
+//		}
 		
 		setPreferredSize(new Dimension(800, 600));	// can use setSize() if component's parent has no layout manager
 		setDoubleBuffered(true);	// Sets whether this component should use a buffer to paint

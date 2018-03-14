@@ -5,16 +5,20 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Audio.Audio_player;
 import Entity.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MultiplayerCell {
 
-	public static ArrayList<MultiplayerCell> serverCells = new ArrayList<MultiplayerCell>();
 	public static ArrayList<MultiplayerCell> cells = new ArrayList<MultiplayerCell>();
+	public static ArrayList<MultiplayerCell> serverCells = new ArrayList<MultiplayerCell>();
+	public int id;
 	public static ArrayList<Player> level = new ArrayList<Player>();
 	public static int cellCount;
+
 	public Player currentLv; // Type: Player --> get the current Level animal.
 	public int levelNum = 0; // Type : int --> change while level up / down.
 	public String name; // player name
@@ -26,11 +30,8 @@ public class MultiplayerCell {
 	boolean isPlayer = false;
 	int centre_x;
 	int centre_y;
-	
-	public int id;
 
-	MultiplayerCell target; // AI use..
-	MultiplayerParticle pTarget; // AI use..
+	public int index=0;
 
 	boolean isTarget = false;
 	String targetType = "p"; // to determine it is food or not.
@@ -38,26 +39,35 @@ public class MultiplayerCell {
 	public double x; // each cell x-coordinate
 	public double y; // each cell y-coordinate
 
-	public double goalX; // target x-coordinate.
-	public double goalY;
+	public double goalX, goalY; // target x-coordinate.
 	boolean goalReached = true;
 
+	double colX, colY;
+	boolean colRached = false;
+	int colCount = 0;
+	MultiplayerCell colCell;
+
+	private HashMap<String, Audio_player> sfx;
+
+	
 	public MultiplayerCell(int id, String name, double x, double y, boolean isPlayer) {
 		initLevel();
 		this.id = id;
 		this.name = name;
 		this.x = x;
 		this.y = y;
-
 		this.isPlayer = isPlayer;
-
-		//this.randomColor();.
-		
+		// this.randomColor();
 		this.currentExp = 0;
 		this.currentLv = level.get(levelNum);
 		this.currentHp = currentLv.getHealth();
-
 		cellCount++;
+		 
+		//add audio
+		sfx = new HashMap<String, Audio_player>();
+		sfx.put("exdown",new Audio_player("/Audio/exdown.mp3"));
+		sfx.put("exup",new Audio_player("/Audio/exup.mp3"));
+
 	}
 	
 	public MultiplayerCell(int id, String name, double x, double y, boolean isPlayer, int currentHP , int currentExp) {
@@ -66,18 +76,18 @@ public class MultiplayerCell {
 		this.name = name;
 		this.x = x;
 		this.y = y;
-		this.currentHp = currentHP;
-		this.currentExp = currentExp;
-		
 		this.isPlayer = isPlayer;
-
-		//this.randomColor();.
-		
-		this.currentExp = 0;
+		// this.randomColor();
+		this.currentExp = currentExp;
 		this.currentLv = level.get(levelNum);
-		this.currentHp = currentLv.getHealth();
-
+		this.currentHp = currentHP;
 		cellCount++;
+		 
+		//add audio
+		sfx = new HashMap<String, Audio_player>();
+		sfx.put("exdown",new Audio_player("/Audio/exdown.mp3"));
+		sfx.put("exup",new Audio_player("/Audio/exup.mp3"));
+
 	}
 
 	// set the level array list.
@@ -98,31 +108,52 @@ public class MultiplayerCell {
 	}
 
 	public void addExp(int exp, MultiplayerCell cell) {
-		cell.currentExp += exp;
-		if (cell.currentExp == cell.currentLv.getExp()) {
-			levelUp(cell);
+		if (cell.levelNum == 7 && currentExp >= cell.currentLv.getExp()) {
+
+		} else {
+			cell.currentExp += exp;
+			if (cell.currentExp == cell.currentLv.getExp()) {
+				levelUp(cell);
+				//play audio
+				sfx.get("exup").play();
+			}
 		}
-
-		// if (currentExp > currentLv.getExp()) {
-		// currentLv = level.get(++levelNum);
-		// currentExp = 0;
-		// }
 	}
-
+//	Test!!!!!!!!!!!!!!!!!!!!!!!
+	public void reduceHp(double hp, MultiplayerCell cell) {
+		
+//		if(cell.currentHp>0) {
+			cell.currentHp-=hp;
+			if(cell.currentHp<=30) {
+				cell.currentHp=30;
+			}
+			if(cell.currentHp==0) {
+				die(cell,this);
+			}
+//		}
+	}
 	public void levelUp(MultiplayerCell cell) {
-		if (cell.currentLv instanceof Elephant) {
+		if (cell.levelNum == 7) {
 			cell.currentLv = level.get(7);
 		} else {
 			cell.currentLv = level.get(++levelNum);
 			cell.currentExp = 0;
 			cell.currentHp = cell.currentLv.getHealth();
+			//play audio
+			sfx.get("exup").play();
 		}
+	}
+
+	public void levelUp_m_eat_e(MultiplayerCell cell) {
+		cell.levelNum = 3;
+		cell.currentLv = level.get(cell.levelNum);
+		cell.currentExp = 0;
+		cell.currentHp = cell.currentLv.getHealth();
 	}
 
 	public void die(MultiplayerCell cell, MultiplayerCell winner) {
 		int expAdd = cell.currentExp + cell.currentLv.getAddUpExp();
 		addExp(expAdd, winner);
-		// winner.currentExp += expAdd;
 		cell.levelNum = 0;
 		cell.currentLv = level.get(cell.levelNum);
 		cell.currentHp = cell.currentLv.getHealth();
@@ -130,54 +161,55 @@ public class MultiplayerCell {
 		respawn(cell);
 	}
 	
-
 	public void downgrade(MultiplayerCell cell) {
 		cell.levelNum = cell.levelNum - 1;
 		cell.currentLv = level.get(cell.levelNum);
 		cell.currentHp = cell.currentLv.getHealth();
 		cell.currentExp = 0;
+		respawn(cell);
+		//play audio
+		sfx.get("exdown").play();
 	}
 
 	public void Update() {
-		if (this.levelNum > 7) { // not working!!!! elephant will become mouse
-									// again~
-			this.levelNum = 7;
-		}
-		// in case it grow out of bound.
 		if (this.currentExp >= this.currentLv.getExp()) {
-			this.levelNum += 1;
-			this.currentLv = level.get(levelNum);
+			levelUp(this);
 		}
-
+		// check whether elephant or mouse..<-- special case
 		for (MultiplayerCell cell : cells) {
 			if (this.checkCollide(cell)) {
-				if (this.levelNum > cell.levelNum) { // attacker level > cell
-														// level
-					cell.currentHp -= this.currentLv.getAttack(); // cell Health
-																	// value -=
-																	// attacker
-																	// attackValue
+				this.colRached = true;
+				this.colCount = 0;
+				boundsOut(cell);
+				colCell = cell;
+
+				if (this.levelNum > cell.levelNum) {
+					if (this.levelNum == 7 && cell.levelNum == 0) {
+						this.currentHp -= cell.currentLv.getAttack();
+						if (this.currentHp <= 0) {
+							downgrade(this);
+							levelUp_m_eat_e(cell);
+
+						}
+					}
+					cell.currentHp -= this.currentLv.getAttack();
+
 					if (cell.currentHp <= 0) { // HP <= 0 die
 						if (cell.levelNum == 0) {
-							// addExp(this);
-							// this.currentExp += cell.currentExp;
 							die(cell, this);
 						} else {
 							downgrade(cell);
-							boundsOut(cell);
 						}
 					}
 				}
-//				boundsOut(cell);
 			}
 		}
-
+		
 		double dx = (goalX - this.x);
 		double dy = (goalY - this.y);
 		this.x += (dx) * 1 / 50;
 		this.y += (dy) * 1 / 50;
-		// addMass(10);
-
+		
 	}
 
 	public void getMouseX(int mx) {
@@ -187,24 +219,37 @@ public class MultiplayerCell {
 	public void getMouseY(int my) {
 		goalY = my;
 	}
+	
 
 	public void boundsOut(MultiplayerCell cell) {
+		int distance = 150;
 		if (this.x < cell.x) {
-			this.x -= 5;
-			cell.x += 5;
-		} else {
-			this.x += 5;
-			cell.x -= 5;
+			this.colX = this.x - distance;
+			cell.colX = cell.x + distance;
+		} else if (this.x > cell.x){
+			this.colX = this.x + distance;
+			cell.colX = cell.x - distance;
 		}
 		if (this.y < cell.y) {
-			this.y -= 5;
-			cell.y += 5;
-		} else {
-			this.y += 5;
-			cell.y -= 5;
+			this.colY = this.y - distance;
+			this.colY = cell.y + distance;
+		} else if (this.y > cell.y){
+			this.colY = this.y + distance;
+			cell.colY = cell.y - distance;
 		}
 	}
-
+	
+	public void collision() { 
+		double dx = (this.colX - this.x);
+		double dy = (this.colY - this.y);
+		this.x += (dx) * 1 / 100;
+		this.y += (dy) * 1 / 100;
+		if (colCount > 30) {
+			colCount = 0;
+			colRached = false;
+		}
+		colCount++;
+	}
 
 
 	// the HP value is reached.
@@ -216,49 +261,41 @@ public class MultiplayerCell {
 	}
 
 	// collision
+
 	public boolean checkCollide(MultiplayerCell cell) {
-		// Math.sqrt((x2 �? x1)^2 + (y2 �? y1)^2)
+		if (this.name.equals(cell.name)) {
+			return false;
+		}
+		// Math.sqrt((x2 鈭� x1)^2 + (y2 鈭� y1)^2)
 		double centre_x1 = this.x + 50;
 		double centre_y1 = this.y + 50;
 		double centre_x2 = cell.x + 50;
 		double centre_y2 = cell.y + 50;
 		double distance = Math.sqrt(Math.pow((centre_x1 - centre_x2), 2) + Math.pow((centre_y1 - centre_y2), 2));
-		return distance < 100;
-		// return (((this.x + 50) - (cell.x + 50)) < 100 || ((this.y + 50) -
-		// (cell.y +
-		// 50)) < 100
-		// || ((cell.x + 50) - (this.x + 50)) < 100 || ((cell.y + 50) - (this.y
-		// + 50)) <
-		// 100);
-		/*
-		 * if this.cell centre(x,y) and cell centre(x,y) distance > this.cell
-		 * radius + cell.radius then they collided.
-		 */
-		// return x < this.x + this.size && x + mass > this.x && y < this.y +
-		// this.size
-		// && y + mass > this.y;
+		return distance < 85;
+
 	}
 
 	public void Draw(Graphics bbg, JPanel jpanel) {
-		// bbg.setColor(cellColor);
 		Player player = currentLv;
 		bbg.drawImage(player.getImage(), (int) x, (int) y, (int) size, (int) size, jpanel);
 		bbg.setColor(Color.BLACK);
 		bbg.drawString(name, ((int) x + (int) size / 2 - name.length() * 3),
-				((int) y + (int) size / 2 + name.length()));
+				((int) y + (int) size / 2 + name.length())-60);
 		// draw the hp bar but n
-		bbg.drawString(currentHp + "/ " + player.getHealth(), (int) x, (int) y - 20);
-		// draw the exp bar but without scaled.
-		bbg.drawRect((int) x, (int) y + 60, 100, 10);
-		bbg.setColor(Color.YELLOW);
-		if (this.name == "Bruce") {
-			System.out.println("current:" + currentExp);
-			System.out.println("Scaled current:" + (int) ((float) currentExp / player.getExp()) * 100);
-		}
-
-		bbg.fillRect((int) x, (int) y + 60, (int) (((float) currentExp / player.getExp()) * 100), 10);
+		// bbg.drawString(currentHp + "/ " + player.getHealth(), (int) x, (int) y - 20);
+		bbg.drawRect((int) x, (int) y + 100, 100, 10);
+		bbg.setColor(Color.RED);
+		bbg.fillRect((int) x, (int) y + 100, (int) (((float) currentHp / player.getHealth()) * 100), 10);
 		bbg.setColor(Color.BLACK);
-		bbg.drawString("Exp:", ((int) x - 50), (int) y + 60);
+		bbg.drawString("HP:", ((int) x - 30), (int) y + 110);
+
+		// draw the exp bar but without scaled.
+		bbg.drawRect((int) x, (int) y + 120, 100, 10);
+		bbg.setColor(Color.YELLOW);
+		bbg.fillRect((int) x, (int) y + 120, (int) (((float) currentExp / player.getExp()) * 100), 10);
+		bbg.setColor(Color.BLACK);
+		bbg.drawString("Exp:", ((int) x - 30), (int) y + 130);
 	}
 
 }

@@ -1,56 +1,56 @@
-package AI;
-import java.awt.Color;  
-import java.awt.Graphics;  
-import java.awt.Point;  
-import java.util.Random;  
-import java.awt.Color;  
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Random; 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-
-import Entity.Player;
-
-//Ëæ»úÉèÖÃwater³öÏÖµÄÎ»ÖÃ£¬²¢ÇÒÔÚÏûÊ§ºó½øÐÐË¢ÐÂ
-public class Food extends JFrame {
-	//½èÓÃÆäËûÀà
-	private GamePanel gamepanel;
-	private Player player;
-	//Ð¡Çò×ÔÉíÐÔÖÊ
-	public Point location;
-	private Random rand=new Random();
-	public ArrayList<Food> ball =new ArrayList<Food>();	//½¨Á¢·ÅÊ³ÎïÇòµÄÈÝÆ÷
-	public Food(GamePanel gp, Player p) {
-		gamepanel=gp;
-		player=p;
-//		x=rand.nextInt(800);
-//		y=rand.nextInt(600);
-		location=new Point(Math.abs(rand.nextInt(gp.getWidth())%gamepanel.getWidth()),Math.abs(rand.nextInt(gp.getHeight())%gamepanel.getHeight()));  
-//		size=new Point(60,60);
-	}
-	
-//	private Image food;
-	public void drawFood(Graphics g) {
-		g.setColor(Color.RED);  
-		int d=30;
-		g.fillOval(location.x, location.y, d, d);  
-
-	}
-	public void drawWater(Graphics g) {
-		g.setColor(Color.BLUE);  
-		int d=30;
-		g.fillOval(location.x, location.y, d, d);  
-
-	}
-//		food=new ImageIcon().getImage();
-	public void regenerate() {
-		if((player.getX()-location.x)*(player.getX()-location.x)+(player.getY()-location.y)*(player.getY()-location.y)<(player.getDegree()*player.getDegree())){  
-            //ÈôÌ°³ÔÉßµÄÉßÍ·ÓëÊ³Îï·¢ÉúÅö×²£¬ÔòËæ»úÉú³ÉÐÂµÄÊ³ÎïÎ»ÖÃ  
-            location=new Point(Math.abs(rand.nextInt(gp.getWidth())%gamepanel.getWidth()),Math.abs(rand.nextInt(gp.getHeight())%gamepanel.getHeight()));  
-            
-        }               
-	}
-}
+//package AI;
+//import java.awt.Color;  
+//import java.awt.Graphics;  
+//import java.awt.Point;  
+//import java.util.Random;  
+//import java.awt.Color;  
+//import java.awt.Graphics;
+//import java.awt.Image;
+//import java.awt.Point;
+//import java.util.ArrayList;
+//import java.util.Random; 
+//import javax.swing.ImageIcon;
+//import javax.swing.JFrame;
+//
+//import Entity.Player;
+//
+////ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½waterï¿½ï¿½ï¿½Öµï¿½Î»ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½
+//public class Food extends JFrame {
+//	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	private GamePanel gamepanel;
+//	private Player player;
+//	//Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	public Point location;
+//	private Random rand=new Random();
+//	public ArrayList<Food> ball =new ArrayList<Food>();	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	public Food(GamePanel gp, Player p) {
+//		gamepanel=gp;
+//		player=p;
+////		x=rand.nextInt(800);
+////		y=rand.nextInt(600);
+//		location=new Point(Math.abs(rand.nextInt(gp.getWidth())%gamepanel.getWidth()),Math.abs(rand.nextInt(gp.getHeight())%gamepanel.getHeight()));  
+////		size=new Point(60,60);
+//	}
+//	
+////	private Image food;
+//	public void drawFood(Graphics g) {
+//		g.setColor(Color.RED);  
+//		int d=30;
+//		g.fillOval(location.x, location.y, d, d);  
+//
+//	}
+//	public void drawWater(Graphics g) {
+//		g.setColor(Color.BLUE);  
+//		int d=30;
+//		g.fillOval(location.x, location.y, d, d);  
+//
+//	}
+////		food=new ImageIcon().getImage();
+//	public void regenerate() {
+//		if((player.getX()-location.x)*(player.getX()-location.x)+(player.getY()-location.y)*(player.getY()-location.y)<(player.getDegree()*player.getDegree())){  
+//            //ï¿½ï¿½Ì°ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½Í·ï¿½ï¿½Ê³ï¿½ï·¢ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Ê³ï¿½ï¿½Î»ï¿½ï¿½  
+//            location=new Point(Math.abs(rand.nextInt(gp.getWidth())%gamepanel.getWidth()),Math.abs(rand.nextInt(gp.getHeight())%gamepanel.getHeight()));  
+//            
+//        }               
+//	}
+//}

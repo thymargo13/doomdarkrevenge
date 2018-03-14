@@ -48,10 +48,25 @@ public class Button extends JButton {
 		addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//remove Menu panel and get OnlineBoard panel
-				OnlineBoard ob = new OnlineBoard(bgPanel);
-				bgPanel.remove(0);
-				bgPanel.add(ob, 0);
+//				OnlineBoard ob = new OnlineBoard(bgPanel);
+//				bgPanel.remove(0);
+//				bgPanel.add(ob, 0);
 					//bgPanel.getComponent(0).setVisible(false);
+				
+				
+				JFrame jf = (JFrame) getRootPane().getParent();
+				try {
+					Command functionCmd = (Command) Class.forName("Command." + cmd[panel]).newInstance();
+					
+					jf.setContentPane(functionCmd.execute());
+
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				} // jump to next panel
+				jf.setVisible(true);
+				JPanel imagePanel = (JPanel) jf.getContentPane();
+				imagePanel.setOpaque(false);
+				
 					
 				}
 				// bthPanel.setVisible(false);

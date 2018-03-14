@@ -54,6 +54,8 @@ public class ServerReceiver implements Runnable {
 	public void processMessage(String data) {
 		if (data.length() > 0) {
 			String[] message = data.split(":");
+			MultiplayerCell cell = searchCell(Integer.parseInt(message[1]));
+
 			switch (message[0]) {
 				case "NAME":
 					//Sample Message : "NAME:ID:USERNAME"
@@ -62,13 +64,12 @@ public class ServerReceiver implements Runnable {
 					break;
 				case "MOVE":
 					//Sample Message : "MOVE:ID:X:Y"
-					MultiplayerCell cell = searchCell(Integer.parseInt(message[1]));
 					cell.goalX = Double.parseDouble(message[2]);
 					cell.goalY = Double.parseDouble(message[3]);
 					break;
 				case "SCORE":
 					// Sample Message : "SCORE:ID:MASS"
-					// cell.addExp(exp, cell); = Double.parseDouble(message[2]);
+					 cell.addExp(Integer.parseInt(message[2]), cell);
 					break;
 				default:
 					break;

@@ -8,11 +8,11 @@ import Network.Server.*;
 
 public class ClientReceiver implements Runnable{
 	private BufferedReader input;
-	private ClientGameState MultiplayerGameState = null;
+	private ClientGameState ClientGameState = null;
 	
 	ClientReceiver(BufferedReader input, ClientGameState MultiplayerGameState){
 		this.input = input;
-		this.MultiplayerGameState = MultiplayerGameState;
+		this.ClientGameState = MultiplayerGameState;
 	}
 	String message;
 	public void run(){
@@ -39,52 +39,64 @@ public class ClientReceiver implements Runnable{
 					break;
 				case "CLIENTID":
 					//Sample Message : "CLIENTID:ID"
-					MultiplayerGameState.Clients.get(0).setUserID(Integer.parseInt(message[1]));
-					MultiplayerGameState.Clients.get(0).sendMessage("NAME:" + message[1] + ":" + MultiplayerGameState.Clients.get(0).getUsername());
+					ClientGameState.Clients.get(0).setUserID(Integer.parseInt(message[1]));
+					ClientGameState.Clients.get(0).sendMessage("NAME:" + message[1] + ":" + ClientGameState.Clients.get(0).getUsername());
 					break;
 				case "CLIENTLIST":
 					//Sample Message : "CLIENTLIST:ID:USERNAME"
 					for (int i = 1; i < message.length; i = i + 2) {
-						MultiplayerGameState.Clients.add(new Client(Integer.parseInt(message[i]), message[i+1]));
+						ClientGameState.Clients.add(new Client(Integer.parseInt(message[i]), message[i+1]));
 					}
 					break;
 				case "FOODADD":
-					//Sample Message : "FOODADD:X:Y"
-					for (int i = 1; i < message.length; i = i + 2) {
-						MultiplayerGameState.generateFood(Integer.parseInt(message[i]), Integer.parseInt(message[i+1]));
+					//Sample Message : "FOODADD:X:Y:B/C/S"
+					for (int i = 1; i < message.length; i = i + 3) {
+						ClientGameState.generateFood(Integer.parseInt(message[i]), Integer.parseInt(message[i+1]), message[i+2].charAt(0));
 					}
 					break;
 				case "CELLADD":
 					// CELLADD:ID:X:Y:HP:SCORE
-					// Looping
 					for (int i = 1; i < message.length; i = i + 5) {
-					
-						if (Integer.parseInt(message[1]) == MultiplayerGameState.Clients.get(0).getUserID()) {
+						if (Integer.parseInt(message[1]) == ClientGameState.Clients.get(0).getUserID()) {
 							MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), searchClients(Integer.parseInt(message[i])).getUsername() ,Double.parseDouble(message[1+1]) , Double.parseDouble(message[i+2]), true, Integer.parseInt(message[i+3]), Integer.parseInt(message[i+4]) ));
 						} else {
 							MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), searchClients(Integer.parseInt(message[i])).getUsername() ,Double.parseDouble(message[1+1]) , Double.parseDouble(message[i+2]), false, Integer.parseInt(message[i+3]), Integer.parseInt(message[i+4]) ));
 						}
 					}
 					break;
+				case "FORESTADD":
+					// FORESTADD:X:Y
+					for (int i = 1; i < message.length; i = i + 2) {
+						ClientGameState.generateForest(Integer.parseInt(message[i]), Integer.parseInt(message[i+1]));
+					}					
+					break;
+				case "POOLADD":
+					// FORESTADD:X:Y
+					for (int i = 1; i < message.length; i = i + 2) {
+						ClientGameState.generatePool(Integer.parseInt(message[i]), Integer.parseInt(message[i+1]));
+					}					
+					break;
+				case "MUDADD":
+					// FORESTADD:X:Y
+					for (int i = 1; i < message.length; i = i + 2) {
+						ClientGameState.generateMud(Integer.parseInt(message[i]), Integer.parseInt(message[i+1]));
+					}					
+					break;
+					
+					
 				case "GAMESTATE":
 					// GAMESTATE:ID:X:Y:HP:SCORE
-//					for (int i = 1; i < message.length; i = i + 5) {
-//						MultiplayerCell Cell = searchCell(Integer.parseInt(message[i]));
-//						Cell.x = Double.parseDouble(message[i+1]);
-//						Cell.y = Double.parseDouble(message[i+2]);
-//						Cell.currentHp = Integer.parseInt(message[i+3]);
-//						Cell.currentExp = Integer.parseInt(message[i+4]);
-//					}
+					for (int i = 1; i < message.length; i = i + 5) {
+						if (Integer.parseInt(message[i]) == ClientGameState.Clients.get(0).getUserID())
+							continue;
+						
+						MultiplayerCell Cell = searchCell(Integer.parseInt(message[i]));
+						Cell.goalX = Double.parseDouble(message[i+1]);
+						Cell.goalY = Double.parseDouble(message[i+2]);
+						Cell.currentHp = Integer.parseInt(message[i+3]);
+						Cell.currentExp = Integer.parseInt(message[i+4]);
+					}
 					break;
-//				case "MOVE":
-//					//Sample Message : "MOVE:ID:X:Y"
-//					searchCell(Integer.parseInt(message[1])).goalX = Double.parseDouble(message[2]);
-//					searchCell(Integer.parseInt(message[1])).goalY = Double.parseDouble(message[3]);
-//					break;
-//				case "SCORE":
-//					// Sample Message : "SCORE:ID:MASS"
-//					searchCell(Integer.parseInt(message[1])).currentExp = (int) Double.parseDouble(message[2]);
-//					break;
 				default:
 					break;
 			}
@@ -92,7 +104,7 @@ public class ClientReceiver implements Runnable{
 	}
 	
 	public Client searchClients(int ClientID) {
-		for (Client Client : MultiplayerGameState.Clients) {
+		for (Client Client : ClientGameState.Clients) {
 			if (Client.getUserID() == ClientID) {
 				return Client;
 			}

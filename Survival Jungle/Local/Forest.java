@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import Entity.Player;
 
 public class Forest {
+	public static ArrayList<Forest> serverForests = new ArrayList<Forest>();
+
 	public static ArrayList<Forest> forests = new ArrayList<Forest>();
 	public static int forestCount;
 	protected String img; 

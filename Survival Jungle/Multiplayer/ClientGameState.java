@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import Audio.Audio_player;
+import Entity.foodonMap;
+import Local.Cell;
+import Local.Forest;
+import Local.Mud;
+import Local.Particle;
+import Local.Pool;
 import Network.Network;
 import Network.Server.Client;
 
@@ -33,11 +39,7 @@ public class ClientGameState {
 		this.Clients = Clients;
 		this.Network = Network;
 		isRunning = true;
-		
-//		MultiplayerData MultiplayerData = new MultiplayerData(this);
-//		Thread MultiplayerThread = new Thread(MultiplayerData);
-//		MultiplayerThread.start();
-		
+	
 		init();
 	}
 	
@@ -45,8 +47,7 @@ public class ClientGameState {
 		lb = new MultiplayerLeaderboard();
 		cam = new MultiplayerCamera(0, 0, 1, 1);
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
-		music = new Audio_player("/Audio/music.wav");
-		music.play();
+
 		}
 	
 	public void initDraw (Graphics graphics, JPanel jpanel) {	//get the graphics and panel to process draw method in here
@@ -66,11 +67,24 @@ public class ClientGameState {
 		
 		ArrayList<MultiplayerParticle> pCopy = new ArrayList<MultiplayerParticle>(MultiplayerParticle.particles);	// this should be change to food
 		for (MultiplayerParticle p : pCopy) {
-			p.Draw(bbg);
+			p.Draw(bbg,jpanel);
 		}
 
 		for (MultiplayerCell Cell : MultiplayerCell.cells) {	// this should be change to player
 			Cell.Draw(bbg, jpanel);
+		}
+			
+		ArrayList<Forest> fCopy=new ArrayList<Forest>(Forest.forests);
+		for(Forest f: fCopy) {
+			f.draw(bbg, jpanel);
+		}
+		ArrayList<Pool> poolCopy=new ArrayList<Pool>(Pool.pools);
+		for(Pool p:poolCopy) {
+			p.draw(bbg, jpanel);
+		}
+		ArrayList<Mud> mudCopy=new ArrayList<Mud>(Mud.muds);
+		for(Mud m:mudCopy) {
+			m.draw(bbg, jpanel);
 		}
 
 		cam.unset(bbg);
@@ -105,31 +119,8 @@ public class ClientGameState {
 				p.Update(this);
 			} else {
 				MultiplayerParticle.particles.remove(p);
-
-				if (!isHost) {
-					Clients.get(0).sendMessage("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).currentExp);
-				} else {
-					Network.sendAsServer("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).currentExp);
-				}
-				// add to server queue
 			}
 		}
-//		
-//		for (Iterator<Particle> it = Particle.particles.iterator(); it.hasNext();) {
-//			Particle p = it.next();
-//			if (!p.getHealth()) {	// check the food been eaten or not
-//				p.Update(true);
-//				// add to server queue
-//			} else {
-//				it.remove();
-//				if (!isHost) {
-//					Clients.get(0).sendMessage("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).mass);
-//				} else {
-//					Network.sendAsServer("SCORE:" + Clients.get(0).getUserID() + ":"+ MultiplayerCell.cells.get(0).mass);
-//				}
-//				// add to server queue
-//			}
-//		}
 				
 		for (MultiplayerCell cell : MultiplayerCell.cells) {
 			cell.Update();
@@ -137,24 +128,47 @@ public class ClientGameState {
 		
 	}
 	
-	public void generateFood(int x, int y) {
-		int mass = 1;
-		boolean p = false;
-		MultiplayerParticle.particles.add(new MultiplayerParticle(x, y, mass, p));
+	public void generateFood(int x, int y, char type) {
+	
+		switch (type){
+			case 'B':
+				String imgBread=foodonMap.getBread();
+				MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgBread));
+				break;
+			case 'C':
+				String imgCheese=foodonMap.getCheese();
+				MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgCheese));
+				break;
+			case 'S':
+				String imgSteak=foodonMap.getSteak();
+				MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgSteak));
+				break;
+			
+			default:
+				break;
+		}
+		
 	}
 	
-	public void mouseMoved(MouseEvent e) {	// update current location
+	public void generateForest(int x, int y){
+		Forest.forests.add(new Forest(x,y,400));
+	}
+	
+	public void generatePool(int x, int y){
+		Pool.pools.add(new Pool(x,y,400));
+	}
+	
+	public void generateMud(int x, int y){
+		Mud.muds.add(new Mud(x,y,400));
+	}
+	
+	public void mouseMoved(MouseEvent e) {
 		for (MultiplayerCell cell : MultiplayerCell.cells) {
-			// Multiplayer
 			if (cell.id == Clients.get(0).getUserID()){
 				cell.getMouseX((int) (e.getX() / cam.sX + cam.x));
 				cell.getMouseY((int) (e.getY() / cam.sY + cam.y));
-				// add to server queue
-				if (!isHost) {
-					Clients.get(0).sendMessage("MOVE:" + Clients.get(0).getUserID() + ":" + ((int)(e.getX() / cam.sX + cam.x)) +":" + ((int)(e.getY() / cam.sY + cam.y)));
-				} else {
-					Network.sendAsServer("MOVE:" + Clients.get(0).getUserID() + ":" + ((int)(e.getX() / cam.sX + cam.x)) +":" + ((int)(e.getY() / cam.sY + cam.y)));
-				}
+				Clients.get(0).sendMessage("MOVE:" + Clients.get(0).getUserID() + ":" + ((int)(e.getX() / cam.sX + cam.x)) +":" + ((int)(e.getY() / cam.sY + cam.y)));
+
 			}
 		}
 	}
