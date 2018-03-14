@@ -3,4 +3,10 @@
 /Button$1.class
 /Button.class
 /GameState.class
+<<<<<<< HEAD
 /Pool.class
+=======
+/Button$2.class
+/MenuStateManager.class
+/MenuState.class
+>>>>>>> UI

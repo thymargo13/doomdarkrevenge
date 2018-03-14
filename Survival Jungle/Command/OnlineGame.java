@@ -1,14 +1,23 @@
 package Command;
-
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import Main.MenuPanel;
+import Map.OnlineBoard;
 
 public class OnlineGame extends Command{
 
-	@Override
-	public JPanel execute() {
-		// TODO Auto-generated method stub
-		System.out.println("Online Game");
-		return null;
+	private JPanel onlinegame;
+	private MenuPanel panel;
+	private JFrame frame;
+	public OnlineGame() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+		onlinegame = new JPanel();
+		onlinegame.add( new OnlineBoard(panel));
+		
 	}
-
+	public JPanel execute(){
+		
+		return onlinegame;
+		
+	}
 }

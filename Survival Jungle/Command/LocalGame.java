@@ -14,12 +14,14 @@ public class LocalGame extends Command{
 	}
 	@Override
 	public JPanel execute() {
-		//add(new Board());
 		return localgame;
 		
+<<<<<<< HEAD
 //		Local local = new Local();
 //		local.run();
 //		return null;
+=======
+>>>>>>> UI
 	}
 
 }
