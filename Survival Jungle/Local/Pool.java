@@ -20,7 +20,7 @@ public class Pool {
 		protected Image image; 
 		private int x;
 		private int y;
-		private int d=400;
+		private int d=270;
 		public boolean isShot=true;
 //		BufferedImage bg = null; 
 
@@ -61,15 +61,15 @@ public class Pool {
 			}
 		}
 		private boolean checkCollide(double x, double y) {
-			double centre_x1 = x-150;
-			double centre_y1 = y-150 ;
+			double centre_x1 = x-75;
+			double centre_y1 = y-75 ;
 			//this.x & this.y is particle coordinate.
 			double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
 //			if(distance<500) {
 //				isShot=true;
 //			}
 //			System.out.println("test!!");
-			return distance < 230;
+			return distance < 150;
 //			return isShot;
 		//	return x < this.x + 10 && x + mass > this.x && y < this.y + 10 && y + mass > this.y;
 		}

@@ -136,18 +136,18 @@ public class GameState {
 		
 		//Forest&&Pool&&Mud!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		
-		if(Forest.forestCount < 500) {
+		if(Forest.forestCount < 1000) {
 	//		int dForest=Forest.getD();
 			Forest.forests.add(new Forest((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001),400));
+					(int) Math.floor(Math.random() * 10001),270));
 		}
-		if(Pool.poolCount < 500) {
+		if(Pool.poolCount < 1000) {
 				Pool.pools.add(new Pool((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001),400));
+					(int) Math.floor(Math.random() * 10001),270));
 		}
-		if(Mud.mudCount < 500) {
+		if(Mud.mudCount < 1000) {
 				Mud.muds.add(new Mud((int) Math.floor(Math.random() * 10001),
-						(int) Math.floor(Math.random() * 10001),400));
+						(int) Math.floor(Math.random() * 10001),270));
 		}
 				
 		if (!playerCreated) {	// generate player

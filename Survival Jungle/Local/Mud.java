@@ -13,7 +13,7 @@ public class Mud {
 	protected Image image; 
 	private int x;
 	private int y;
-	private int d=400;
+	private int d=270;
 	public boolean couldHide=false;
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //			(int) Math.floor(Math.random() * 256));
@@ -30,24 +30,29 @@ public class Mud {
 		for (Cell cell : Cell.cells) {
 			
 				if(checkCollide(cell.x,cell.y)) {
-					double centre_x1 = x-150 ;
-					double centre_y1 = y-150 ;
-					double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
-					if(distance<=230) {
-						cell.x-=50;
-						cell.y-=50;
-					}
+					double dx = (cell.x - this.x);
+					double dy = (cell.y - this.y);
+//					double dx = (cell.colX - this.x);
+//					double dy = (cell.colY - this.y);
+					cell.x += (dx) * 1 / 100;
+					cell.y += (dy) * 1 / 100;
+//					double centre_x1 = x-150 ;
+//					double centre_y1 = y-150 ;
+//					double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
+//					if(distance<=230) {
+//						cell.x-=50;
+//						cell.y-=50;
+//					}
 				}
 		}
 	}
 
 	private boolean checkCollide(double x, double y) {
-		double centre_x1 = x-150;
-		double centre_y1 = y-150 ;
+		double centre_x1 = x-75;
+		double centre_y1 = y-70 ;
 		//this.x & this.y is particle coordinate.
 		double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
-		return distance < 230;
-
+		return distance < 195;
 	}
 	public void draw(Graphics bbg, JPanel jpanel) {
 		Mud m= new Mud(x,y,d);
