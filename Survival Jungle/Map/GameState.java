@@ -117,10 +117,10 @@ public class GameState {
 
 		if (Cell.cellCount < 150) {	// generate NPC
 			Cell.cells.add(new Cell(("Cell " + Cell.cellCount), (int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 2801), false));
+					(int) Math.floor(Math.random() * 10001), false));
 		}
 
-		if (Particle.particleCount < 7000) {	// generate food
+		if (Particle.particleCount < 10000) {	// generate food
 			String imgBread=foodonMap.getBread();
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001), 1, false, imgBread));
@@ -141,7 +141,7 @@ public class GameState {
 			Forest.forests.add(new Forest((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001),270));
 		}
-		if(Pool.poolCount < 1000) {
+		if(Pool.poolCount < 1500) {
 				Pool.pools.add(new Pool((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001),270));
 		}

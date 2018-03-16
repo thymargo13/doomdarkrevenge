@@ -14,6 +14,7 @@ public class Mud {
 	private int x;
 	private int y;
 	private int d=270;
+	double colX, colY;
 	public boolean couldHide=false;
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //			(int) Math.floor(Math.random() * 256));
@@ -30,23 +31,30 @@ public class Mud {
 		for (Cell cell : Cell.cells) {
 			
 				if(checkCollide(cell.x,cell.y)) {
-					double dx = (cell.x - this.x);
-					double dy = (cell.y - this.y);
-//					double dx = (cell.colX - this.x);
-//					double dy = (cell.colY - this.y);
-					cell.x += (dx) * 1 / 100;
-					cell.y += (dy) * 1 / 100;
-//					double centre_x1 = x-150 ;
-//					double centre_y1 = y-150 ;
-//					double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
-//					if(distance<=230) {
-//						cell.x-=50;
-//						cell.y-=50;
-//					}
+					double dx = (this.colX - this.x);
+					double dy = (this.colY - this.y);
+					this.x += (dx) * 1 / 100;
+					this.y += (dy) * 1 / 100;
 				}
 		}
 	}
-
+	public void boundsOut(Cell cell) {
+		int distance = 100;
+		if (this.x < cell.x) {
+			this.colX = this.x - distance;
+			cell.colX = cell.x + distance;
+		} else if (this.x > cell.x){
+			this.colX = this.x + distance;
+			cell.colX = cell.x - distance;
+		}
+		if (this.y < cell.y) {
+			this.colY = this.y - distance;
+			this.colY = cell.y + distance;
+		} else if (this.y > cell.y){
+			this.colY = this.y + distance;
+			cell.colY = cell.y - distance;
+		}
+	}
 	private boolean checkCollide(double x, double y) {
 		double centre_x1 = x-75;
 		double centre_y1 = y-70 ;

@@ -20,6 +20,8 @@ public class Forest {
 	private int x;
 	private int y;
 	private int d=270;
+	int colCount = 0;
+	double colX, colY;
 	public boolean couldHide=false;	//default----->no special events
 
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
@@ -45,29 +47,49 @@ public class Forest {
 	public void Update() {
 		for (Cell cell : Cell.cells) {
 			couldHide=false;
+			this.colCount = 0;
 			if(cell.currentLv == cell.level.get(1) || cell.currentLv == cell.level.get(4) || 
 					cell.currentLv == cell.level.get(5)) {
 				couldHide=true;
 			}else {
 				couldHide=false;
 				if(checkCollide(cell.x,cell.y)) {
+					double dx = (this.colX - this.x);
+					double dy = (this.colY - this.y);
+					this.x += (dx) * 1 / 100;
+					this.y += (dy) * 1 / 100;
 //					double dx = (this.x-cell.colX);
 //					double dy = (this.y-cell.colY);
-					double dx = (cell.x - this.x);
-					double dy = (cell.y - this.y);
+//					double dx = (cell.x - this.x);
+//					double dy = (cell.y - this.y);
+//					double dx = (cell.colX - cell.x);
+//					double dy = (cell.colY - cell.y);
+//					cell.x += (dx) * 1 / 100;
+//					cell.y += (dy) * 1 / 100;
 //					double dx = (cell.colX - this.x);
 //					double dy = (cell.colY - this.y);
-					cell.x += (dx) * 1 / 100;
-					cell.y += (dy) * 1 / 100;
-//					double centre_x1 = x-150 ;
-//					double centre_y1 = y-150 ;
-//					double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
-//					if(distance<=230) {
-//						cell.x-=50;
-//						cell.y-=50;
-//					}
+//					cell.x += (dx) * 1 / 100;
+//					cell.y += (dy) * 1 / 100;
+////				
 				}
 			}
+		}
+	}
+	public void boundsOut(Cell cell) {
+		int distance = 100;
+		if (this.x < cell.x) {
+			this.colX = this.x - distance;
+			cell.colX = cell.x + distance;
+		} else if (this.x > cell.x){
+			this.colX = this.x + distance;
+			cell.colX = cell.x - distance;
+		}
+		if (this.y < cell.y) {
+			this.colY = this.y - distance;
+			this.colY = cell.y + distance;
+		} else if (this.y > cell.y){
+			this.colY = this.y + distance;
+			cell.colY = cell.y - distance;
 		}
 	}
 	private boolean checkCollide(double x, double y) {
@@ -75,7 +97,7 @@ public class Forest {
 		double centre_y1 = y-70 ;
 		//this.x & this.y is particle coordinate.
 		double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
-		return distance < 195;
+		return distance < 180;
 	}
 //	private boolean checkCollide(double x, double y) {
 //		double centre_x1 = x-150;
