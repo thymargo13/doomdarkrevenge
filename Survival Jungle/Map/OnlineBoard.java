@@ -22,7 +22,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import Command.OnlineGame;
 import Main.MenuPanel;
 import Network.Network;
 import Network.Server.Client;
