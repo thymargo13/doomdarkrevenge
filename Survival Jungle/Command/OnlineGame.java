@@ -7,17 +7,17 @@ import Map.OnlineBoard;
 
 public class OnlineGame extends Command{
 
-	private JPanel onlinegame;
-	private MenuPanel panel;
-	private JFrame frame;
-	public OnlineGame() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
-		onlinegame = new JPanel();
-		onlinegame.add( new OnlineBoard(panel));
+// 	private JPanel onlinegame;
+// 	private MenuPanel panel;
+// 	private JFrame frame;
+// 	public OnlineGame() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+// 		onlinegame = new JPanel();
+// 		onlinegame.add( new OnlineBoard(panel));
 		
-	}
-	public JPanel execute(){
+// 	}
+// 	public JPanel execute(){
 		
-		return onlinegame;
+// 		return onlinegame;
 		
-	}
+// 	}
 }
