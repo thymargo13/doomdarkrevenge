@@ -122,10 +122,10 @@ public class GameState {
 
 		if (Cell.cellCount < 150) {	// generate NPC
 			Cell.cells.add(new Cell(("Cell " + Cell.cellCount), (int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 2801), false));
+					(int) Math.floor(Math.random() * 10001), false));
 		}
 
-		if (Particle.particleCount < 7000) {	// generate food
+		if (Particle.particleCount < 10000) {	// generate food
 			String imgBread=foodonMap.getBread();
 			Particle.particles.add(new Particle((int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001), 1, false, imgBread));
@@ -141,18 +141,18 @@ public class GameState {
 		
 		//Forest&&Pool&&Mud!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		
-		if(Forest.forestCount < 500) {
+		if(Forest.forestCount < 1000) {
 	//		int dForest=Forest.getD();
 			Forest.forests.add(new Forest((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001),400));
+					(int) Math.floor(Math.random() * 10001),270));
 		}
-		if(Pool.poolCount < 500) {
+		if(Pool.poolCount < 1500) {
 				Pool.pools.add(new Pool((int) Math.floor(Math.random() * 10001),
-					(int) Math.floor(Math.random() * 10001),400));
+					(int) Math.floor(Math.random() * 10001),270));
 		}
-		if(Mud.mudCount < 500) {
+		if(Mud.mudCount < 1000) {
 				Mud.muds.add(new Mud((int) Math.floor(Math.random() * 10001),
-						(int) Math.floor(Math.random() * 10001),400));
+						(int) Math.floor(Math.random() * 10001),270));
 		}
 				
 		if (!playerCreated) {	// generate player
@@ -179,13 +179,20 @@ public class GameState {
 			}
 		}
 		
-//		for (Iterator<Mud> md = Mud.muds.iterator(); md.hasNext();) {
-//			Mud m=md.next();
-//			if (m.Hide) {	// check the food been eaten or not
-////				System.out.println("Ê§Íû");
-//				m.Update();
-//			}
-//		}
+		for (Iterator<Mud> md = Mud.muds.iterator(); md.hasNext();) {
+			Mud m=md.next();
+			for (Cell cell : Cell.cells) {
+				if(cell.currentLv == cell.level.get(0)) {
+					
+				}else {
+					m.Update();
+				}
+//				if (!m.couldHide) {	// check the food been eaten or not
+//	//				System.out.println("Ê§Íû");
+//					m.Update();
+//				}
+			}
+		}
 		for (Iterator<Particle> it = Particle.particles.iterator(); it.hasNext();) {
 			Particle p = it.next();
 			if (!p.getHealth()) {	// check the food been eaten or not

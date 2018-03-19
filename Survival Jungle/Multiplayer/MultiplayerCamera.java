@@ -1,20 +1,15 @@
-package Local;
+package Multiplayer;
 
 import java.awt.*;
-/**
- * 
- * @author hxy719@student.bham.ac.uk
- * Camera
- *
- */
-public class Camera {
+
+public class MultiplayerCamera {
 
 	public double x;
 	public double y;
 	public double sX;
 	public double sY;
 
-	public Camera(double x, double y, double sX, double sY) {
+	public MultiplayerCamera(double x, double y, double sX, double sY) {
 		this.x = x;
 		this.y = y;
 		this.sX = sX;
@@ -35,18 +30,13 @@ public class Camera {
 		Graphics2D g2 = (Graphics2D) bbg;
 		g2.translate(x, y);
 	}
-	
+
 	public void scale(double sx, double sy) {
 		sX = sx;
 		sY = sy;
 	}
 
-	/**
-	 * 
-	 * @param cell
-	 * scale the camera if cell mass increase
-	 */
-	public void Update(Cell cell) {	
+	public void Update(MultiplayerCell cell) {	// scale the camera if cell mass increase
 		double scaleFactor;
 
 		if (cell.size < 1000) {

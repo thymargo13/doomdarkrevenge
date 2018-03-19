@@ -52,7 +52,9 @@ public class Button extends JButton {
 		addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//remove Menu panel and get OnlineBoard panel
-				OnlineBoard ob = new OnlineBoard(bgPanel);
+				JFrame jf = (JFrame) getRootPane().getParent();
+
+				OnlineBoard ob = new OnlineBoard(bgPanel, jf);
 				bgPanel.remove(0);
 				bgPanel.add(ob, 0);
 					//bgPanel.getComponent(0).setVisible(false);

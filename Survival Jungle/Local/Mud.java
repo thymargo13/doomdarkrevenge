@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+/**
+ * 
+ * @author hxy719@student.bham.ac.uk
+ * Mud class----include show the Mud on the map, and the function of Mud:
+ * Mud is a similar to Forest, but it can only hide the mouse from its predator. 
+ */
 public class Mud {
 	public static ArrayList<Mud> muds = new ArrayList<Mud>();
 	public static int mudCount;
@@ -13,9 +19,17 @@ public class Mud {
 	protected Image image; 
 	private int x;
 	private int y;
-	private int d=400;
+	private int d=270;
+	double colX, colY;
+	public boolean couldHide=false;
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //			(int) Math.floor(Math.random() * 256));
+	/**
+	 * 
+	 * @param x: the x position of mud
+	 * @param y: the y position of mud
+	 * @param d: the radius of mud
+	 */
 	public Mud(int x,int y, int d) {
 		mudCount++;
 		this.x=x;
@@ -25,7 +39,56 @@ public class Mud {
 		ImageIcon ii = new ImageIcon(getClass().getResource(img));
 		this.image = ii.getImage();
 	}
-	
+	/**
+	 * Update the states of muds
+	 * and have different responses to different animals
+	 */
+	public void Update() {
+		for (Cell cell : Cell.cells) {
+			
+				if(checkCollide(cell.x,cell.y)) {
+					double dx = (this.colX - this.x);
+					double dy = (this.colY - this.y);
+					cell.x += (dx) * 1 / 100;
+					cell.y += (dy) * 1 / 100;
+				}
+		}
+	}
+	/**
+	 * 
+	 * @param cell
+	 * let the cell have different movements when collide (rebound) 
+	 */
+	public void boundsOut(Cell cell) {
+		int distance = 100;
+		if (this.x < cell.x) {
+			this.colX = this.x - distance;
+			cell.colX = cell.x + distance;
+		} else if (this.x > cell.x){
+			this.colX = this.x + distance;
+			cell.colX = cell.x - distance;
+		}
+		if (this.y < cell.y) {
+			this.colY = this.y - distance;
+			this.colY = cell.y + distance;
+		} else if (this.y > cell.y){
+			this.colY = this.y + distance;
+			cell.colY = cell.y - distance;
+		}
+	}
+	/**
+	 * 
+	 * @param x: the x position of mud
+	 * @param y: the y position of mud
+	 * @return  true/false
+	 */
+	private boolean checkCollide(double x, double y) {
+		double centre_x1 = x-75;
+		double centre_y1 = y-70 ;
+		//this.x & this.y is particle coordinate.
+		double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
+		return distance < 195;
+	}
 	public void draw(Graphics bbg, JPanel jpanel) {
 		Mud m= new Mud(x,y,d);
 		bbg.drawImage(m.getImage(),(int) x, (int) y, (int) d, (int) d, jpanel);
