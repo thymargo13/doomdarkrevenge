@@ -1,4 +1,4 @@
-package Local;
+package Multiplayer;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 
 import Entity.Player;
 
-public class Forest {
-	public static ArrayList<Forest> forests = new ArrayList<Forest>();
+public class MultiplayerForest {
+	public static ArrayList<MultiplayerForest> forests = new ArrayList<MultiplayerForest>();
 	public static int forestCount;
 	protected String img; 
 	protected Image image; 
@@ -26,7 +26,7 @@ public class Forest {
 
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //			(int) Math.floor(Math.random() * 256));
-	public Forest(int x,int y, int d) {
+	public MultiplayerForest(int x,int y, int d) {
 		forestCount++;
 		this.x=x;
 		this.y=y;
@@ -45,7 +45,7 @@ public class Forest {
 		return couldHide;
 	}
 	public void Update() {
-		for (Cell cell : Cell.cells) {
+		for (MultiplayerCell cell : MultiplayerCell.cells) {
 			couldHide=false;
 			this.colCount = 0;
 			if(cell.currentLv == cell.level.get(1) || cell.currentLv == cell.level.get(4) || 
@@ -75,7 +75,7 @@ public class Forest {
 			}
 		}
 	}
-	public void boundsOut(Cell cell) {
+	public void boundsOut(MultiplayerCell cell) {
 		int distance = 100;
 		if (this.x < cell.x) {
 			this.colX = this.x - distance;
@@ -117,7 +117,7 @@ public class Forest {
 //		this.image = ii.getImage();
 //	}
 	public void draw(Graphics bbg, JPanel jpanel) {
-		Forest f= new Forest(x,y,d);
+		MultiplayerForest f= new MultiplayerForest(x,y,d);
 		bbg.drawImage(f.getImage(),(int) x, (int) y, (int) d, (int) d, jpanel);
 	}
 	

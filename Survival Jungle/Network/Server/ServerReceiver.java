@@ -6,6 +6,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 
 import Multiplayer.MultiplayerCell;
+import Multiplayer.ServerCell;
 import Multiplayer.ServerGameState;
 
 public class ServerReceiver implements Runnable {
@@ -54,7 +55,7 @@ public class ServerReceiver implements Runnable {
 	public void processMessage(String data) {
 		if (data.length() > 0) {
 			String[] message = data.split(":");
-			MultiplayerCell cell = searchCell(Integer.parseInt(message[1]));
+			ServerCell cell = searchCell(Integer.parseInt(message[1]));
 
 			switch (message[0]) {
 				case "NAME":
@@ -69,7 +70,20 @@ public class ServerReceiver implements Runnable {
 					break;
 				case "SCORE":
 					// Sample Message : "SCORE:ID:MASS"
-					 cell.addExp(Integer.parseInt(message[2]), cell);
+					 cell.setExp(Integer.parseInt(message[2]));
+					break;
+				case "LEVEL":
+					// Sample Message : "LEVEL:ID:LEVELUP"
+					 cell.setLevel(Integer.parseInt(message[2]));
+					break;
+				case "GAMESTATE":
+					// GAMESTATE:ID:X:Y:LEVEL:HP:EXP
+					cell.goalX = Double.parseDouble(message[2]);
+					cell.goalY = Double.parseDouble(message[3]);
+					cell.levelNum = Integer.parseInt(message[4]);
+					cell.currentHp = Integer.parseInt(message[5]);
+					cell.currentExp = Integer.parseInt(message[6]);
+					
 					break;
 				default:
 					break;
@@ -100,8 +114,8 @@ public class ServerReceiver implements Runnable {
 		return null;
 	}
 	
-	public MultiplayerCell searchCell(int ClientID) {
-		for (MultiplayerCell Cell : MultiplayerCell.serverCells) {
+	public ServerCell searchCell(int ClientID) {
+		for (ServerCell Cell : ServerCell.serverCells) {
 			if (Cell.id == ClientID) {
 				return Cell;
 			}

@@ -10,7 +10,10 @@ import java.util.Iterator;
 
 import Local.Particle;
 import Multiplayer.MultiplayerCell;
+import Multiplayer.ServerForest;
 import Multiplayer.ServerGameState;
+import Multiplayer.ServerMud;
+import Multiplayer.ServerPool;
 
 public class ServerHost implements Runnable {
 	private ServerSocket ServerSocket;
@@ -50,21 +53,37 @@ public class ServerHost implements Runnable {
 					message = "CELLADD:";
 					for (MultiplayerCell c : MultiplayerCell.cells) {
 						// CELLADD:ID:X:Y:HP:SCORE
-						message= c.id + ":" + c.x +":" + c.y + ":" + c.currentHp + ":" + c.currentExp + ":";
+						message = message + c.id + ":" + c.x +":" + c.y + ":" + c.currentHp + ":" + c.currentExp + ":";
 
 					}
 					Client.sendMessage(message);
 
-					
 					message = "FOODADD";
 					for (Particle p : Particle.particles) {
 						if (!p.getHealth()) {
-							message  = message + ":" + p.x + ":" + p.y;
+							message  = message + ":" + p.x + ":" + p.y + ":";
 						}
 					}
 					Client.sendMessage(message);
+					
+					message = "FORESTADD:";
+					for (ServerForest f : ServerForest.serverForests) {
+						message = message + f.getX() + ":" + f.getY() + ":";
+					}
+					Client.sendMessage(message);
+					
+					message = "POOLADD:";
+					for (ServerPool p : ServerPool.serverPools) {
+						message = message + p.getX() + ":" + p.getY() + ":";
+					}
+					Client.sendMessage(message);
+					
+					message = "MUDADD:";
+					for (ServerMud m : ServerMud.serverMuds) {
+						message = message + m.getX() + ":" + m.getY() + ":";
+					}
+					Client.sendMessage(message);
 				}
-				
 				
 				ServerSender ServerSender = new ServerSender(output,i);
 				Thread SenderThread = new Thread(ServerSender);

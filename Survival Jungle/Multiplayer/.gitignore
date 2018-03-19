@@ -26,3 +26,14 @@
 /ClientGameState.class
 /ClientGameState2.class
 /ServerData.class
+/Forest.class
+/Mud.class
+/Pool.class
+/MultiplayerForest.class
+/MultiplayerMud.class
+/MultiplayerPool.class
+/ServerForest.class
+/ServerMud.class
+/ServerPool.class
+/ServerParticle.class
+/ServerCell.class

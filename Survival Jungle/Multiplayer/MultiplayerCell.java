@@ -27,7 +27,7 @@ public class MultiplayerCell {
 	public int currentHp; // instant health value
 	int size = 100;
 	int speed = 1;
-	boolean isPlayer = false;
+	public boolean isPlayer = false;
 	int centre_x;
 	int centre_y;
 
@@ -46,6 +46,8 @@ public class MultiplayerCell {
 	boolean colRached = false;
 	int colCount = 0;
 	MultiplayerCell colCell;
+	
+	ClientGameState ClientGameState;
 
 	private HashMap<String, Audio_player> sfx;
 
@@ -132,6 +134,34 @@ public class MultiplayerCell {
 			}
 //		}
 	}
+	
+	public void setLevel(int levelnum) {
+		this.levelNum = levelnum;
+		if (this.currentLv.getLevel() > levelnum) {
+			sfx.get("exdown").play();
+			this.currentLv = level.get(levelnum);
+			this.currentExp = 0;
+			this.currentHp = this.currentLv.getHealth();
+		} else if (this.currentLv.getLevel() < levelnum){
+			sfx.get("exup").play();
+			this.currentLv = level.get(levelnum);
+			this.currentExp = 0;
+			this.currentHp = this.currentLv.getHealth();
+		} else if (this.currentLv.getLevel() == levelnum){
+			
+		}
+	}
+	
+	public void updateCell(double x, double y, int levelnum, int hp, int exp){
+		this.goalX = x;
+		this.goalY = y;
+		this.levelNum = levelnum;
+		setLevel(levelnum);
+		this.currentHp = hp;
+		this.currentExp = exp;
+		// GAMESTATE:ID:X:Y:LEVEL:HP:EXP
+	}
+	
 	public void levelUp(MultiplayerCell cell) {
 		if (cell.levelNum == 7) {
 			cell.currentLv = level.get(7);
@@ -139,6 +169,7 @@ public class MultiplayerCell {
 			cell.currentLv = level.get(++levelNum);
 			cell.currentExp = 0;
 			cell.currentHp = cell.currentLv.getHealth();
+			
 			//play audio
 			sfx.get("exup").play();
 		}
@@ -171,7 +202,8 @@ public class MultiplayerCell {
 		sfx.get("exdown").play();
 	}
 
-	public void Update() {
+	public void Update(ClientGameState ClientGameState) {
+		this.ClientGameState = ClientGameState;
 		if (this.currentExp >= this.currentLv.getExp()) {
 			levelUp(this);
 		}
@@ -189,7 +221,6 @@ public class MultiplayerCell {
 						if (this.currentHp <= 0) {
 							downgrade(this);
 							levelUp_m_eat_e(cell);
-
 						}
 					}
 					cell.currentHp -= this.currentLv.getAttack();
@@ -205,10 +236,14 @@ public class MultiplayerCell {
 			}
 		}
 		
-		double dx = (goalX - this.x);
-		double dy = (goalY - this.y);
-		this.x += (dx) * 1 / 50;
-		this.y += (dy) * 1 / 50;
+		if (colRached) {
+			collision();
+		} else {
+			double dx = (goalX - this.x);
+			double dy = (goalY - this.y);
+			this.x += (dx) * 1 / 100;
+			this.y += (dy) * 1 / 100;
+		}
 		
 	}
 
@@ -237,6 +272,7 @@ public class MultiplayerCell {
 			this.colY = this.y + distance;
 			cell.colY = cell.y - distance;
 		}
+
 	}
 	
 	public void collision() { 
@@ -249,6 +285,8 @@ public class MultiplayerCell {
 			colRached = false;
 		}
 		colCount++;
+		String message = "MOVE:" + this.id + ":" + this.x + ":" + this.y;
+		ClientGameState.sendMessage(message);
 	}
 
 
@@ -256,7 +294,8 @@ public class MultiplayerCell {
 	public void respawn(MultiplayerCell cell) {
 		cell.x = (int) Math.floor(Math.random() * 10001);
 		cell.y = (int) Math.floor(Math.random() * 10001);
-		System.out.println("Respawn: " + cell.name);
+		String message = "MOVE:" + this.id + ":" + this.x + ":" + this.y;
+		ClientGameState.sendMessage(message);
 		// this.currentLv = level.get(0);
 	}
 

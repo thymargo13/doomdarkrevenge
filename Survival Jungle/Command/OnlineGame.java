@@ -15,7 +15,6 @@ public class OnlineGame extends Command{
 	private JPanel onlinegame;
 	private MenuPanel panel;
 	private JFrame frame;
-	
 	public OnlineGame() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 //		onlinegame = new JPanel();
 //		onlinegame.add( new OnlineBoard(panel));
@@ -27,11 +26,11 @@ public class OnlineGame extends Command{
 		// Create client object after entering name
 		
 //		onlineGame.add(new Board(Clients, false, Network,"SERVER_IP"));
-		onlinegame.add(new MultiplayerBoard(Clients, true, Network, "10.115.205.19"));
+		onlinegame.add(new MultiplayerBoard(Clients, false, Network, "10.115.205.19"));
 
 	}
-	public JPanel execute(){
-		
+	
+	public JPanel execute(){	
 		return onlinegame;
 		
 	}

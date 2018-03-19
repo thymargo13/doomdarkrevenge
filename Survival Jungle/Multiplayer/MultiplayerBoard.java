@@ -45,7 +45,7 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 			// Host username
 			ServerGameState ServerGameState = new ServerGameState(new ArrayList<Client>(), Network);
 			Network.setServerGameState(ServerGameState);
-			Network.startServer("Dell");
+			Network.startServer();
 			Network.connectServer(Clients.get(0), "127.0.0.1");
 
 		} else {

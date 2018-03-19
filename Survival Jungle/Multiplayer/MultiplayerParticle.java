@@ -37,6 +37,8 @@ public class MultiplayerParticle {
 	public MultiplayerParticle(int x, int y, int mass, boolean p, String img){
 		particleCount++;
 		this.x = x;
+		this.goalX = x;
+		this.goalY = y;
 		this.y = y;
 		this.mass = 60;
 		cellParticle = p;
@@ -45,7 +47,7 @@ public class MultiplayerParticle {
 		this.image = ii.getImage();
 	}
 
-	public void Update(ClientGameState MultiplayerGameState) {
+	public void Update(ClientGameState ClientGameState) {
 		for (MultiplayerCell cell : MultiplayerCell.cells) {
 			if (this.checkCollide(cell.x, cell.y) && !cellParticle) {
 				if(img==imgBread) {
@@ -59,7 +61,7 @@ public class MultiplayerParticle {
 				this.x = (int) Math.floor(Math.random() * 10001);
 				this.y = (int) Math.floor(Math.random() * 10001);
 				String message = "SCORE:" + cell.id + ":" + cell.currentExp;
-				MultiplayerGameState.sendMessage(message);
+				ClientGameState.sendMessage(message);
 			} 
 				else if (this.checkCollide(cell.x, cell.y) && cellParticle && !cell.isPlayer) {
 //				cell.addExp(5,cell); //add exp

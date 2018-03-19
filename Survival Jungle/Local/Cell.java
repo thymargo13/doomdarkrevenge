@@ -100,11 +100,13 @@ public class Cell {
 	}
 //	Test!!!!!!!!!!!!!!!!!!!!!!!
 	public void reduceHp(double hp, Cell cell) {
-		
+		int index=cell.currentLv.getHealth();
+//		cell.currentHp--;
 //		if(cell.currentHp>0) {
-			cell.currentHp-=hp;
-			if(cell.currentHp<=30) {
-				cell.currentHp=30;
+		cell.currentHp-=hp;
+		
+			if(cell.currentHp<=index-30) {
+				cell.currentHp=index-30;
 			}
 			if(cell.currentHp==0) {
 				die(cell,this);
@@ -300,7 +302,6 @@ public class Cell {
 				distance = (int) Math
 						.sqrt((this.x - cell.x) * (this.x - cell.x) + (cell.y - this.y) * (cell.y - this.y));
 				if (distance < min && distance <= max && this.levelNum > cell.levelNum) {
-					min = distance;
 					x = cells.indexOf(cell);
 				} else if (distance < min && this.levelNum < cell.levelNum) {
 					x = -1;

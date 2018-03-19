@@ -20,11 +20,7 @@ public class Server {
 	private final int DiscoveryPort = 8889;
 	private final JPanel errorPanel = new JPanel();
 	private ServerGameState ServerGameState;
-	private String name;
-	
-	public void setName(String name){
-		this.name = name;
-	}
+
 	public Server (ArrayList<Client> Clients, ServerGameState ServerGameState){
 		this.ServerGameState = ServerGameState;
 		this.Clients = Clients;
@@ -63,9 +59,7 @@ public class Server {
 	
 	public void sendAsServer(String message) {
 		for (Client Client : Clients) {
-			if (Client.getUserID() != 0) {
-				Client.getQueue().add(message+"\n");
-			}
+			Client.getQueue().add(message+"\n");
 		}
 	}
 	

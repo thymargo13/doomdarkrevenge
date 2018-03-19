@@ -1,4 +1,4 @@
-package Local;
+package Multiplayer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-public class Mud {
-	public static ArrayList<Mud> muds = new ArrayList<Mud>();
+public class MultiplayerMud {
+	public static ArrayList<MultiplayerMud> muds = new ArrayList<MultiplayerMud>();
 	public static int mudCount;
 	protected String img; 
 	protected Image image; 
@@ -18,7 +18,7 @@ public class Mud {
 	public boolean couldHide=false;
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //			(int) Math.floor(Math.random() * 256));
-	public Mud(int x,int y, int d) {
+	public MultiplayerMud(int x,int y, int d) {
 		mudCount++;
 		this.x=x;
 		this.y=y;
@@ -28,7 +28,7 @@ public class Mud {
 		this.image = ii.getImage();
 	}
 	public void Update() {
-		for (Cell cell : Cell.cells) {
+		for (MultiplayerCell cell : MultiplayerCell.cells) {
 			
 				if(checkCollide(cell.x,cell.y)) {
 					double dx = (this.colX - this.x);
@@ -38,7 +38,7 @@ public class Mud {
 				}
 		}
 	}
-	public void boundsOut(Cell cell) {
+	public void boundsOut(MultiplayerCell cell) {
 		int distance = 100;
 		if (this.x < cell.x) {
 			this.colX = this.x - distance;
@@ -63,7 +63,7 @@ public class Mud {
 		return distance < 195;
 	}
 	public void draw(Graphics bbg, JPanel jpanel) {
-		Mud m= new Mud(x,y,d);
+		MultiplayerMud m= new MultiplayerMud(x,y,d);
 		bbg.drawImage(m.getImage(),(int) x, (int) y, (int) d, (int) d, jpanel);
 	}
 	public int getX() {

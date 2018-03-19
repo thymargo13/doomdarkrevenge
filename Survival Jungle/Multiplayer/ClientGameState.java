@@ -2,11 +2,16 @@ package Multiplayer;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import Audio.Audio_player;
 import Entity.foodonMap;
@@ -18,7 +23,7 @@ import Local.Pool;
 import Network.Network;
 import Network.Server.Client;
 
-public class ClientGameState {
+public class ClientGameState implements ActionListener{
 	
 	public static MultiplayerLeaderboard lb;
 	public static MultiplayerCamera cam;
@@ -32,23 +37,28 @@ public class ClientGameState {
 	Network Network;
 	private boolean isRunning = false;
 	private Audio_player music ;
-
+	private final int DELAY = 10;	// milliseconds delay
+	private Timer timer;
 	
-	// Multiplayer
 	public ClientGameState(ArrayList<Client> Clients, Network Network) {
 		this.Clients = Clients;
 		this.Network = Network;
 		isRunning = true;
 	
+		timer = new Timer(DELAY, this);	// Every DELAY ms the timer will call the actionPerformed()
+		timer.start();
+		
 		init();
+		
 	}
 	
 	public void init() {
 		lb = new MultiplayerLeaderboard();
 		cam = new MultiplayerCamera(0, 0, 1, 1);
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
-
-		}
+//		music = new Audio_player("/Audio/music.mp3");
+//		music.play();	
+	}
 	
 	public void initDraw (Graphics graphics, JPanel jpanel) {	//get the graphics and panel to process draw method in here
 		g = graphics;
@@ -74,16 +84,17 @@ public class ClientGameState {
 			Cell.Draw(bbg, jpanel);
 		}
 			
-		ArrayList<Forest> fCopy=new ArrayList<Forest>(Forest.forests);
-		for(Forest f: fCopy) {
+		ArrayList<MultiplayerForest> fCopy=new ArrayList<MultiplayerForest>(MultiplayerForest.forests);
+		for(MultiplayerForest f: fCopy) {
 			f.draw(bbg, jpanel);
 		}
-		ArrayList<Pool> poolCopy=new ArrayList<Pool>(Pool.pools);
-		for(Pool p:poolCopy) {
+		
+		ArrayList<MultiplayerPool> poolCopy=new ArrayList<MultiplayerPool>(MultiplayerPool.pools);
+		for(MultiplayerPool p:poolCopy) {
 			p.draw(bbg, jpanel);
 		}
-		ArrayList<Mud> mudCopy=new ArrayList<Mud>(Mud.muds);
-		for(Mud m:mudCopy) {
+		ArrayList<MultiplayerMud> mudCopy=new ArrayList<MultiplayerMud>(MultiplayerMud.muds);
+		for(MultiplayerMud m:mudCopy) {
 			m.draw(bbg, jpanel);
 		}
 
@@ -96,6 +107,9 @@ public class ClientGameState {
 				String pos = ("X: " + (int) Cell.x + " Y: " + (int) Cell.y);
 				bbg2.setColor(Color.BLACK);
 				bbg2.drawString(pos, (800 - pos.length() * pos.length()), 10);	// current location
+				bbg2.drawRect(50, 700, 500, 50);
+				bbg2.setColor(Color.YELLOW);
+				bbg2.fillRect(50, 700, 500, 50);//currentExp
 			}
 		}
 		
@@ -108,22 +122,52 @@ public class ClientGameState {
 	public void update() { 
 		lb.Update();
 		
-		for (int i = 0; i < MultiplayerCell.cells.size(); i++) {
-			if (MultiplayerCell.cells.get(i).id == Clients.get(0).getUserID()) {
-				cam.Update(MultiplayerCell.cells.get(i));	// update current position
+		try {
+			for (int i = 0; i < MultiplayerCell.cells.size(); i++) {
+				if (MultiplayerCell.cells.get(i).id == Clients.get(0).getUserID()) {
+					cam.Update(MultiplayerCell.cells.get(i));	// update current position
+				}
 			}
-		}
 			
-		for (MultiplayerParticle p : MultiplayerParticle.particles) {
-			if (!p.getHealth()) {	// check the food been eaten or not
-				p.Update(this);
-			} else {
-				MultiplayerParticle.particles.remove(p);
+			
+			for (MultiplayerParticle p : MultiplayerParticle.particles) {
+				if (!p.getHealth()) {	// check the food been eaten or not
+					p.Update(this);
+				} else {
+					MultiplayerParticle.particles.remove(p);
+				}
 			}
-		}
-				
-		for (MultiplayerCell cell : MultiplayerCell.cells) {
-			cell.Update();
+			
+					
+			for (MultiplayerCell cell : MultiplayerCell.cells) {
+				cell.Update(this);
+			}
+			
+			for (MultiplayerPool pl : MultiplayerPool.pools) {
+				if (pl.isShot) {
+					pl.Update();
+				}
+			}
+			
+			for (MultiplayerForest fr : MultiplayerForest.forests) {
+				if (fr.couldHide) {
+					fr.Update();
+				}
+			}
+			
+			for (MultiplayerMud mud : MultiplayerMud.muds) {
+				for (MultiplayerCell cell : MultiplayerCell.cells) {
+					if(cell.currentLv == cell.level.get(0)) {
+						
+					}else {
+						mud.Update();
+					}
+				}
+			}
+			
+			
+		} catch (ConcurrentModificationException e) {
+			// Throw
 		}
 		
 	}
@@ -150,16 +194,26 @@ public class ClientGameState {
 		
 	}
 	
+	public void actionPerformed(ActionEvent e) {
+		for (MultiplayerCell Cell : MultiplayerCell.cells) {
+			// The player
+			if (Cell.id == Clients.get(0).getUserID()) {
+				// GAMESTATE:ID:X:Y:LEVEL:HP:EXP
+				Clients.get(0).sendMessage("GAMESTATE:" + Clients.get(0).getUserID() + ":" + Cell.goalX +":" + Cell.goalY + ":" + Cell.levelNum + ":" + Cell.currentHp + ":" + Cell.currentExp +":");
+			}
+		}
+	}
+	
 	public void generateForest(int x, int y){
-		Forest.forests.add(new Forest(x,y,400));
+		MultiplayerForest.forests.add(new MultiplayerForest(x,y,400));
 	}
 	
 	public void generatePool(int x, int y){
-		Pool.pools.add(new Pool(x,y,400));
+		MultiplayerPool.pools.add(new MultiplayerPool(x,y,400));
 	}
 	
 	public void generateMud(int x, int y){
-		Mud.muds.add(new Mud(x,y,400));
+		MultiplayerMud.muds.add(new MultiplayerMud(x,y,400));
 	}
 	
 	public void mouseMoved(MouseEvent e) {

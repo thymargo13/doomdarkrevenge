@@ -14,15 +14,15 @@
 //
 //import Entity.Player;
 //
-////ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½waterï¿½ï¿½ï¿½Öµï¿½Î»ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½
+////Ëæ»úÉèÖÃwater³öÏÖµÄÎ»ÖÃ£¬²¢ÇÒÔÚÏûÊ§ºó½øĞĞË¢ĞÂ
 //public class Food extends JFrame {
-//	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	//½èÓÃÆäËûÀà
 //	private GamePanel gamepanel;
 //	private Player player;
-//	//Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	//Ğ¡Çò×ÔÉíĞÔÖÊ
 //	public Point location;
 //	private Random rand=new Random();
-//	public ArrayList<Food> ball =new ArrayList<Food>();	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	public ArrayList<Food> ball =new ArrayList<Food>();	//½¨Á¢·ÅÊ³ÎïÇòµÄÈİÆ÷
 //	public Food(GamePanel gp, Player p) {
 //		gamepanel=gp;
 //		player=p;
@@ -48,7 +48,7 @@
 ////		food=new ImageIcon().getImage();
 //	public void regenerate() {
 //		if((player.getX()-location.x)*(player.getX()-location.x)+(player.getY()-location.y)*(player.getY()-location.y)<(player.getDegree()*player.getDegree())){  
-//            //ï¿½ï¿½Ì°ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½Í·ï¿½ï¿½Ê³ï¿½ï·¢ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Ê³ï¿½ï¿½Î»ï¿½ï¿½  
+//            //ÈôÌ°³ÔÉßµÄÉßÍ·ÓëÊ³Îï·¢ÉúÅö×²£¬ÔòËæ»úÉú³ÉĞÂµÄÊ³ÎïÎ»ÖÃ  
 //            location=new Point(Math.abs(rand.nextInt(gp.getWidth())%gamepanel.getWidth()),Math.abs(rand.nextInt(gp.getHeight())%gamepanel.getHeight()));  
 //            
 //        }               

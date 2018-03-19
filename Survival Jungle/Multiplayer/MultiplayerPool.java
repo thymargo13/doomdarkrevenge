@@ -1,4 +1,4 @@
-package Local;
+package Multiplayer;
 import java.awt.*;  
 import javax.swing.*; 
 import java.awt.Color;
@@ -13,8 +13,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-public class Pool {
-		public static ArrayList<Pool> pools = new ArrayList<Pool>();
+public class MultiplayerPool {
+		public static ArrayList<MultiplayerPool> pools = new ArrayList<MultiplayerPool>();
 		public static int poolCount;
 		protected String img; 
 		protected Image image; 
@@ -26,7 +26,7 @@ public class Pool {
 
 //		private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //				(int) Math.floor(Math.random() * 256));
-		public Pool(int x,int y, int d) {
+		public MultiplayerPool(int x,int y, int d) {
 			poolCount++;
 			this.x=x;
 			this.y=y;
@@ -37,11 +37,11 @@ public class Pool {
 		}
 
 		public void draw(Graphics bbg, JPanel jpanel) {
-			Pool p= new Pool(x,y,d);
+			MultiplayerPool p= new MultiplayerPool(x,y,d);
 			bbg.drawImage(p.getImage(),(int) x, (int) y, (int) d, (int) d, jpanel);
 		}
 		public void Update() {
-			for (Cell cell : Cell.cells) {
+			for (MultiplayerCell cell : MultiplayerCell.cells) {
 
 				int index=cell.currentLv.getHealth();
 				if (this.checkCollide(cell.x, cell.y)) {

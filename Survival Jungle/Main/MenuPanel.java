@@ -81,13 +81,11 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 		
 		
 		for (int i = 0; i < imgSrc.length; i++) {
-			if (i == 1) {
-				
-				btnPanel.add(new Button(imgSrc[i],i,this));				
-				
-			} else {
+//			if (i == 1) {				
+//				btnPanel.add(new Button(imgSrc[i],i,this));				
+//			} else {
 				btnPanel.add(new Button(imgSrc[i], i));
-			}
+//			}
 		}
 	}
 	
