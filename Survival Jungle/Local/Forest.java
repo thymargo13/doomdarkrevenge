@@ -11,7 +11,13 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import Entity.Player;
-
+/**
+ * 
+ * @author hxy719@student.bham.ac.uk
+ * Forest class----include show the Forest on the map, and the function of Forest:
+ * Forest is a habitat. As Cats, tigers and leopards can climb trees; 
+ * So that they can hide from their predator in forest for a short time.
+ */
 public class Forest {
 	public static ArrayList<Forest> forests = new ArrayList<Forest>();
 	public static int forestCount;
@@ -26,6 +32,12 @@ public class Forest {
 
 //	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 //			(int) Math.floor(Math.random() * 256));
+	/**
+	 * 
+	 * @param x: the x position of forest
+	 * @param y: the y position of forest
+	 * @param d: the radis of forest
+	 */
 	public Forest(int x,int y, int d) {
 		forestCount++;
 		this.x=x;
@@ -36,6 +48,11 @@ public class Forest {
 		this.image = ii.getImage();
 
 	}
+	/**
+	 * 
+	 * @param level of cell
+	 * @return true/false-------couldHide or not
+	 */
 	public boolean checkHide(int level) {
 		if(level==1 || level==4|| level==5) {
 			couldHide=true;
@@ -44,6 +61,10 @@ public class Forest {
 		}
 		return couldHide;
 	}
+	/**
+	 * Update the states of forests
+	 * and have different responses to different animals
+	 */
 	public void Update() {
 		for (Cell cell : Cell.cells) {
 			couldHide=false;
@@ -75,6 +96,11 @@ public class Forest {
 			}
 		}
 	}
+	/**
+	 * 
+	 * @param cell
+	 * let the cell have different movements when collide (rebound) 
+	 */
 	public void boundsOut(Cell cell) {
 		int distance = 100;
 		if (this.x < cell.x) {
@@ -92,6 +118,12 @@ public class Forest {
 			cell.colY = cell.y - distance;
 		}
 	}
+	/**
+	 * 
+	 * @param x: the x position of forests
+	 * @param y: the y position of forests
+	 * @return  true/false
+	 */
 	private boolean checkCollide(double x, double y) {
 		double centre_x1 = x-75;
 		double centre_y1 = y-70 ;

@@ -1,7 +1,12 @@
 package Local;
 
 import java.awt.*;
-
+/**
+ * 
+ * @author hxy719@student.bham.ac.uk
+ * Camera
+ *
+ */
 public class Camera {
 
 	public double x;
@@ -30,13 +35,18 @@ public class Camera {
 		Graphics2D g2 = (Graphics2D) bbg;
 		g2.translate(x, y);
 	}
-
+	
 	public void scale(double sx, double sy) {
 		sX = sx;
 		sY = sy;
 	}
 
-	public void Update(Cell cell) {	// scale the camera if cell mass increase
+	/**
+	 * 
+	 * @param cell
+	 * scale the camera if cell mass increase
+	 */
+	public void Update(Cell cell) {	
 		double scaleFactor;
 
 		if (cell.size < 1000) {

@@ -6,7 +6,12 @@ import javax.swing.JFrame;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
+/**
+ * 
+ * @author hxy719@student.bham.ac.uk
+ * Show the leaderboard on the left corner of map
+ *
+ */
 public class Leaderboard {
 
 	private int x;
@@ -28,12 +33,18 @@ public class Leaderboard {
 			currentY += 30;
 		}
 	}
-
+	/**
+	 * Update the information of leaderboard
+	 */
 	public void Update() {
 		cellsCopy = Cell.cells;
 		Collections.sort(cellsCopy, new leaderComparator());
 	}
-
+	/**
+	 * 
+	 * @param bbg
+	 * draw LeaderBoard
+	 */
 	public void Draw(Graphics bbg) {
 		for (int i = 0; i < z; i++) {
 			bbg.setColor(color);
@@ -47,7 +58,12 @@ public class Leaderboard {
 			}
 		}
 	}
-
+	/**
+	 * 
+	 * @author hxy719@student.bham.ac.uk
+	 * Compare the currentExp of two cells
+	 *
+	 */
 	private class leaderComparator implements Comparator<Cell> {
 		@Override
 		public int compare(Cell c1, Cell c2) {
