@@ -64,6 +64,7 @@ public class ServerReceiver implements Runnable {
 					MultiplayerParticle p = searchFood(Integer.parseInt(message[1]));
 					p.x = Integer.parseInt(message[2]);
 					p.y = Integer.parseInt(message[3]);
+					MultiplayerGameState.sendMessage(data);
 					break;
 				case "NAME":
 					//Sample Message : "NAME:ID:USERNAME"
@@ -98,12 +99,6 @@ public class ServerReceiver implements Runnable {
 					break;
 				default:
 					break;
-			}
-			
-			for(Client c : Server.Clients) {
-				if (c.getUserID() != ClientID) {
-					c.getQueue().add(data+"\n");
-				}
 			}
 		}
 	}
