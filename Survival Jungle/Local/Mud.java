@@ -49,8 +49,8 @@ public class Mud {
 				if(checkCollide(cell.x,cell.y)) {
 					double dx = (this.colX - this.x);
 					double dy = (this.colY - this.y);
-					this.x += (dx) * 1 / 100;
-					this.y += (dy) * 1 / 100;
+					cell.x += (dx) * 1 / 100;
+					cell.y += (dy) * 1 / 100;
 				}
 		}
 	}
