@@ -75,6 +75,7 @@ public class Forest {
 			}else {
 				couldHide=false;
 				if(checkCollide(cell.x,cell.y)) {
+//					boundsOut(cell);
 					double dx = (this.colX - this.x);
 					double dy = (this.colY - this.y);
 					cell.x += (dx) * 1 / 100;
