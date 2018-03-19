@@ -34,10 +34,12 @@ public class Network {
 		Server = new Server(MultiplayerGameState.Clients, MultiplayerGameState);
 		Server.startServer();
 		MultiplayerGameState.setRunning(true);
+		isConnected = true;
 	}
 	
 	public void stopServer() {
 		Server.stopServer();
+		isConnected = false;
 	}
 	
 	public void ClientStartDiscovery() {

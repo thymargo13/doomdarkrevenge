@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ import Network.Network;
 import Network.Server.Client;
 
 @SuppressWarnings("serial")
-public class HostJoinBoard extends JPanel implements ActionListener{
+public class HostJoinBoard extends JPanel {
 	
 	private static final int WIDTH = 250;
 	private static final int HEIGHT = 200;
@@ -35,14 +36,19 @@ public class HostJoinBoard extends JPanel implements ActionListener{
 	private JComboBox<String> cb;
 	Network Network;
 	private Timer timer;
-	private final int DELAY = 10;	// milliseconds delay
+	private final int DELAY = 1000;	// milliseconds delay
 	
-	public HostJoinBoard(MenuPanel bgPanel, JFrame jf, ArrayList<Client> Clients, Network Network, ArrayList<String> ip){
+	public HostJoinBoard(MenuPanel bgPanel, JFrame jf, ArrayList<Client> Clients, Network Network){
 		this.Network = Network;
-		timer = new Timer(DELAY, this);	// Every DELAY ms the timer will call the actionPerformed()
-		timer.start();
+		
+		ArrayList<String> ip = new ArrayList<String>();
+		ArrayList<InetAddress> server = Network.getDiscoveredServer();
+		for (InetAddress serverIP : server) {
+			ip.add(serverIP.toString().substring(1));
+		}
 		
 		List<String> ipList = ip;
+		
 		//add some stuff
 		ipList.add(0, "Select IP");
 		String[] ipString = ipList.toArray(new String[0]);
@@ -88,18 +94,16 @@ public class HostJoinBoard extends JPanel implements ActionListener{
 		button1.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				Network.clientStopDiscover();
-				bgPanel.remove(0);
-				bgPanel.add(new MultiplayerBoard(Clients, false, Network, (String)cb.getSelectedItem()));
+				
+				JPanel game = new JPanel();
+				game.add(new MultiplayerBoard(Clients, false, Network, cb.getEditor().getItem().toString()));
+				jf.setContentPane(game);
+				jf.setVisible(true);
 			}
 		});
 		this.add(button1);
 			
 		
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// Update UI
 	}
 	
 }

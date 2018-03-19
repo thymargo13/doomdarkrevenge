@@ -51,7 +51,7 @@ public class ClientConnect {
 			
 		}
 		catch (Exception ex) {
-		    JOptionPane.showMessageDialog(errorPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//		    JOptionPane.showMessageDialog(errorPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		    try {
 				socket.close();
 				ReceiverThread.interrupt();

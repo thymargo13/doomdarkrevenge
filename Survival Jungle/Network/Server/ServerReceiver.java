@@ -88,7 +88,9 @@ public class ServerReceiver implements Runnable {
 				case "GAMESTATE":
 					// GAMESTATE:ID:X:Y:LEVEL:HP:EXP
 					cell.goalX = Double.parseDouble(message[2]);
+					cell.x = Double.parseDouble(message[2]);
 					cell.goalY = Double.parseDouble(message[3]);
+					cell.y = Double.parseDouble(message[3]);
 					cell.levelNum = Integer.parseInt(message[4]);
 					cell.currentHp = Integer.parseInt(message[5]);
 					cell.currentExp = Integer.parseInt(message[6]);

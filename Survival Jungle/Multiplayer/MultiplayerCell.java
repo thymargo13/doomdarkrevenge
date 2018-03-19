@@ -56,6 +56,8 @@ public class MultiplayerCell {
 		this.id = id;
 		this.name = name;
 		this.x = x;
+		this.goalX = x;
+		this.goalY = y;
 		this.y = y;
 		this.isPlayer = isPlayer;
 		// this.randomColor();
@@ -77,6 +79,8 @@ public class MultiplayerCell {
 		this.name = name;
 		this.x = x;
 		this.y = y;
+		this.goalX = x;
+		this.goalY = y;
 		this.isPlayer = isPlayer;
 		// this.randomColor();
 		this.currentExp = currentExp;

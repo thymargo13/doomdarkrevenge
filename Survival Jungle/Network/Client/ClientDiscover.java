@@ -44,7 +44,7 @@ public class ClientDiscover {
 			
             System.out.println("Client discovery send stopped.");
 			ThreadDiscoveryReceive.interrupt();
-            System.out.println("Client discovery receuve stopped.");
+            System.out.println("Client discovery receive stopped.");
 		}
 		catch (Exception ex){
 		    JOptionPane.showMessageDialog(errorPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

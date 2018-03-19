@@ -27,7 +27,7 @@ import Network.Network;
 import Network.Server.Client;
 
 @SuppressWarnings("serial")
-public class OnlineBoard extends JPanel implements ActionListener {
+public class OnlineBoard extends JPanel {
 	
 	private static final int WIDTH = 250;
 	private static final int HEIGHT = 200;
@@ -60,25 +60,19 @@ public class OnlineBoard extends JPanel implements ActionListener {
 		
 		Network Network = new Network();
 		ArrayList<Client> Clients = new ArrayList<Client>();
-//		String[] serverFound = new String[];
 		Network.ClientStartDiscovery();
 		
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				//get username
 				playerName = text.getText();
-				
-				if (playerName.length() > 0) {
+				if (playerName.contains(":")) {
+					errorMessage();
+				} else if (playerName.length() > 0) {
 					
 					Clients.add(new Client(0,playerName));
 					
-					ArrayList<String> ip = new ArrayList<String>();
-					ArrayList<InetAddress> server = Network.getDiscoveredServer();
-					for (InetAddress serverIP : server) {
-						ip.add(serverIP.toString());
-					}
-
-					HostJoinBoard hj = new HostJoinBoard(bgPanel, jf, Clients, Network, ip);
+					HostJoinBoard hj = new HostJoinBoard(bgPanel, jf, Clients, Network);
 					bgPanel.remove(0);
 					bgPanel.add(hj,0);
 				} else {
@@ -87,10 +81,6 @@ public class OnlineBoard extends JPanel implements ActionListener {
 			}
 		});
 		this.add(button);
-		//JButton button1 = new JButton("Back");
-		
-		//this.add(button1);
-		
 	
 	}
 	
@@ -98,10 +88,5 @@ public class OnlineBoard extends JPanel implements ActionListener {
 		JOptionPane.showMessageDialog(this, "Invalid name.", "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

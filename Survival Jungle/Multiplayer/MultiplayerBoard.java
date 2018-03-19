@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -44,13 +45,19 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 		} else {
 			Network.connectServer(Clients.get(0), Address);
 		}
-		
 
-				
+		if (!Network.getIsConnected()) {
+			//Quit
+			MultiplayerGameState.stopMusic();
+			JOptionPane.showMessageDialog(this, "Unable to connect.", "Error", JOptionPane.ERROR_MESSAGE);
+			this.remove(0);
+		}
+		
 		setPreferredSize(new Dimension(800, 600));	// can use setSize() if component's parent has no layout manager
 		setDoubleBuffered(true);	// Sets whether this component should use a buffer to paint
 		timer = new Timer(DELAY, this);	// Every DELAY ms the timer will call the actionPerformed()
 		timer.start();
+		
 	}
 
 	@Override
