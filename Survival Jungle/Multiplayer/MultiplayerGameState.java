@@ -58,8 +58,7 @@ public class MultiplayerGameState implements ActionListener{
 		cam = new MultiplayerCamera(0, 0, 1, 1);
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		music = new Audio_player("/Audio/music.mp3");
-//		music.play();	
-		
+		music.play();	
 		
 	}
 	

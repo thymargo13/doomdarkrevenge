@@ -15,14 +15,11 @@ import Network.Network;
 import Network.Server.Client;
 
 public class MultiplayerBoard extends JPanel implements ActionListener {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8887303478018191470L;
 	private final int DELAY = 10;	// milliseconds delay
 	private Timer timer;
 	
-	private MultiplayerGameState ClientGameState;
+	private MultiplayerGameState MultiplayerGameState;
 	Network Network;
 	String Address;
 	
@@ -33,15 +30,15 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 		initMultiplayerBoard(Clients,isHost);
 		addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
-				ClientGameState.mouseMoved(e);	// pass the mouse event to game state
+				MultiplayerGameState.mouseMoved(e);	// pass the mouse event to game state
 			}
 		});
 	}
 
 	private void initMultiplayerBoard(ArrayList<Client> Clients, boolean isHost) {
-		ClientGameState = new MultiplayerGameState(Clients, Network, isHost);
+		MultiplayerGameState = new MultiplayerGameState(Clients, Network, isHost);
 		Network.setClients(Clients);
-		Network.setGameState(ClientGameState);	
+		Network.setGameState(MultiplayerGameState);	
 		if (isHost) {
 			Network.startServer();
 		} else {
@@ -59,13 +56,13 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		ClientGameState.initDraw(g, this);	// pass the graphics to game state to control all rendering
+		MultiplayerGameState.initDraw(g, this);	// pass the graphics to game state to control all rendering
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ClientGameState.update();
-		ClientGameState.draw();
+		MultiplayerGameState.update();
+		MultiplayerGameState.draw();
 		repaint();
 	}
 }

@@ -67,12 +67,13 @@ public class HostJoinBoard extends JPanel implements ActionListener{
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				Network.clientStopDiscover();
-//				bgPanel.remove(0);
-//				bgPanel.add(new MultiplayerBoard(Clients, true, Network, "127.0.0.1"));
 
+				
 				JPanel game = new JPanel();
 				game.add(new MultiplayerBoard(Clients, true, Network, "127.0.0.1"));
 				jf.setContentPane(game);
+				jf.setVisible(true);
+
 			}
 		});
 		

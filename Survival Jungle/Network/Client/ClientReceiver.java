@@ -95,19 +95,30 @@ public class ClientReceiver implements Runnable{
 					case "GAMESTATE":
 						// GAMESTATE:ID:X:Y:LEVEL:HP:SCORE
 						for (int i = 1; i < message.length; i = i + 6) {
-							if (Integer.parseInt(message[i]) == ClientGameState.Clients.get(0).getUserID()) {
-								continue;
-							}
-							
 							MultiplayerCell Cell = searchCell(Integer.parseInt(message[i]));
-							double x = Double.parseDouble(message[i+1]);
-							double y = Double.parseDouble(message[i+2]);
 							int levelnum = (Integer.parseInt(message[i+3]));
 							int hp = Integer.parseInt(message[i+4]);
 							int exp = Integer.parseInt(message[i+5]);
 							
-							Cell.updateCell(x, y, levelnum, hp, exp);
+							if (Integer.parseInt(message[i]) != ClientGameState.Clients.get(0).getUserID()) {
+								double x = Double.parseDouble(message[i+1]);
+								double y = Double.parseDouble(message[i+2]);
+								
+								
+								Cell.updateCell(x, y, levelnum, hp, exp);
+							} else {
+								Cell.updateCell(Cell.goalX, Cell.goalY, levelnum, hp, exp);
+							}
+							
 						}
+						break;
+					case "MOVE":
+						MultiplayerCell Cell = searchCell(Integer.parseInt(message[1]));
+						//Sample Message : "MOVE:ID:X:Y"
+						Cell.goalX = Double.parseDouble(message[2]);
+						Cell.goalY = Double.parseDouble(message[3]);
+						Cell.x = Double.parseDouble(message[2]);
+						Cell.y = Double.parseDouble(message[3]);
 						break;
 					default:
 						break;

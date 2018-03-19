@@ -278,6 +278,8 @@ public class MultiplayerCell {
 		}
 		String message = "MOVE:" + this.id + ":" + this.x + ":" + this.y;
 		MultiplayerGameState.sendMessage(message);
+		message = "MOVE:" + cell.id + ":" + cell.x + ":" + cell.y;
+		MultiplayerGameState.sendMessage(message);
 
 	}
 	
