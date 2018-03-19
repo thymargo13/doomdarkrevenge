@@ -5,7 +5,10 @@ import javax.swing.JPanel;
 
 
 import Map.Board;
-
+/**
+ * 
+ * Creates a new board that enters single player game
+ */
 public class LocalGame extends Command{
 	private JPanel localgame;
 	public LocalGame() {

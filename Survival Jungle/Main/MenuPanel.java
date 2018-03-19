@@ -6,11 +6,17 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import Audio.Audio_player;
 import Command.Command;
-
-
+/**
+ * 
+ * @author Bitnarae Kim, HiuYin Tang 
+ * MenuPanel class shows menu buttons and moves to a new panel if one of them is pressed by the mouse.
+ *
+ */
 //make the menuPanel.
 @SuppressWarnings("serial")
+
 public class MenuPanel extends JLayeredPane implements Runnable {
 
 	JFrame frame;
@@ -19,6 +25,7 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 	private JPanel btnPanel;
 	private JPanel bgPanel;
 	
+	public Audio_player music ;
 	
 	// arrayList for imgSrc	
 	private String[] imgSrc = { "/Resource/background/btn_local_2.png", "/Resource/background/btn_online_2.png",
@@ -44,6 +51,9 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 		setFocusable(true);
 		requestFocus();
 
+		music = new Audio_player("/Audio/startMusic.mp3");
+		music.play();
+		
 		init();
 		btnPanel.setVisible(true);
 		bgPanel.setVisible(true);
@@ -98,5 +108,7 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 }

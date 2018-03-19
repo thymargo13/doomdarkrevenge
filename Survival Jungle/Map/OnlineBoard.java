@@ -8,22 +8,26 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.net.InetAddress;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import Command.OnlineGame;
 import Main.MenuPanel;
+import Network.Network;
+import Network.Server.Client;
 
 @SuppressWarnings("serial")
-public class OnlineBoard extends JPanel implements ActionListener {
+public class OnlineBoard extends JPanel {
 	
 	private static final int WIDTH = 250;
 	private static final int HEIGHT = 200;
@@ -33,7 +37,7 @@ public class OnlineBoard extends JPanel implements ActionListener {
 	int xx, xy;
 	
 
-	public OnlineBoard(MenuPanel bgPanel){
+	public OnlineBoard(MenuPanel bgPanel, JFrame jf){
 		setBackground(new Color(0,0,0,0));
 		setBounds(280,400 , WIDTH, HEIGHT);	
 		//setLayout(Grid)// dimension
@@ -52,33 +56,37 @@ public class OnlineBoard extends JPanel implements ActionListener {
 		
 		JButton button= new JButton("OK");
 		button.setSize(500, 500);
-		button.setBounds(600, 600, 500, 500);		
+		button.setBounds(600, 600, 500, 500);
+		
+		Network Network = new Network();
+		ArrayList<Client> Clients = new ArrayList<Client>();
+		Network.ClientStartDiscovery();
 		
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				//get username
 				playerName = text.getText();
-				System.out.println(playerName);
-				//remove OnlineBoard panel and get HostJoinBoard panel
-				HostJoinBoard hj = new HostJoinBoard(bgPanel);
-				//bgPanel.remove(0);
-				bgPanel.add(hj,0);
+				if (playerName.contains(":")) {
+					errorMessage();
+				} else if (playerName.length() > 0) {
+					
+					Clients.add(new Client(0,playerName));
+					
+					HostJoinBoard hj = new HostJoinBoard(bgPanel, jf, Clients, Network);
+					bgPanel.remove(0);
+					bgPanel.add(hj,0);
+				} else {
+					errorMessage();
+				}
 			}
 		});
 		this.add(button);
-		//JButton button1 = new JButton("Back");
-		
-		//this.add(button1);
-		
 	
 	}
 	
-
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void errorMessage() {
+		JOptionPane.showMessageDialog(this, "Invalid name.", "Error", JOptionPane.ERROR_MESSAGE);
 	}
+
 
 }

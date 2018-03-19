@@ -5,6 +5,11 @@ import javax.swing.JPanel;
 import Main.MenuPanel;
 import Map.OnlineBoard;
 
+/**
+ * 
+ * @author Bitnarae Kim
+ * The OnlineGame class creates a new JPanel for the online game
+ */
 public class OnlineGame extends Command{
 
 	private JPanel onlinegame;

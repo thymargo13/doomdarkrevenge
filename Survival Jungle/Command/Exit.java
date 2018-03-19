@@ -2,7 +2,12 @@ package Command;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author Bitnarae Kim
+ * The Exit class shows a JPanel that gives an option to exit the game.
+ *
+ */
 public class Exit extends Command {
 
 	@Override

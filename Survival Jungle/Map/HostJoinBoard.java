@@ -15,6 +15,12 @@ import javax.swing.JPanel;
 
 import Main.MenuPanel;
 
+/**
+ * 
+ * @author Bitnarae Kim , Khang Sheong Foong
+ * The HostJoinBoard class gives a JComboBox for the user to select an ip address.
+ *
+ */
 @SuppressWarnings("serial")
 public class HostJoinBoard extends JPanel implements ActionListener{
 	
@@ -25,7 +31,7 @@ public class HostJoinBoard extends JPanel implements ActionListener{
 	JButton button = new JButton("Join");
 	
 	private String[] ipString = new String[] {"111","222","333","444"};
-	private JComboBox<String> cb = new JComboBox<String>(ipString);
+	private JComboBox<String> cb = new JComboBox<String>(ipString); //create combobox
 	
 	public HostJoinBoard(MenuPanel bgPanel){		
 		
@@ -54,18 +60,6 @@ public class HostJoinBoard extends JPanel implements ActionListener{
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		
-		//create Join button
-		/*JButton button1 = new JButton("Join");
-		this.add(button1);
-		button1.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){*/
-				
-				//move to Join panel
-				//JoinBoard j = new JoinBoard(bgPanel);
-			//	bgPanel.remove(0);
-			//	bgPanel.add(j,0);
-		//	}
-	//	});
 		
 	}
 	

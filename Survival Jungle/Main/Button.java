@@ -5,7 +5,11 @@ import java.awt.event.*;
 import javax.swing.*;
 import Command.*;
 import Map.OnlineBoard;
-
+/**
+ * 
+ * @author 
+ *
+ */
 @SuppressWarnings("serial")
 public class Button extends JButton {
 

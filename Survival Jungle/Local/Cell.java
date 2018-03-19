@@ -10,7 +10,11 @@ import Entity.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+/**
+ * 
+ * @author 
+ *
+ */
 public class Cell {
 
 	public static ArrayList<Cell> cells = new ArrayList<Cell>();
