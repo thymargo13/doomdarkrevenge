@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Network.Client.*;
 import Network.Server.*;
+import Network.Server.Client;
 import Multiplayer.*;
 
 public class Network {
