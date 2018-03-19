@@ -44,16 +44,4 @@ public class MudTest {
 		}
 	}
 
-	
-
-	@Test
-	public void testDraw() {
-		Mud m=new Mud(3,4,5);
-		BufferedImage backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
-		Graphics bbg= backBuffer.getGraphics();
-		Board b=new Board();
-		JPanel jpanel =b;
-		m.draw(bbg,jpanel);
-	}
-
 }

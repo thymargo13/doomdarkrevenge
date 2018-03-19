@@ -42,14 +42,4 @@ public class ForestTest {
 		}
 	}
 
-	@Test
-	public void testDraw() {
-		Forest f=new Forest(3,4,5);
-		BufferedImage backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
-		Graphics bbg= backBuffer.getGraphics();
-		Board b=new Board();
-		JPanel jpanel =b;
-		f.draw(bbg,jpanel);
-	}
-
 }
