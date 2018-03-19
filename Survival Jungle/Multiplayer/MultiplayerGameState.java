@@ -58,7 +58,7 @@ public class MultiplayerGameState implements ActionListener{
 		cam = new MultiplayerCamera(0, 0, 1, 1);
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		music = new Audio_player("/Audio/music.mp3");
-		music.play();	
+//		music.play();	
 		
 		
 	}
@@ -128,29 +128,33 @@ public class MultiplayerGameState implements ActionListener{
 		if (isHost) {		
 
 			if (MultiplayerParticle.particleCount < 500) {	// generate food
+				int i = MultiplayerParticle.particleCount;
 				String message = "FOODADD:";
 				while (MultiplayerParticle.particleCount < 500){
 					int x = (int) Math.floor(Math.random() * 10001);
 					int y = (int) Math.floor(Math.random() * 10001);
 					String imgBread=foodonMap.getBread();
-					MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgBread));
-					// FOODADD:X:Y:B
-					message = message + x + ":" + y + ":B" + ":";
+					MultiplayerParticle.particles.add(new MultiplayerParticle(i,x,y, 1, false, imgBread));
+					i++;
+					// FOODADD:ID:X:Y:B
+					message = message + i + ":" + x + ":" + y + ":B" + ":";
 					
 					x = (int) Math.floor(Math.random() * 10001);
 					y = (int) Math.floor(Math.random() * 10001);
 					String imgCheese=foodonMap.getCheese();
-					MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgCheese));
-					// FOODADD:X:Y:C
-					message = message + x + ":" + y + ":C" + ":";
+					MultiplayerParticle.particles.add(new MultiplayerParticle(i,x,y, 1, false, imgCheese));
+					i++;
+					// FOODADD:ID:X:Y:C
+					message = message + i + ":" + x + ":" + y + ":C" + ":";
 
 					
 					x = (int) Math.floor(Math.random() * 10001);
 					y = (int) Math.floor(Math.random() * 10001);
 					String imgSteak=foodonMap.getSteak();
-					MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgSteak));
-					//FOODADD:X:Y:S
-					message = message + x + ":" + y + ":S" + ":";
+					MultiplayerParticle.particles.add(new MultiplayerParticle(i,x,y, 1, false, imgSteak));
+					i++;
+					//FOODADD:ID:X:Y:S
+					message = message + i + ":" + x + ":" + y + ":S" + ":";
 				}
 
 				Network.sendAsServer(message);			
@@ -215,7 +219,6 @@ public class MultiplayerGameState implements ActionListener{
 				}
 			}
 			
-			
 			for (MultiplayerParticle p : MultiplayerParticle.particles) {
 				if (!p.getHealth()) {	// check the food been eaten or not
 					p.Update(this);
@@ -258,20 +261,20 @@ public class MultiplayerGameState implements ActionListener{
 		
 	}
 	
-	public void generateFood(int x, int y, char type) {
+	public void generateFood(int id,int x, int y, char type) {
 	
 		switch (type){
 			case 'B':
 				String imgBread=foodonMap.getBread();
-				MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgBread));
+				MultiplayerParticle.particles.add(new MultiplayerParticle(id,x,y, 1, false, imgBread));
 				break;
 			case 'C':
 				String imgCheese=foodonMap.getCheese();
-				MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgCheese));
+				MultiplayerParticle.particles.add(new MultiplayerParticle(id,x,y, 1, false, imgCheese));
 				break;
 			case 'S':
 				String imgSteak=foodonMap.getSteak();
-				MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgSteak));
+				MultiplayerParticle.particles.add(new MultiplayerParticle(id,x,y, 1, false, imgSteak));
 				break;
 			
 			default:
@@ -285,10 +288,10 @@ public class MultiplayerGameState implements ActionListener{
 		for (MultiplayerCell Cell : MultiplayerCell.cells) {
 			// The player
 			if (isHost) {
-					message = message + Cell.id + ":" + Cell.goalX + ":" + Cell.goalY + ":" + Cell.levelNum +":" +  Cell.currentHp + ":" + Cell.currentExp + ":";
+					message = message + Cell.id + ":" + Cell.x + ":" + Cell.y + ":" + Cell.levelNum +":" +  Cell.currentHp + ":" + Cell.currentExp + ":";
 			} else {
 				if (Cell.id == Clients.get(0).getUserID()) {
-					Clients.get(0).sendMessage("GAMESTATE:" + Clients.get(0).getUserID() + ":" + Cell.goalX +":" + Cell.goalY + ":" + Cell.levelNum + ":" + Cell.currentHp + ":" + Cell.currentExp +":");
+					Clients.get(0).sendMessage("GAMESTATE:" + Clients.get(0).getUserID() + ":" + Cell.x +":" + Cell.y + ":" + Cell.levelNum + ":" + Cell.currentHp + ":" + Cell.currentExp +":");
 				}
 			}
 		}
@@ -314,14 +317,6 @@ public class MultiplayerGameState implements ActionListener{
 			if (cell.id == Clients.get(0).getUserID()){
 				cell.getMouseX((int) (e.getX() / cam.sX + cam.x));
 				cell.getMouseY((int) (e.getY() / cam.sY + cam.y));
-				
-//				if (isHost) {
-//					ServerCell c = ServerCell.serverCells.get(0);
-//					c.goalX =((int)(e.getX() / cam.sX + cam.x));
-//					c.goalY = ((int)(e.getY() / cam.sY + cam.y));
-//				} else {
-//					Clients.get(0).sendMessage("MOVE:" + Clients.get(0).getUserID() + ":" + ((int)(e.getX() / cam.sX + cam.x)) +":" + ((int)(e.getY() / cam.sY + cam.y)));
-//				}
 			}
 		}
 	}

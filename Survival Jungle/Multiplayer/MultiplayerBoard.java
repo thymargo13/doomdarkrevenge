@@ -15,11 +15,14 @@ import Network.Network;
 import Network.Server.Client;
 
 public class MultiplayerBoard extends JPanel implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8887303478018191470L;
 	private final int DELAY = 10;	// milliseconds delay
 	private Timer timer;
 	
 	private MultiplayerGameState ClientGameState;
-	private boolean multiplayer = true;
 	Network Network;
 	String Address;
 	
@@ -30,7 +33,6 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 		initMultiplayerBoard(Clients,isHost);
 		addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
-//				System.out.println("X: "+e.getX()+", Y: "+e.getY());
 				ClientGameState.mouseMoved(e);	// pass the mouse event to game state
 			}
 		});
@@ -38,15 +40,10 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 
 	private void initMultiplayerBoard(ArrayList<Client> Clients, boolean isHost) {
 		ClientGameState = new MultiplayerGameState(Clients, Network, isHost);
-//		Clients.get(0).setUserID(1);
 		Network.setClients(Clients);
 		Network.setGameState(ClientGameState);	
 		if (isHost) {
-			// Host username
-
-//			Network.setServerGameState(ServerGameState);
 			Network.startServer();
-//			Network.connectServer(Clients.get(0), null);
 		} else {
 			Network.connectServer(Clients.get(0), Address);
 		}

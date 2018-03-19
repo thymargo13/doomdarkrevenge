@@ -30,12 +30,15 @@ public class MultiplayerParticle {
 	public String imgBread="/Resource/objects/bread.png";
 	public String imgCheese="/Resource/objects/cheese.png";
 	public String imgSteak="/Resource/objects/steak.png";
+	
+	public int id;
 
 	private Color color = new Color((int) Math.floor(Math.random() * 256), (int) Math.floor(Math.random() * 256),
 			(int) Math.floor(Math.random() * 256));
 	
-	public MultiplayerParticle(int x, int y, int mass, boolean p, String img){
+	public MultiplayerParticle(int id, int x, int y, int mass, boolean p, String img){
 		particleCount++;
+		this.id=id;
 		this.x = x;
 		this.goalX = x;
 		this.goalY = y;
@@ -47,7 +50,7 @@ public class MultiplayerParticle {
 		this.image = ii.getImage();
 	}
 
-	public void Update(MultiplayerGameState ClientGameState) {
+	public void Update(MultiplayerGameState MultiplayerGameState) {
 		for (MultiplayerCell cell : MultiplayerCell.cells) {
 			if (this.checkCollide(cell.x, cell.y) && !cellParticle) {
 				if(img==imgBread) {
@@ -60,8 +63,10 @@ public class MultiplayerParticle {
 				
 				this.x = (int) Math.floor(Math.random() * 10001);
 				this.y = (int) Math.floor(Math.random() * 10001);
-				String message = "SCORE:" + cell.id + ":" + cell.currentExp;
-				ClientGameState.sendMessage(message);
+				
+				String message = "FOODMOVE:" + this.id + ":" + this.x + ":" + this.y + ":";
+				MultiplayerGameState.sendMessage(message);
+				
 			} 
 				else if (this.checkCollide(cell.x, cell.y) && cellParticle && !cell.isPlayer) {
 //				cell.addExp(5,cell); //add exp

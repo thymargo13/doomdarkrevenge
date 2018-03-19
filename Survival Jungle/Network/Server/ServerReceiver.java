@@ -6,6 +6,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 
 import Multiplayer.MultiplayerGameState;
+import Multiplayer.MultiplayerParticle;
 import Multiplayer.MultiplayerCell;
 
 
@@ -45,7 +46,7 @@ public class ServerReceiver implements Runnable {
 				MultiplayerGameState.sendMessage(message);
 				
 				MultiplayerCell.cells.remove(searchCell(ClientID));
-
+				MultiplayerCell.cellCount--;
 				closeSocket();
 				running = false;
 			}
@@ -58,6 +59,12 @@ public class ServerReceiver implements Runnable {
 			MultiplayerCell cell = searchCell(Integer.parseInt(message[1]));
 
 			switch (message[0]) {
+				case "FOODMOVE":
+					//FOODMOVE:ID:X:Y
+					MultiplayerParticle p = searchFood(Integer.parseInt(message[1]));
+					p.x = Integer.parseInt(message[2]);
+					p.y = Integer.parseInt(message[3]);
+					break;
 				case "NAME":
 					//Sample Message : "NAME:ID:USERNAME"
 					searchClients(Integer.parseInt(message[1])).setUsername(message[2]);
@@ -67,6 +74,8 @@ public class ServerReceiver implements Runnable {
 					//Sample Message : "MOVE:ID:X:Y"
 					cell.goalX = Double.parseDouble(message[2]);
 					cell.goalY = Double.parseDouble(message[3]);
+					cell.x = Double.parseDouble(message[2]);
+					cell.y = Double.parseDouble(message[3]);
 					break;
 				case "SCORE":
 					// Sample Message : "SCORE:ID:MASS"
@@ -90,8 +99,8 @@ public class ServerReceiver implements Runnable {
 			}
 			
 			for(Client c : Server.Clients) {
-				if (c.getUserID() != Integer.parseInt(message[1]) && c.getUserID() != 0) {
-					c.getQueue().add(data);
+				if (c.getUserID() != ClientID) {
+					c.getQueue().add(data+"\n");
 				}
 			}
 		}
@@ -118,6 +127,15 @@ public class ServerReceiver implements Runnable {
 		for (MultiplayerCell Cell : MultiplayerCell.cells) {
 			if (Cell.id == ClientID) {
 				return Cell;
+			}
+		}
+		return null;
+	}
+	
+	public MultiplayerParticle searchFood(int FoodID) {
+		for (MultiplayerParticle p : MultiplayerParticle.particles) {
+			if (p.id == FoodID) {
+				return p;
 			}
 		}
 		return null;

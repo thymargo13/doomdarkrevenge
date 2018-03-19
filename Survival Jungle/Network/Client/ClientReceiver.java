@@ -4,19 +4,22 @@ import java.io.BufferedReader;
 
 import Multiplayer.MultiplayerCell;
 import Multiplayer.MultiplayerGameState;
+import Multiplayer.MultiplayerParticle;
 import Network.Server.*;
 
 public class ClientReceiver implements Runnable{
 	private BufferedReader input;
 	private MultiplayerGameState ClientGameState = null;
+	boolean running = true;
 	
 	ClientReceiver(BufferedReader input, MultiplayerGameState MultiplayerGameState){
 		this.input = input;
 		this.ClientGameState = MultiplayerGameState;
 	}
+	
 	String message;
 	public void run(){
-		while (true) {
+		while (running) {
 			try {
 				message = input.readLine();
 				System.out.println("Received message from server: " + message);
@@ -24,6 +27,9 @@ public class ClientReceiver implements Runnable{
 			} catch (Exception ex) {
 				System.out.println("Client receiver error: " + ex.getMessage());
 				ex.printStackTrace();
+				closeSocket();
+				running = false;
+//				Stop game
 			}
 		}
 	}
@@ -33,9 +39,11 @@ public class ClientReceiver implements Runnable{
 			try {
 				String[] message = data.split(":");
 				switch (message[0]) {
-					case "NAME":
-						//Sample Message : "NAME:ID:USERNAME"
-//						searchClients(Integer.parseInt(message[1])).setUsername(message[2]);
+					case "FOODMOVE":
+						//FOODMOVE:ID:X:Y
+						MultiplayerParticle p = searchFood(Integer.parseInt(message[1]));
+						p.x = Integer.parseInt(message[2]);
+						p.y = Integer.parseInt(message[3]);
 						break;
 					case "CLIENTID":
 						//Sample Message : "CLIENTID:ID"
@@ -49,9 +57,9 @@ public class ClientReceiver implements Runnable{
 						}
 						break;
 					case "FOODADD":
-						//Sample Message : "FOODADD:X:Y:B/C/S"
-						for (int i = 1; i < message.length; i = i + 3) {
-							ClientGameState.generateFood(Integer.parseInt(message[i]), Integer.parseInt(message[i+1]), message[i+2].charAt(0));
+						//Sample Message : "FOODADD:ID:X:Y:B/C/S"
+						for (int i = 1; i < message.length; i = i + 4) {
+							ClientGameState.generateFood(Integer.parseInt(message[i]), Integer.parseInt(message[i+1]), Integer.parseInt(message[i+2]), message[i+3].charAt(0));
 						}
 						break;
 					case "CELLADD":
@@ -119,6 +127,15 @@ public class ClientReceiver implements Runnable{
 		return null;
 	}
 	
+	public MultiplayerParticle searchFood(int FoodID) {
+		for (MultiplayerParticle p : MultiplayerParticle.particles) {
+			if (p.id == FoodID) {
+				return p;
+			}
+		}
+		return null;
+	}
+	
 	public MultiplayerCell searchCell(int ClientID) {
 		for (MultiplayerCell Cell : MultiplayerCell.cells) {
 			if (Cell.id == ClientID) {
@@ -126,5 +143,13 @@ public class ClientReceiver implements Runnable{
 			}
 		}
 		return null;
+	}
+	
+	public void closeSocket(){
+		try {
+			input.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

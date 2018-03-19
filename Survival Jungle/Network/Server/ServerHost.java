@@ -73,7 +73,7 @@ public class ServerHost implements Runnable {
 					String imgBread=foodonMap.getBread();
 					message = "FOODADD:";
 					for (MultiplayerParticle p : MultiplayerParticle.particles) {
-						message  = message + p.x + ":" + p.y + ":";
+						message  = message + p.id + ":" + p.x + ":" + p.y + ":";
 						
 						if (p.img == imgSteak) {
 							message = message + "S:";

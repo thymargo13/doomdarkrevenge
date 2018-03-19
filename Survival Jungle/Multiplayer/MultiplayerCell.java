@@ -46,7 +46,7 @@ public class MultiplayerCell {
 	int colCount = 0;
 	MultiplayerCell colCell;
 	
-	MultiplayerGameState ClientGameState;
+	MultiplayerGameState MultiplayerGameState;
 
 	private HashMap<String, Audio_player> sfx;
 
@@ -206,8 +206,8 @@ public class MultiplayerCell {
 		sfx.get("exdown").play();
 	}
 
-	public void Update(MultiplayerGameState ClientGameState) {
-		this.ClientGameState = ClientGameState;
+	public void Update(MultiplayerGameState MultiplayerGameState) {
+		this.MultiplayerGameState = MultiplayerGameState;
 		if (this.currentExp >= this.currentLv.getExp()) {
 			levelUp(this);
 		}
@@ -276,6 +276,8 @@ public class MultiplayerCell {
 			this.colY = this.y + distance;
 			cell.colY = cell.y - distance;
 		}
+		String message = "MOVE:" + this.id + ":" + this.x + ":" + this.y;
+		MultiplayerGameState.sendMessage(message);
 
 	}
 	
@@ -289,8 +291,6 @@ public class MultiplayerCell {
 			colRached = false;
 		}
 		colCount++;
-		String message = "MOVE:" + this.id + ":" + this.x + ":" + this.y;
-		ClientGameState.sendMessage(message);
 	}
 
 
@@ -298,9 +298,10 @@ public class MultiplayerCell {
 	public void respawn(MultiplayerCell cell) {
 		cell.x = (int) Math.floor(Math.random() * 10001);
 		cell.y = (int) Math.floor(Math.random() * 10001);
-		String message = "MOVE:" + this.id + ":" + this.x + ":" + this.y;
-		ClientGameState.sendMessage(message);
 		// this.currentLv = level.get(0);
+		String message = "MOVE:" + this.id + ":" + this.x + ":" + this.y;
+		MultiplayerGameState.sendMessage(message);
+
 	}
 
 	// collision
