@@ -28,7 +28,7 @@ public class Cell {
 	boolean isPlayer = false;
 	int centre_x;
 	int centre_y;
-
+	int totalExp;
 	public int index=0;
 	Cell target; // AI use..
 	Particle pTarget; // AI use..
@@ -115,9 +115,9 @@ public class Cell {
 	}
 	public void levelUp(Cell cell) {
 		if (cell.levelNum == 7) {
-			cell.currentLv = level.get(7);
+			cell.currentLv = level.get(7); // the highest level is 7, prevent out bound.
 		} else {
-			cell.currentLv = level.get(++levelNum);
+			cell.currentLv = level.get(++levelNum); 
 			cell.currentExp = 0;
 			cell.currentHp = cell.currentLv.getHealth();
 			//play audio
@@ -131,7 +131,17 @@ public class Cell {
 		cell.currentExp = 0;
 		cell.currentHp = cell.currentLv.getHealth();
 	}
-
+	
+	public int calTotalExp() {
+		if(this.levelNum==0) {
+			totalExp = this.currentExp;
+		}else {
+			int periousExp = level.get(levelNum-1).getExp();
+			totalExp = this.currentExp + periousExp;
+		}
+		return totalExp;
+	}
+	
 	public void die(Cell cell, Cell winner) {
 		int expAdd = cell.currentExp + cell.currentLv.getAddUpExp();
 		addExp(expAdd, winner);

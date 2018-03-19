@@ -16,7 +16,7 @@ public class Leaderboard {
 
 	private int x;
 	private int y;
-
+	
 	public static ArrayList<Cell> cellsCopy = Cell.cells;
 
 	private int z = 10;
@@ -52,8 +52,7 @@ public class Leaderboard {
 			bbg.fillRect(x, y + spots[i], 125, 30);
 			bbg.setColor(Color.BLACK);	//color of the leader board string
 			if (Cell.cells.size() >= z) {
-				String co = " x: " + (int)cellsCopy.get(i).x+" y: "+ (int)cellsCopy.get(i).y;
-				bbg.drawString("#" + (i + 1) + ": " + cellsCopy.get(i).name + " : " + (int) cellsCopy.get(i).currentExp + co , x,
+				bbg.drawString("#" + (i + 1) + ": " + cellsCopy.get(i).name + " : " + (int) cellsCopy.get(i).calTotalExp() , x,
 						y + spots[i] + 25);
 			}
 		}
@@ -67,9 +66,9 @@ public class Leaderboard {
 	private class leaderComparator implements Comparator<Cell> {
 		@Override
 		public int compare(Cell c1, Cell c2) {
-			if (c1.currentExp == c2.currentExp) {
+			if (c1.calTotalExp()  == c2.calTotalExp()) {
 				return 0;
-			} else if (c1.currentExp > c2.currentExp) {
+			} else if (c1.calTotalExp() > c2.calTotalExp()) {
 				return -1;
 			} else {
 				return 1;
