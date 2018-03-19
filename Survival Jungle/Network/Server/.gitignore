@@ -1,2 +1,8 @@
 /Server.class
 /Client.class
+/ServerHost.class
+/ServerOutstream.class
+/ServerReceiver.class
+/ServerSender.class
+/ServerBroadcast.class
+/ServerDiscovery.class
