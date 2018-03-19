@@ -23,7 +23,7 @@ import Local.Pool;
 import Network.Network;
 import Network.Server.Client;
 
-public class ClientGameState implements ActionListener{
+public class MultiplayerGameState implements ActionListener{
 	
 	public static MultiplayerLeaderboard lb;
 	public static MultiplayerCamera cam;
@@ -40,24 +40,27 @@ public class ClientGameState implements ActionListener{
 	private final int DELAY = 10;	// milliseconds delay
 	private Timer timer;
 	
-	public ClientGameState(ArrayList<Client> Clients, Network Network) {
+	
+	public MultiplayerGameState(ArrayList<Client> Clients, Network Network, boolean isHost) {
 		this.Clients = Clients;
 		this.Network = Network;
+		this.isHost = isHost;
 		isRunning = true;
-	
+
 		timer = new Timer(DELAY, this);	// Every DELAY ms the timer will call the actionPerformed()
-		timer.start();
-		
+		timer.start();		
 		init();
-		
 	}
 	
-	public void init() {
+	public void init() {		
+
 		lb = new MultiplayerLeaderboard();
 		cam = new MultiplayerCamera(0, 0, 1, 1);
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
-//		music = new Audio_player("/Audio/music.mp3");
-//		music.play();	
+		music = new Audio_player("/Audio/music.mp3");
+		music.play();	
+		
+		
 	}
 	
 	public void initDraw (Graphics graphics, JPanel jpanel) {	//get the graphics and panel to process draw method in here
@@ -121,6 +124,89 @@ public class ClientGameState implements ActionListener{
 	
 	public void update() { 
 		lb.Update();
+		
+		if (isHost) {		
+
+			if (MultiplayerParticle.particleCount < 500) {	// generate food
+				String message = "FOODADD:";
+				while (MultiplayerParticle.particleCount < 500){
+					int x = (int) Math.floor(Math.random() * 10001);
+					int y = (int) Math.floor(Math.random() * 10001);
+					String imgBread=foodonMap.getBread();
+					MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgBread));
+					// FOODADD:X:Y:B
+					message = message + x + ":" + y + ":B" + ":";
+					
+					x = (int) Math.floor(Math.random() * 10001);
+					y = (int) Math.floor(Math.random() * 10001);
+					String imgCheese=foodonMap.getCheese();
+					MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgCheese));
+					// FOODADD:X:Y:C
+					message = message + x + ":" + y + ":C" + ":";
+
+					
+					x = (int) Math.floor(Math.random() * 10001);
+					y = (int) Math.floor(Math.random() * 10001);
+					String imgSteak=foodonMap.getSteak();
+					MultiplayerParticle.particles.add(new MultiplayerParticle(x,y, 1, false, imgSteak));
+					//FOODADD:X:Y:S
+					message = message + x + ":" + y + ":S" + ":";
+				}
+
+				Network.sendAsServer(message);			
+			}
+
+
+			if (MultiplayerForest.forestCount < 100) {
+				String message = "FORESTADD:";
+				while (MultiplayerForest.forestCount < 100) {
+					int x = (int) Math.floor(Math.random() * 10001);
+					int y = (int) Math.floor(Math.random() * 10001);
+					MultiplayerForest.forests.add(new MultiplayerForest(x, y,400));
+					message = message + x + ":" + y + ":" ;
+				}
+				Network.sendAsServer(message);
+			}
+			
+			if (MultiplayerPool.poolCount < 150) {
+				String message = "POOLADD:";
+				while (MultiplayerPool.poolCount < 150) {
+					int x = (int) Math.floor(Math.random() * 10001);
+					int y = (int) Math.floor(Math.random() * 10001);
+					MultiplayerPool.pools.add(new MultiplayerPool(x,y,400));
+					message = message + x + ":" + y + ":" ;
+				}
+				Network.sendAsServer(message);
+
+			}
+			
+			if (MultiplayerMud.mudCount < 100) {
+				String message = "MUDADD:";
+				while (MultiplayerMud.mudCount < 100) {
+					int x = (int) Math.floor(Math.random() * 10001);
+					int y = (int) Math.floor(Math.random() * 10001);
+					MultiplayerMud.muds.add(new MultiplayerMud(x,y,400));
+					message = message + x + ":" + y + ":" ;
+				}
+				Network.sendAsServer(message);
+			}
+			
+			for (int i = MultiplayerCell.cellCount; i < Clients.size(); i++) {
+				boolean isPlayer = false;
+				if (i == 0) {
+                    isPlayer = true;
+                }
+				int x = (int) Math.floor(Math.random() * 10001);
+				int y = (int) Math.floor(Math.random() * 2801);
+				MultiplayerCell c = new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(),x , y, isPlayer);
+				c.goalX = x;
+				c.goalY = y;
+				MultiplayerCell.cells.add(c);
+				// CELLADD:ID:NAME:X:Y:HP:SCORE
+				Network.sendAsServer("CELLADD:" + Clients.get(i).getUserID() + ":" + Clients.get(i).getUsername() + ":" + x + ":" + y + ":" + c.currentHp + ":" + c.currentExp + ":");
+				// Send as server to all
+			}
+		}
 		
 		try {
 			for (int i = 0; i < MultiplayerCell.cells.size(); i++) {
@@ -195,12 +281,19 @@ public class ClientGameState implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		String message= "GAMESTATE:";
 		for (MultiplayerCell Cell : MultiplayerCell.cells) {
 			// The player
-			if (Cell.id == Clients.get(0).getUserID()) {
-				// GAMESTATE:ID:X:Y:LEVEL:HP:EXP
-				Clients.get(0).sendMessage("GAMESTATE:" + Clients.get(0).getUserID() + ":" + Cell.goalX +":" + Cell.goalY + ":" + Cell.levelNum + ":" + Cell.currentHp + ":" + Cell.currentExp +":");
+			if (isHost) {
+					message = message + Cell.id + ":" + Cell.goalX + ":" + Cell.goalY + ":" + Cell.levelNum +":" +  Cell.currentHp + ":" + Cell.currentExp + ":";
+			} else {
+				if (Cell.id == Clients.get(0).getUserID()) {
+					Clients.get(0).sendMessage("GAMESTATE:" + Clients.get(0).getUserID() + ":" + Cell.goalX +":" + Cell.goalY + ":" + Cell.levelNum + ":" + Cell.currentHp + ":" + Cell.currentExp +":");
+				}
 			}
+		}
+		if (isHost) {
+			Network.sendAsServer(message);			
 		}
 	}
 	
@@ -221,8 +314,14 @@ public class ClientGameState implements ActionListener{
 			if (cell.id == Clients.get(0).getUserID()){
 				cell.getMouseX((int) (e.getX() / cam.sX + cam.x));
 				cell.getMouseY((int) (e.getY() / cam.sY + cam.y));
-				Clients.get(0).sendMessage("MOVE:" + Clients.get(0).getUserID() + ":" + ((int)(e.getX() / cam.sX + cam.x)) +":" + ((int)(e.getY() / cam.sY + cam.y)));
-
+				
+//				if (isHost) {
+//					ServerCell c = ServerCell.serverCells.get(0);
+//					c.goalX =((int)(e.getX() / cam.sX + cam.x));
+//					c.goalY = ((int)(e.getY() / cam.sY + cam.y));
+//				} else {
+//					Clients.get(0).sendMessage("MOVE:" + Clients.get(0).getUserID() + ":" + ((int)(e.getX() / cam.sX + cam.x)) +":" + ((int)(e.getY() / cam.sY + cam.y)));
+//				}
 			}
 		}
 	}
@@ -236,6 +335,14 @@ public class ClientGameState implements ActionListener{
 	}
 	
 	public void sendMessage(String message) {
-		Clients.get(0).sendMessage(message);
+		if (isHost) {
+			Network.sendAsServer(message);			
+		} else {
+			Clients.get(0).sendMessage(message);
+		}
+	}
+
+	public void setRunning(boolean b) {
+		isRunning = b;
 	}
 }

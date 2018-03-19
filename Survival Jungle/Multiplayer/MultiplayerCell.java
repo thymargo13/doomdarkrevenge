@@ -14,7 +14,6 @@ import java.util.HashMap;
 public class MultiplayerCell {
 
 	public static ArrayList<MultiplayerCell> cells = new ArrayList<MultiplayerCell>();
-	public static ArrayList<MultiplayerCell> serverCells = new ArrayList<MultiplayerCell>();
 	public int id;
 	public static ArrayList<Player> level = new ArrayList<Player>();
 	public static int cellCount;
@@ -47,7 +46,7 @@ public class MultiplayerCell {
 	int colCount = 0;
 	MultiplayerCell colCell;
 	
-	ClientGameState ClientGameState;
+	MultiplayerGameState ClientGameState;
 
 	private HashMap<String, Audio_player> sfx;
 
@@ -121,6 +120,11 @@ public class MultiplayerCell {
 			}
 		}
 	}
+	
+	public void setExp(int exp) {
+		this.currentExp = exp;
+	}
+	
 //	Test!!!!!!!!!!!!!!!!!!!!!!!
 	public void reduceHp(double hp, MultiplayerCell cell) {
 		
@@ -202,7 +206,7 @@ public class MultiplayerCell {
 		sfx.get("exdown").play();
 	}
 
-	public void Update(ClientGameState ClientGameState) {
+	public void Update(MultiplayerGameState ClientGameState) {
 		this.ClientGameState = ClientGameState;
 		if (this.currentExp >= this.currentLv.getExp()) {
 			levelUp(this);

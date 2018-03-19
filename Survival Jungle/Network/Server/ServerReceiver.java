@@ -5,20 +5,20 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
 
+import Multiplayer.MultiplayerGameState;
 import Multiplayer.MultiplayerCell;
-import Multiplayer.ServerCell;
-import Multiplayer.ServerGameState;
+
 
 public class ServerReceiver implements Runnable {
 	private BufferedReader input;
 	private int ClientID;
-	private ServerGameState ServerGameState;
+	private MultiplayerGameState MultiplayerGameState;
 	private boolean running = false;
 	
-	ServerReceiver(BufferedReader input, int ClientID, ServerGameState ServerGameState){
+	ServerReceiver(BufferedReader input, int ClientID, MultiplayerGameState MultiplayerGameState){
 		this.input = input;
 		this.ClientID = ClientID;
-		this.ServerGameState = ServerGameState;
+		this.MultiplayerGameState = MultiplayerGameState;
 		running = true;
 	}
 
@@ -42,7 +42,7 @@ public class ServerReceiver implements Runnable {
 				for (Client c : Server.Clients) {
 					message = message + c.getUserID() + ":" + c.getUsername() + ":";
 				}
-				ServerGameState.sendMessage(message);
+				MultiplayerGameState.sendMessage(message);
 				
 				MultiplayerCell.cells.remove(searchCell(ClientID));
 
@@ -55,13 +55,13 @@ public class ServerReceiver implements Runnable {
 	public void processMessage(String data) {
 		if (data.length() > 0) {
 			String[] message = data.split(":");
-			ServerCell cell = searchCell(Integer.parseInt(message[1]));
+			MultiplayerCell cell = searchCell(Integer.parseInt(message[1]));
 
 			switch (message[0]) {
 				case "NAME":
 					//Sample Message : "NAME:ID:USERNAME"
 					searchClients(Integer.parseInt(message[1])).setUsername(message[2]);
-					ServerGameState.sendMessage(data);
+					MultiplayerGameState.sendMessage(data);
 					break;
 				case "MOVE":
 					//Sample Message : "MOVE:ID:X:Y"
@@ -114,8 +114,8 @@ public class ServerReceiver implements Runnable {
 		return null;
 	}
 	
-	public ServerCell searchCell(int ClientID) {
-		for (ServerCell Cell : ServerCell.serverCells) {
+	public MultiplayerCell searchCell(int ClientID) {
+		for (MultiplayerCell Cell : MultiplayerCell.cells) {
 			if (Cell.id == ClientID) {
 				return Cell;
 			}

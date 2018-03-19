@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import Local.Particle;
 import Multiplayer.MultiplayerCell;
-import Multiplayer.ClientGameState;
+import Multiplayer.MultiplayerGameState;
 
 import java.awt.*;
 
@@ -47,7 +47,7 @@ public class MultiplayerParticle {
 		this.image = ii.getImage();
 	}
 
-	public void Update(ClientGameState ClientGameState) {
+	public void Update(MultiplayerGameState ClientGameState) {
 		for (MultiplayerCell cell : MultiplayerCell.cells) {
 			if (this.checkCollide(cell.x, cell.y) && !cellParticle) {
 				if(img==imgBread) {

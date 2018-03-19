@@ -8,20 +8,22 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import Entity.foodonMap;
 import Local.Particle;
+import Multiplayer.MultiplayerGameState;
 import Multiplayer.MultiplayerCell;
-import Multiplayer.ServerForest;
-import Multiplayer.ServerGameState;
-import Multiplayer.ServerMud;
-import Multiplayer.ServerPool;
+import Multiplayer.MultiplayerForest;
+import Multiplayer.MultiplayerMud;
+import Multiplayer.MultiplayerParticle;
+import Multiplayer.MultiplayerPool;
 
 public class ServerHost implements Runnable {
 	private ServerSocket ServerSocket;
-	private ServerGameState ServerGameState;
+	private MultiplayerGameState MultiplayerGameState;
 
-	ServerHost(ServerSocket ServerSocket, ServerGameState ServerGameState){
+	ServerHost(ServerSocket ServerSocket, MultiplayerGameState MultiplayerGameState){
 		this.ServerSocket = ServerSocket;
-		this.ServerGameState = ServerGameState;
+		this.MultiplayerGameState = MultiplayerGameState;
 	}
 	
 	public void run() {
@@ -32,11 +34,21 @@ public class ServerHost implements Runnable {
 				Socket = ServerSocket.accept();
 				BufferedReader input = new BufferedReader(new InputStreamReader(Socket.getInputStream()));
 				DataOutputStream output = new DataOutputStream(Socket.getOutputStream());
-
+				
 				Client Client = new Client(i, Socket.getInetAddress());
 				Server.Clients.add(Client);
 				System.out.println("Client : " + Client.getUserID() + " connected from IP " + Client.getIP() + " .");
-								
+				
+				ServerSender ServerSender = new ServerSender(output,i);
+				Thread SenderThread = new Thread(ServerSender);
+				SenderThread.start();
+				System.out.println("Output stream for client " + Client.getUserID() + " established.");
+
+				ServerReceiver ServerReceiver = new ServerReceiver(input,i,MultiplayerGameState);
+				Thread ReceiverThread = new Thread(ServerReceiver);
+				ReceiverThread.start();
+				System.out.println("Input stream for client " + Client.getUserID() + " established.");
+				
 				// Send Client own ID
 				Client.sendMessage("CLIENTID:" + i);
 				// Send the Clients list
@@ -49,51 +61,49 @@ public class ServerHost implements Runnable {
 				Client.sendMessage(message);
 				
 				// if game already running
-				if (ServerGameState.getRunning()) {
+				if (MultiplayerGameState.getRunning()) {
 					message = "CELLADD:";
 					for (MultiplayerCell c : MultiplayerCell.cells) {
-						// CELLADD:ID:X:Y:HP:SCORE
-						message = message + c.id + ":" + c.x +":" + c.y + ":" + c.currentHp + ":" + c.currentExp + ":";
-
+						// CELLADD:ID:Name:X:Y:HP:SCORE
+						message = message + c.id + ":" + c.name + ":" + c.x +":" + c.y + ":" + c.currentHp + ":" + c.currentExp + ":";
 					}
 					Client.sendMessage(message);
-
-					message = "FOODADD";
-					for (Particle p : Particle.particles) {
-						if (!p.getHealth()) {
-							message  = message + ":" + p.x + ":" + p.y + ":";
+					String imgSteak=foodonMap.getSteak();
+					String imgCheese=foodonMap.getCheese();
+					String imgBread=foodonMap.getBread();
+					message = "FOODADD:";
+					for (MultiplayerParticle p : MultiplayerParticle.particles) {
+						message  = message + p.x + ":" + p.y + ":";
+						
+						if (p.img == imgSteak) {
+							message = message + "S:";
+						} else if (p.img == imgCheese) {
+							message = message + "C:";
+						} else if (p.img == imgBread) {
+							message = message + "B:";
 						}
+						
 					}
 					Client.sendMessage(message);
 					
 					message = "FORESTADD:";
-					for (ServerForest f : ServerForest.serverForests) {
+					for (MultiplayerForest f : MultiplayerForest.forests) {
 						message = message + f.getX() + ":" + f.getY() + ":";
 					}
 					Client.sendMessage(message);
 					
 					message = "POOLADD:";
-					for (ServerPool p : ServerPool.serverPools) {
+					for (MultiplayerPool p : MultiplayerPool.pools) {
 						message = message + p.getX() + ":" + p.getY() + ":";
 					}
 					Client.sendMessage(message);
 					
 					message = "MUDADD:";
-					for (ServerMud m : ServerMud.serverMuds) {
+					for (MultiplayerMud m : MultiplayerMud.muds) {
 						message = message + m.getX() + ":" + m.getY() + ":";
 					}
 					Client.sendMessage(message);
 				}
-				
-				ServerSender ServerSender = new ServerSender(output,i);
-				Thread SenderThread = new Thread(ServerSender);
-				SenderThread.start();
-				System.out.println("Output stream for client " + Client.getUserID() + " established.");
-
-				ServerReceiver ServerReceiver = new ServerReceiver(input,i,ServerGameState);
-				Thread ReceiverThread = new Thread(ServerReceiver);
-				ReceiverThread.start();
-				System.out.println("Input stream for client " + Client.getUserID() + " established.");
 
 				i++;
 			} catch (Exception ex) {

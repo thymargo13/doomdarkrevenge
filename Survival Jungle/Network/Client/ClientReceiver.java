@@ -3,14 +3,14 @@ package Network.Client;
 import java.io.BufferedReader;
 
 import Multiplayer.MultiplayerCell;
-import Multiplayer.ClientGameState;
+import Multiplayer.MultiplayerGameState;
 import Network.Server.*;
 
 public class ClientReceiver implements Runnable{
 	private BufferedReader input;
-	private ClientGameState ClientGameState = null;
+	private MultiplayerGameState ClientGameState = null;
 	
-	ClientReceiver(BufferedReader input, ClientGameState MultiplayerGameState){
+	ClientReceiver(BufferedReader input, MultiplayerGameState MultiplayerGameState){
 		this.input = input;
 		this.ClientGameState = MultiplayerGameState;
 	}
@@ -35,13 +35,12 @@ public class ClientReceiver implements Runnable{
 				switch (message[0]) {
 					case "NAME":
 						//Sample Message : "NAME:ID:USERNAME"
-						System.out.println("ID:"+Integer.parseInt(message[1])+ "NAME:" + message[2] );
-						searchClients(Integer.parseInt(message[1])).setUsername(message[2]);
+//						searchClients(Integer.parseInt(message[1])).setUsername(message[2]);
 						break;
 					case "CLIENTID":
 						//Sample Message : "CLIENTID:ID"
 						ClientGameState.Clients.get(0).setUserID(Integer.parseInt(message[1]));
-						ClientGameState.Clients.get(0).sendMessage("NAME:" + message[1] + ":" + ClientGameState.Clients.get(0).getUsername());
+						ClientGameState.Clients.get(0).sendMessage("NAME:" + message[1] + ":" + ClientGameState.Clients.get(0).getUsername() + ":");
 						break;
 					case "CLIENTLIST":
 						//Sample Message : "CLIENTLIST:ID:USERNAME"
@@ -56,12 +55,14 @@ public class ClientReceiver implements Runnable{
 						}
 						break;
 					case "CELLADD":
-						// CELLADD:ID:X:Y:HP:SCORE
-						for (int i = 1; i < message.length; i = i + 5) {
+						// CELLADD:ID:NAME:X:Y:HP:SCORE
+						for (int i = 1; i < message.length; i = i + 6) {
 							if (Integer.parseInt(message[1]) == ClientGameState.Clients.get(0).getUserID()) {
-								MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), searchClients(Integer.parseInt(message[i])).getUsername() ,Double.parseDouble(message[1+1]) , Double.parseDouble(message[i+2]), true, Integer.parseInt(message[i+3]), Integer.parseInt(message[i+4]) ));
+								searchClients(Integer.parseInt(message[i])).setUsername(message[i+1]);
+								MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), searchClients(Integer.parseInt(message[i])).getUsername() ,Double.parseDouble(message[1+2]) , Double.parseDouble(message[i+3]), true, Integer.parseInt(message[i+4]), Integer.parseInt(message[i+5]) ));
 							} else {
-								MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), searchClients(Integer.parseInt(message[i])).getUsername() ,Double.parseDouble(message[1+1]) , Double.parseDouble(message[i+2]), false, Integer.parseInt(message[i+3]), Integer.parseInt(message[i+4]) ));
+								searchClients(Integer.parseInt(message[i])).setUsername(message[i+1]);
+								MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), searchClients(Integer.parseInt(message[i])).getUsername() ,Double.parseDouble(message[1+2]) , Double.parseDouble(message[i+4]), false, Integer.parseInt(message[i+4]), Integer.parseInt(message[i+5]) ));
 							}
 						}
 						break;

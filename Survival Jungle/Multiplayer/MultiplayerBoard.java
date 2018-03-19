@@ -18,7 +18,7 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 	private final int DELAY = 10;	// milliseconds delay
 	private Timer timer;
 	
-	private ClientGameState ClientGameState;
+	private MultiplayerGameState ClientGameState;
 	private boolean multiplayer = true;
 	Network Network;
 	String Address;
@@ -37,27 +37,22 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 	}
 
 	private void initMultiplayerBoard(ArrayList<Client> Clients, boolean isHost) {
-		ClientGameState = new ClientGameState(Clients, Network);
+		ClientGameState = new MultiplayerGameState(Clients, Network, isHost);
+//		Clients.get(0).setUserID(1);
 		Network.setClients(Clients);
-		Network.setGameState(ClientGameState);
-		
+		Network.setGameState(ClientGameState);	
 		if (isHost) {
 			// Host username
-			ServerGameState ServerGameState = new ServerGameState(new ArrayList<Client>(), Network);
-			Network.setServerGameState(ServerGameState);
-			Network.startServer();
-			Network.connectServer(Clients.get(0), "127.0.0.1");
 
+//			Network.setServerGameState(ServerGameState);
+			Network.startServer();
+//			Network.connectServer(Clients.get(0), null);
 		} else {
 			Network.connectServer(Clients.get(0), Address);
 		}
 		
 
-		// while not connected
-//		while(!Network.getIsConnected()) {
-//			System.out.println("Connecting to server...");
-//		}
-		
+				
 		setPreferredSize(new Dimension(800, 600));	// can use setSize() if component's parent has no layout manager
 		setDoubleBuffered(true);	// Sets whether this component should use a buffer to paint
 		timer = new Timer(DELAY, this);	// Every DELAY ms the timer will call the actionPerformed()

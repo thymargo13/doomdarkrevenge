@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Multiplayer.ServerGameState;
+import Multiplayer.MultiplayerGameState;
 
 public class Server {
 	static ArrayList<Client> Clients;
@@ -19,10 +19,10 @@ public class Server {
 	private final int ServerPort = 8888;
 	private final int DiscoveryPort = 8889;
 	private final JPanel errorPanel = new JPanel();
-	private ServerGameState ServerGameState;
+	private MultiplayerGameState MultiplayerGameState;
 
-	public Server (ArrayList<Client> Clients, ServerGameState ServerGameState){
-		this.ServerGameState = ServerGameState;
+	public Server (ArrayList<Client> Clients, MultiplayerGameState MultiplayerGameState){
+		this.MultiplayerGameState = MultiplayerGameState;
 		this.Clients = Clients;
 	}
 	
@@ -30,7 +30,7 @@ public class Server {
 	public void startServer() {
 		try {		
 			ServerSocket = new ServerSocket(ServerPort);
-			ServerHost ServerHost = new ServerHost(ServerSocket, ServerGameState);
+			ServerHost ServerHost = new ServerHost(ServerSocket, MultiplayerGameState);
 			HostThread = new Thread(ServerHost);
 			HostThread.start();
 			System.out.println("Server started.");
