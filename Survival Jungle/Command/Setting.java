@@ -15,7 +15,7 @@ import Main.MenuPanel;
  */
 
 public class Setting extends Command{
-	
+	private static boolean mute;
 	
 	 
 	@Override
@@ -24,15 +24,19 @@ public class Setting extends Command{
 
 		MenuPanel music;
 		int i = JOptionPane.showConfirmDialog(null, "Turn sound OFF?");
+		BooleanControl mutecontrol = (BooleanControl) Audio_player.clip.getControl(BooleanControl.Type.MUTE);
 		if(i == JOptionPane.YES_OPTION){
-		
-		BooleanControl mutecontrol = (BooleanControl) Audio_player.clip.getControl(BooleanControl.Type.MUTE);	
-		mutecontrol.setValue(true);	
-			
+			mute = true;
 		}
-		
+		if(i == JOptionPane.NO_OPTION) {
+			mute = false;
+		}
+		mutecontrol.setValue(mute);
 
 		return null;
+	}
+	public boolean getMute() {
+		return mute;
 	}
 
 		

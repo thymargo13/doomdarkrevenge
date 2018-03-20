@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
+import Command.Setting;
 import javax.sound.sampled.BooleanControl;
 import javax.swing.JPanel;
 
@@ -32,7 +32,6 @@ public class GameState {
 	public static boolean playerCreated;
 	private Graphics g;
 	private JPanel jpanel;
-	
 	private Audio_player music;
 	
 	public GameState() {
@@ -44,14 +43,14 @@ public class GameState {
 		cam = new Camera(0, 0, 1, 1);
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		playerCreated = false;
-		
+		Setting Music = new Setting();
 		//stop the music playing at the menu page
 		BooleanControl mutecontrol = (BooleanControl) Audio_player.clip.getControl(BooleanControl.Type.MUTE);
-		
-		mutecontrol.setValue(true);
+		System.out.println(Music.getMute());
+		mutecontrol.setValue(Music.getMute());
 		//play music during the game
-		music = new Audio_player("/Audio/music.mp3");
-		music.play();
+	//	music = new Audio_player("/Audio/music.mp3");
+	//	music.play();
 	}
 	
 	public void initDraw (Graphics graphics, JPanel jpanel) {	//get the graphics and panel to process draw method in here
