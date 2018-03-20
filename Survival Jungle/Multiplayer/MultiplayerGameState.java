@@ -207,8 +207,7 @@ public class MultiplayerGameState implements ActionListener{
 				int x = (int) Math.floor(Math.random() * 10001);
 				int y = (int) Math.floor(Math.random() * 2801);
 				MultiplayerCell c = new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(),x , y, isPlayer);
-				c.goalX = x;
-				c.goalY = y;
+				
 				MultiplayerCell.cells.add(c);
 				// CELLADD:ID:NAME:X:Y:HP:SCORE
 				Network.sendAsServer("CELLADD:" + Clients.get(i).getUserID() + ":" + Clients.get(i).getUsername() + ":" + x + ":" + y + ":" + c.currentHp + ":" + c.currentExp + ":");

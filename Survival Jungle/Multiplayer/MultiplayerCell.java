@@ -163,11 +163,17 @@ public class MultiplayerCell {
 	
 	public void updateCell(double x, double y, int levelnum, int hp, int exp){
 		this.goalX = x;
+		this.x = x;
+		this.y = y;
 		this.goalY = y;
 		this.levelNum = levelnum;
 		this.currentHp = hp;
 		this.currentExp = exp;
 		setLevel(levelnum);
+		if (hp == 0){
+			respawn(this);
+		}
+		
 		// GAMESTATE:ID:X:Y:LEVEL:HP:EXP
 	}
 	
@@ -319,11 +325,17 @@ public class MultiplayerCell {
 
 	// the HP value is reached.
 	public void respawn(MultiplayerCell cell) {
-		cell.x = (int) Math.floor(Math.random() * 10001);
-		cell.y = (int) Math.floor(Math.random() * 10001);
+		if (MultiplayerGameState.getIsHost()){
+			cell.x = (int) Math.floor(Math.random() * 10001);
+			cell.y = (int) Math.floor(Math.random() * 10001);
+			cell.currentHp = cell.level.get(levelNum).getHealth();
+			cell.currentExp = 0;
+			String message = "RESPAWN:" + this.id + ":" + this.x + ":" + this.y + ":" + this.levelNum;
+			MultiplayerGameState.sendMessage(message);
+		}
+
 		// this.currentLv = level.get(0);
-		String message = "RESPAWN:" + this.id + ":" + this.x + ":" + this.y + ":" + this.levelNum;
-		MultiplayerGameState.sendMessage(message);
+
 
 	}
 

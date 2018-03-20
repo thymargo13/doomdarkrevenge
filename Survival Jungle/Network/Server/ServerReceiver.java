@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import Multiplayer.MultiplayerGameState;
@@ -93,21 +94,17 @@ public class ServerReceiver implements Runnable{
 					 cell.setLevel(Integer.parseInt(message[2]));
 					break;
 				case "HP":
-					// Sample Message : "LEVEL:ID:LEVELUP"
+					// Sample Message : "LEVEL:ID:HP"
 					cell.updateCell(cell.x, cell.y, cell.levelNum,Integer.parseInt(message[2]) , cell.currentExp);
 					break;
 				case "GAMESTATE":
 					// GAMESTATE:ID:X:Y:LEVEL:HP:EXP
-											
-						double x = Double.parseDouble(message[2]);
-						double y = Double.parseDouble(message[3]);
-						int levelnum = Integer.parseInt(message[4]);
-						int hp = Integer.parseInt(message[5]);
-						int exp = Integer.parseInt(message[6]);
-						cell.updateCell(x, y, levelnum, hp, exp);
-					
-					
-					
+					double x = Double.parseDouble(message[2]);
+					double y = Double.parseDouble(message[3]);
+					int levelnum = Integer.parseInt(message[4]);
+					int hp = Integer.parseInt(message[5]);
+					int exp = Integer.parseInt(message[6]);
+					cell.updateCell(x, y, levelnum, hp, exp);
 					break;
 				default:
 					break;

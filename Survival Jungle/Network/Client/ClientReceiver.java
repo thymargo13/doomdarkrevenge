@@ -129,7 +129,7 @@ public class ClientReceiver implements Runnable{
 						ce.x = Double.parseDouble(message[2]);
 						ce.y = Double.parseDouble(message[3]);
 						int level = Integer.parseInt(message[4]);
-						ce.updateCell(ce.x, ce.y, level , ce.currentHp, ce.currentExp);
+						ce.updateCell(ce.x, ce.y, level , ce.level.get(level).getHealth(), 0);
 						break;
 					case "HP":
 						MultiplayerCell cel = searchCell(Integer.parseInt(message[1]));
