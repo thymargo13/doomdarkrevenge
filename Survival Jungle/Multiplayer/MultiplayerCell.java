@@ -45,6 +45,7 @@ public class MultiplayerCell {
 	boolean colRached = false;
 	int colCount = 0;
 	MultiplayerCell colCell;
+	int totalExp;
 	
 	MultiplayerGameState MultiplayerGameState;
 
@@ -164,9 +165,9 @@ public class MultiplayerCell {
 		this.goalX = x;
 		this.goalY = y;
 		this.levelNum = levelnum;
-		setLevel(levelnum);
 		this.currentHp = hp;
 		this.currentExp = exp;
+		setLevel(levelnum);
 		// GAMESTATE:ID:X:Y:LEVEL:HP:EXP
 	}
 	
@@ -209,6 +210,17 @@ public class MultiplayerCell {
 		//play audio
 		sfx.get("exdown").play();
 	}
+	
+	public int calTotalExp() {
+		if(this.levelNum==0) {
+			totalExp = this.currentExp;
+		}else {
+			int periousExp = level.get(levelNum-1).getExp();
+			totalExp = this.currentExp + periousExp;
+		}
+		return totalExp;
+	}
+
 
 	public void Update(MultiplayerGameState MultiplayerGameState) {
 		this.MultiplayerGameState = MultiplayerGameState;
@@ -232,7 +244,11 @@ public class MultiplayerCell {
 						}
 					}
 					cell.currentHp -= this.currentLv.getAttack();
-
+					// HP:ID
+					
+					String message = "HP:" + cell.id + ":" + cell.currentHp;
+					MultiplayerGameState.sendMessage(message);
+					
 					if (cell.currentHp <= 0) { // HP <= 0 die
 						if (cell.levelNum == 0) {
 							die(cell, this);
@@ -280,10 +296,7 @@ public class MultiplayerCell {
 			this.colY = this.y + distance;
 			cell.colY = cell.y - distance;
 		}
-		String message = "MOVE:" + this.id + ":" + this.x + ":" + this.y;
-		MultiplayerGameState.sendMessage(message);
-		message = "MOVE:" + cell.id + ":" + cell.x + ":" + cell.y;
-		MultiplayerGameState.sendMessage(message);
+
 
 	}
 	
@@ -292,6 +305,10 @@ public class MultiplayerCell {
 		double dy = (this.colY - this.y);
 		this.x += (dx) * 1 / 100;
 		this.y += (dy) * 1 / 100;
+		
+		String message = "MOVE:" + this.id + ":" + this.x + ":" + this.y;
+		MultiplayerGameState.sendMessage(message);
+		
 		if (colCount > 30) {
 			colCount = 0;
 			colRached = false;
@@ -305,7 +322,7 @@ public class MultiplayerCell {
 		cell.x = (int) Math.floor(Math.random() * 10001);
 		cell.y = (int) Math.floor(Math.random() * 10001);
 		// this.currentLv = level.get(0);
-		String message = "MOVE:" + this.id + ":" + this.x + ":" + this.y;
+		String message = "RESPAWN:" + this.id + ":" + this.x + ":" + this.y + ":" + this.levelNum;
 		MultiplayerGameState.sendMessage(message);
 
 	}

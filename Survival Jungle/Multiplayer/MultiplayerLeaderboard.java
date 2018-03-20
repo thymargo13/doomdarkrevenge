@@ -51,9 +51,9 @@ public class MultiplayerLeaderboard {
 	private class leaderComparator implements Comparator<MultiplayerCell> {
 		@Override
 		public int compare(MultiplayerCell c1, MultiplayerCell c2) {
-			if (c1.currentExp == c2.currentExp) {
+			if (c1.calTotalExp()  == c2.calTotalExp()) {
 				return 0;
-			} else if (c1.currentExp > c2.currentExp) {
+			} else if (c1.calTotalExp() > c2.calTotalExp()) {
 				return -1;
 			} else {
 				return 1;

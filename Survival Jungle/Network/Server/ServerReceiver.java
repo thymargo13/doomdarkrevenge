@@ -1,21 +1,27 @@
 package Network.Server;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
+
+import javax.swing.Timer;
 
 import Multiplayer.MultiplayerGameState;
 import Multiplayer.MultiplayerParticle;
 import Multiplayer.MultiplayerCell;
 
 
-public class ServerReceiver implements Runnable {
+public class ServerReceiver implements Runnable{
 	private BufferedReader input;
 	private int ClientID;
 	private MultiplayerGameState MultiplayerGameState;
 	private boolean running = false;
-	
+	private final int DELAY = 500;	// milliseconds delay
+	private Timer timer;
+
 	ServerReceiver(BufferedReader input, int ClientID, MultiplayerGameState MultiplayerGameState){
 		this.input = input;
 		this.ClientID = ClientID;
@@ -86,15 +92,21 @@ public class ServerReceiver implements Runnable {
 					// Sample Message : "LEVEL:ID:LEVELUP"
 					 cell.setLevel(Integer.parseInt(message[2]));
 					break;
+				case "HP":
+					// Sample Message : "LEVEL:ID:LEVELUP"
+					cell.updateCell(cell.x, cell.y, cell.levelNum,Integer.parseInt(message[2]) , cell.currentExp);
+					break;
 				case "GAMESTATE":
 					// GAMESTATE:ID:X:Y:LEVEL:HP:EXP
-					cell.goalX = Double.parseDouble(message[2]);
-					cell.x = Double.parseDouble(message[2]);
-					cell.goalY = Double.parseDouble(message[3]);
-					cell.y = Double.parseDouble(message[3]);
-					cell.levelNum = Integer.parseInt(message[4]);
-					cell.currentHp = Integer.parseInt(message[5]);
-					cell.currentExp = Integer.parseInt(message[6]);
+											
+						double x = Double.parseDouble(message[2]);
+						double y = Double.parseDouble(message[3]);
+						int levelnum = Integer.parseInt(message[4]);
+						int hp = Integer.parseInt(message[5]);
+						int exp = Integer.parseInt(message[6]);
+						cell.updateCell(x, y, levelnum, hp, exp);
+					
+					
 					
 					break;
 				default:
@@ -137,5 +149,6 @@ public class ServerReceiver implements Runnable {
 		}
 		return null;
 	}
+
 
 }

@@ -292,10 +292,10 @@ public class MultiplayerGameState implements ActionListener{
 		for (MultiplayerCell Cell : MultiplayerCell.cells) {
 			// The player
 			if (isHost) {
-					message = message + Cell.id + ":" + Cell.x + ":" + Cell.y + ":" + Cell.levelNum +":" +  Cell.currentHp + ":" + Cell.currentExp + ":";
+					message = message + Cell.id + ":" + (int)Cell.x + ":" + (int)Cell.y + ":" + Cell.levelNum +":" +  Cell.currentHp + ":" + Cell.currentExp + ":";
 			} else {
 				if (Cell.id == Clients.get(0).getUserID()) {
-					Clients.get(0).sendMessage("GAMESTATE:" + Clients.get(0).getUserID() + ":" + Cell.x +":" + Cell.y + ":" + Cell.levelNum + ":" + Cell.currentHp + ":" + Cell.currentExp +":");
+					Clients.get(0).sendMessage("GAMESTATE:" + Clients.get(0).getUserID() + ":" + (int)Cell.x +":" + (int)Cell.y + ":" + Cell.levelNum + ":" + Cell.currentHp + ":" + Cell.currentExp +":");
 				}
 			}
 		}
