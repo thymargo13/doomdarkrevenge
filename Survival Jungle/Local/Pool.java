@@ -63,7 +63,7 @@ public class Pool {
 
 				int index=cell.currentLv.getHealth();
 				if (this.checkCollide(cell.x, cell.y)) {
-					if(cell.currentLv != cell.level.get(2) || cell.currentLv != cell.level.get(3)) {
+					if(cell.levelNum != 2 || cell.levelNum != 3) {
 						cell.reduceHp(1, cell);
 					}
 //					if(cell.currentLv == cell.level.get(0)) {
