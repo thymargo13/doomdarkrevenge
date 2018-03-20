@@ -69,10 +69,10 @@ public class ClientReceiver implements Runnable{
 						for (int i = 1; i < message.length; i = i + 6) {
 							if (Integer.parseInt(message[1]) == MultiplayerGameState.Clients.get(0).getUserID()) {
 								searchClients(Integer.parseInt(message[i])).setUsername(message[i+1]);
-								MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), searchClients(Integer.parseInt(message[i])).getUsername() ,Double.parseDouble(message[1+2]) , Double.parseDouble(message[i+3]), true, Integer.parseInt(message[i+4]), Integer.parseInt(message[i+5]) ));
+								MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), message[i+1] ,Double.parseDouble(message[i+2]) , Double.parseDouble(message[i+3]), true, Integer.parseInt(message[i+4]), Integer.parseInt(message[i+5]) ));
 							} else {
-								searchClients(Integer.parseInt(message[i])).setUsername(message[i+1]);
-								MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), searchClients(Integer.parseInt(message[i])).getUsername() ,Double.parseDouble(message[1+2]) , Double.parseDouble(message[i+4]), false, Integer.parseInt(message[i+4]), Integer.parseInt(message[i+5]) ));
+//								searchClients(Integer.parseInt(message[i])).setUsername(message[i+1]);
+								MultiplayerCell.cells.add(new MultiplayerCell(Integer.parseInt(message[i]), message[i+1] ,Double.parseDouble(message[i+2]) , Double.parseDouble(message[i+4]), false, Integer.parseInt(message[i+4]), Integer.parseInt(message[i+5]) ));
 							}
 						}
 						break;
