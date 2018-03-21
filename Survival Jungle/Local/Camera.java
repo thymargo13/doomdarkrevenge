@@ -1,10 +1,11 @@
 package Local;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+
 /**
  * 
- * @author hxy719@student.bham.ac.uk
- * Camera
+ * @author hxy719@student.bham.ac.uk Camera
  *
  */
 public class Camera {
@@ -26,7 +27,7 @@ public class Camera {
 	}
 
 	public void set(Graphics bbg) {
-		Graphics2D g2 = (Graphics2D) bbg;
+		Graphics2D g2 = (Graphics2D) bbg;	    
 		g2.scale(sX, sY);
 		g2.translate(-x, -y);
 	}
@@ -35,7 +36,7 @@ public class Camera {
 		Graphics2D g2 = (Graphics2D) bbg;
 		g2.translate(x, y);
 	}
-	
+
 	public void scale(double sx, double sy) {
 		sX = sx;
 		sY = sy;
@@ -44,9 +45,9 @@ public class Camera {
 	/**
 	 * 
 	 * @param cell
-	 * scale the camera if cell mass increase
+	 *            scale the camera if cell mass increase
 	 */
-	public void Update(Cell cell) {	
+	public void Update(Cell cell) {
 		double scaleFactor;
 
 		if (cell.size < 1000) {

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import Command.Setting;
 import javax.sound.sampled.BooleanControl;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import Audio.*;
@@ -33,6 +34,7 @@ public class GameState {
 	private Graphics g;
 	private JPanel jpanel;
 	private Audio_player music;
+	private String bgImg = "/Resource/background/bgbg.png";
 	
 	public GameState() {
 		init();
@@ -62,9 +64,10 @@ public class GameState {
 	public void draw() {
 		Graphics bbg = backBuffer.getGraphics();
 		Graphics bbg2 = backBuffer.getGraphics();
-
-		bbg.setColor(Color.WHITE);	// set background color in the camera
-		bbg.fillRect(0, 0, 800, 600);
+		ImageIcon bg = new ImageIcon(getClass().getResource(bgImg));
+		bbg.drawImage(bg.getImage(), (int) 0, (int) 0, (int) 800, (int) 600, null);
+//		bbg.setColor(Color.);	// set background color in the camera
+//		bbg.fillRect(0, 0, 800, 600);
 
 		cam.set(bbg);
 		
@@ -94,7 +97,7 @@ public class GameState {
 		cam.unset(bbg);
 
 		for (Cell cell : Cell.cells) {
-			if (cell.name.equals("Bruce")) {
+			if (cell.name.equals("Player")) {
 				String pos = ("X: " + (int) cell.x + " Y: " + (int) cell.y);
 				bbg2.setColor(Color.BLACK);
 				bbg2.drawString(pos, (800 - pos.length() * pos.length()), 10);	// current location
@@ -114,13 +117,13 @@ public class GameState {
 		lb.Update();
 
 		for (int i = 0; i < Cell.cells.size(); i++) {
-			if (Cell.cells.get(i).name.equals("Bruce")) {
+			if (Cell.cells.get(i).name.equals("Player")) {
 				cam.Update(Cell.cells.get(i));	// update current position
 			}
 		}
 
 		if (Cell.cellCount < 150) {	// generate NPC
-			Cell.cells.add(new Cell(("Cell " + Cell.cellCount), (int) Math.floor(Math.random() * 10001),
+			Cell.cells.add(new Cell(("Animal " + Cell.cellCount), (int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001), false));
 		}
 
@@ -156,7 +159,7 @@ public class GameState {
 				
 		if (!playerCreated) {	// generate player
 			playerCreated = true;
-			Cell.cells.add(new Cell("Bruce", (int) Math.floor(Math.random() * 10001),
+			Cell.cells.add(new Cell("Player", (int) Math.floor(Math.random() * 10001),
 					(int) Math.floor(Math.random() * 10001), true));
 		}
 
@@ -164,7 +167,7 @@ public class GameState {
 			Pool p = pl.next();
 			
 			if (p.isShot) {	// check the food been eaten or not
-//				System.out.println("Ê§Íû");
+//				System.out.println("Ê§ï¿½ï¿½");
 				p.Update();
 			}
 		}
@@ -173,7 +176,7 @@ public class GameState {
 			Forest f = ft.next();
 			
 			if (!f.couldHide) {	// check the food been eaten or not
-//				System.out.println("Ê§Íû");
+//				System.out.println("Ê§ï¿½ï¿½");
 				f.Update();
 			}
 		}
@@ -181,13 +184,13 @@ public class GameState {
 		for (Iterator<Mud> md = Mud.muds.iterator(); md.hasNext();) {
 			Mud m=md.next();
 			for (Cell cell : Cell.cells) {
-				if(cell.currentLv == cell.level.get(0)) {
+				if(cell.levelNum == 0) {
 					
 				}else {
 					m.Update();
 				}
 //				if (!m.couldHide) {	// check the food been eaten or not
-//	//				System.out.println("Ê§Íû");
+//	//				System.out.println("Ê§ï¿½ï¿½");
 //					m.Update();
 //				}
 			}
@@ -208,7 +211,7 @@ public class GameState {
 	
 	public void mouseMoved(MouseEvent e) {	// update current location
 		for (Cell cell : Cell.cells) {
-			if (cell.name.equals("Bruce")) {
+			if (cell.name.equals("Player")) {
 				cell.getMouseX((int) (e.getX() / cam.sX + cam.x));
 				cell.getMouseY((int) (e.getY() / cam.sY + cam.y));
 			}

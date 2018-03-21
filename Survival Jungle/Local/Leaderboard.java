@@ -50,7 +50,7 @@ public class Leaderboard {
 			bbg.setColor(color);
 			bbg.drawRect(x, y + spots[i], 125, 30);
 			bbg.fillRect(x, y + spots[i], 125, 30);
-			bbg.setColor(Color.BLACK);	//color of the leader board string
+			bbg.setColor(Color.CYAN);	//color of the leader board string
 			if (Cell.cells.size() >= z) {
 				bbg.drawString("#" + (i + 1) + ": " + cellsCopy.get(i).name + " : " + (int) cellsCopy.get(i).calTotalExp() , x,
 						y + spots[i] + 25);
