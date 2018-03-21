@@ -47,16 +47,13 @@ public class Mud {
 		for (Cell cell : Cell.cells) {
 			
 				if(checkCollide(cell.x,cell.y)) {
-					if(cell.currentLv == cell.level.get(0)) {
-						
-					}else {
+					
 						double dx = (this.colX - this.x);
 						double dy = (this.colY - this.y);
 						cell.x += (dx) * 1 / 100;
 						cell.y += (dy) * 1 / 100;
 					}
 					
-				}
 			}
 				
 		
