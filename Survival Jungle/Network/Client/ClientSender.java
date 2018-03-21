@@ -3,10 +3,13 @@ package Network.Client;
 import java.io.DataOutputStream;
 import java.util.concurrent.BlockingQueue;
 
+import javax.swing.JOptionPane;
+
 public class ClientSender implements Runnable{
 	
 	private BlockingQueue<String> queue;
 	private DataOutputStream output;
+	boolean running = true;
 	
 	ClientSender(BlockingQueue<String> queue, DataOutputStream output){
 		this.queue = queue;
@@ -14,7 +17,7 @@ public class ClientSender implements Runnable{
 	}
 	
 	public void run() {
-		while (true) {
+		while (running) {
 			try {
 				String message = queue.take();
 				output.writeBytes(message);
@@ -22,11 +25,21 @@ public class ClientSender implements Runnable{
 			}
 			catch(Exception ex) {
 				System.out.println("Client Sender error: " + ex.getMessage());
-				ex.printStackTrace();
+				closeSocket();
+				running = false;
+				
+				JOptionPane.showMessageDialog(null, "Disconnected from server.", "Error", JOptionPane.ERROR_MESSAGE);				
+				System.exit(0);
 			}
 
 		}
-
-		
+	}
+	
+	public void closeSocket(){
+		try {
+			output.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

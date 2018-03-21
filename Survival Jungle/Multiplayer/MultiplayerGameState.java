@@ -200,18 +200,20 @@ public class MultiplayerGameState implements ActionListener{
 			}
 			
 			for (int i = MultiplayerCell.cellCount; i < Clients.size(); i++) {
-				boolean isPlayer = false;
-				if (i == 0) {
-                    isPlayer = true;
-                }
-				int x = (int) Math.floor(Math.random() * 10001);
-				int y = (int) Math.floor(Math.random() * 2801);
-				MultiplayerCell c = new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(),x , y, isPlayer);
-				
-				MultiplayerCell.cells.add(c);
-				// CELLADD:ID:NAME:X:Y:HP:SCORE
-				Network.sendAsServer("CELLADD:" + Clients.get(i).getUserID() + ":" + Clients.get(i).getUsername() + ":" + x + ":" + y + ":" + c.currentHp + ":" + c.currentExp + ":");
-				// Send as server to all
+				if (!Clients.get(i).getUsername().equals("")){
+					boolean isPlayer = false;
+					if (i == 0) {
+	                    isPlayer = true;
+	                }
+					int x = (int) Math.floor(Math.random() * 10001);
+					int y = (int) Math.floor(Math.random() * 2801);
+					MultiplayerCell c = new MultiplayerCell(Clients.get(i).getUserID(), Clients.get(i).getUsername(),x , y, isPlayer);
+					
+					MultiplayerCell.cells.add(c);
+					// CELLADD:ID:NAME:X:Y:HP:SCORE
+					Network.sendAsServer("CELLADD:" + Clients.get(i).getUserID() + ":" + Clients.get(i).getUsername() + ":" + x + ":" + y + ":" + c.currentHp + ":" + c.currentExp + ":");
+					// Send as server to all
+				}
 			}
 		}
 		

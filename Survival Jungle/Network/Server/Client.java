@@ -29,7 +29,7 @@ public class Client {
 	
 	public Client(int userID, InetAddress IP){
 		setUserID(userID);
-		setUsername("Default");
+		setUsername("");
 		setIP(IP);
 		
 		BlockingQueue<String> blockQueue = new LinkedBlockingQueue<String>();
