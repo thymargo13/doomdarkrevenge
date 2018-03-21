@@ -2,6 +2,7 @@ package Network.Client;
 
 import java.io.BufferedReader;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 import Multiplayer.MultiplayerCell;
@@ -28,9 +29,11 @@ public class ClientReceiver implements Runnable{
 				processMessage(message);
 			} catch (Exception ex) {
 				System.out.println("Client receiver error: " + ex.getMessage());
-				ex.printStackTrace();
 				closeSocket();
 				running = false;
+				
+				JOptionPane.showMessageDialog(null, "Disconnected from server.", "Error", JOptionPane.ERROR_MESSAGE);				
+				System.exit(0);
 //				Stop game
 			}
 		}
@@ -135,6 +138,10 @@ public class ClientReceiver implements Runnable{
 						MultiplayerCell cel = searchCell(Integer.parseInt(message[1]));
 						// Sample Message : "LEVEL:ID:LEVELUP"
 						cel.updateCell(cel.x, cel.y, cel.levelNum,Integer.parseInt(message[2]) , cel.currentExp);
+						break;
+					case "REMOVECELL":
+						// REMOVECELL:ID
+						MultiplayerCell.cells.remove(searchCell(Integer.parseInt(message[1])));
 						break;
 					default:
 						break;

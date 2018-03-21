@@ -46,10 +46,7 @@ public class ServerReceiver implements Runnable{
 				
 				Server.Clients.remove(searchClients(ClientID));
 				
-				String message = "CLIENTLIST:";
-				for (Client c : Server.Clients) {
-					message = message + c.getUserID() + ":" + c.getUsername() + ":";
-				}
+				String message = "REMOVECELL:" + ClientID;
 				MultiplayerGameState.sendMessage(message);
 				
 				MultiplayerCell.cells.remove(searchCell(ClientID));
@@ -75,6 +72,7 @@ public class ServerReceiver implements Runnable{
 					break;
 				case "NAME":
 					//Sample Message : "NAME:ID:USERNAME"
+					System.out.println("NAME123: " + message[2]);
 					searchClients(Integer.parseInt(message[1])).setUsername(message[2]);
 					MultiplayerGameState.sendMessage(data);
 					break;
