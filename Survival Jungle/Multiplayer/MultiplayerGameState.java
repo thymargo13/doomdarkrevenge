@@ -180,7 +180,7 @@ public class MultiplayerGameState implements ActionListener{
 				while (MultiplayerForest.forestCount < 100) {
 					int x = (int) Math.floor(Math.random() * 10001);
 					int y = (int) Math.floor(Math.random() * 10001);
-					MultiplayerForest.forests.add(new MultiplayerForest(x, y,400));
+					MultiplayerForest.forests.add(new MultiplayerForest(x, y,270));
 					message = message + x + ":" + y + ":" ;
 				}
 				Network.sendAsServer(message);
@@ -191,7 +191,7 @@ public class MultiplayerGameState implements ActionListener{
 				while (MultiplayerPool.poolCount < 150) {
 					int x = (int) Math.floor(Math.random() * 10001);
 					int y = (int) Math.floor(Math.random() * 10001);
-					MultiplayerPool.pools.add(new MultiplayerPool(x,y,400));
+					MultiplayerPool.pools.add(new MultiplayerPool(x,y,270));
 					message = message + x + ":" + y + ":" ;
 				}
 				Network.sendAsServer(message);
@@ -203,7 +203,7 @@ public class MultiplayerGameState implements ActionListener{
 				while (MultiplayerMud.mudCount < 100) {
 					int x = (int) Math.floor(Math.random() * 10001);
 					int y = (int) Math.floor(Math.random() * 10001);
-					MultiplayerMud.muds.add(new MultiplayerMud(x,y,400));
+					MultiplayerMud.muds.add(new MultiplayerMud(x,y,270));
 					message = message + x + ":" + y + ":" ;
 				}
 				Network.sendAsServer(message);
@@ -316,15 +316,15 @@ public class MultiplayerGameState implements ActionListener{
 	}
 	
 	public void generateForest(int x, int y){
-		MultiplayerForest.forests.add(new MultiplayerForest(x,y,400));
+		MultiplayerForest.forests.add(new MultiplayerForest(x,y,270));
 	}
 	
 	public void generatePool(int x, int y){
-		MultiplayerPool.pools.add(new MultiplayerPool(x,y,400));
+		MultiplayerPool.pools.add(new MultiplayerPool(x,y,270));
 	}
 	
 	public void generateMud(int x, int y){
-		MultiplayerMud.muds.add(new MultiplayerMud(x,y,400));
+		MultiplayerMud.muds.add(new MultiplayerMud(x,y,270));
 	}
 	
 	public void mouseMoved(MouseEvent e) {
