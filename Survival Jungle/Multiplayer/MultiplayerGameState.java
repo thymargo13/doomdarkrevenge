@@ -1,6 +1,8 @@
 package Multiplayer;
 
 import java.awt.Color;
+import javax.swing.ImageIcon;
+
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,10 +12,12 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
+import javax.sound.sampled.BooleanControl;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import Audio.Audio_player;
+import Command.Setting;
 import Entity.foodonMap;
 import Local.Cell;
 import Local.Forest;
@@ -39,6 +43,8 @@ public class MultiplayerGameState implements ActionListener{
 	private Audio_player music ;
 	private final int DELAY = 10;	// milliseconds delay
 	private Timer timer;
+	private String bgImg = "/Resource/background/bgbg.png";
+
 	
 	
 	public MultiplayerGameState(ArrayList<Client> Clients, Network Network, boolean isHost) {
@@ -57,8 +63,11 @@ public class MultiplayerGameState implements ActionListener{
 		lb = new MultiplayerLeaderboard();
 		cam = new MultiplayerCamera(0, 0, 1, 1);
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
-		music = new Audio_player("/Audio/music.mp3");
-		music.play();
+		Setting Music = new Setting();
+		//stop the music playing at the menu page
+		BooleanControl mutecontrol = (BooleanControl) Audio_player.clip.getControl(BooleanControl.Type.MUTE);
+		System.out.println(Music.getMute());
+		mutecontrol.setValue(Music.getMute());
 
 	}
 	
@@ -77,8 +86,9 @@ public class MultiplayerGameState implements ActionListener{
 		Graphics bbg = backBuffer.getGraphics();
 		Graphics bbg2 = backBuffer.getGraphics();
 
-		bbg.setColor(Color.WHITE);	// set background color in the camera
-		bbg.fillRect(0, 0, 800, 600);
+		ImageIcon bg = new ImageIcon(getClass().getResource(bgImg));
+		bbg.drawImage(bg.getImage(), (int) 0, (int) 0, (int) 800, (int) 600, null);
+
 
 		cam.set(bbg);
 		
@@ -244,7 +254,7 @@ public class MultiplayerGameState implements ActionListener{
 			}
 			
 			for (MultiplayerForest fr : MultiplayerForest.forests) {
-				if (fr.couldHide) {
+				if (!fr.couldHide) {
 					fr.Update();
 				}
 			}

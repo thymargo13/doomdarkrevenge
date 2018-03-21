@@ -77,23 +77,7 @@ public class Forest {
 				if(checkCollide(cell.x,cell.y)) {
 					boundsOut(cell);
 					cell.colRached = true;
-//					double dx = (this.colX - this.x);
-//					double dy = (this.colY - this.y);
-//					cell.x += (dx) * 1 / 100;
-//					cell.y += (dy) * 1 / 100;
-////					double dx = (this.x-cell.colX);
-////					double dy = (this.y-cell.colY);
-////					double dx = (cell.x - this.x);
-////					double dy = (cell.y - this.y);
-////					double dx = (cell.colX - cell.x);
-////					double dy = (cell.colY - cell.y);
-////					cell.x += (dx) * 1 / 100;
-////					cell.y += (dy) * 1 / 100;
-////					double dx = (cell.colX - this.x);
-////					double dy = (cell.colY - this.y);
-////					cell.x += (dx) * 1 / 100;
-////					cell.y += (dy) * 1 / 100;
-////				
+
 				}
 			}
 		}
