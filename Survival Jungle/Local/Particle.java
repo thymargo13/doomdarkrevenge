@@ -92,8 +92,8 @@ public class Particle {
 	}
 
 	private boolean checkCollide(double x, double y) {
-		double centre_x1 = x + 50;
-		double centre_y1 = y + 50;
+		double centre_x1 = x + 10;
+		double centre_y1 = y + 10;
 		//this.x & this.y is particle coordinate.
 		double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
 		return distance < 50;
