@@ -47,13 +47,16 @@ public class Mud {
 		for (Cell cell : Cell.cells) {
 			
 				if(checkCollide(cell.x,cell.y)) {
+					
 					if(cell.currentLv == cell.level.get(0)) {
 						
 					}else {
-						double dx = (this.colX - this.x);
-						double dy = (this.colY - this.y);
-						cell.x += (dx) * 1 / 100;
-						cell.y += (dy) * 1 / 100;
+//						double dx = (this.colX - this.x);
+//						double dy = (this.colY - this.y);
+//						cell.x += (dx) * 1 / 100;
+//						cell.y += (dy) * 1 / 100;
+						boundsOut(cell);
+						cell.colRached = true;
 					}
 					
 				}
@@ -69,17 +72,13 @@ public class Mud {
 	public void boundsOut(Cell cell) {
 		int distance = 100;
 		if (this.x < cell.x) {
-			this.colX = this.x - distance;
 			cell.colX = cell.x + distance;
 		} else if (this.x > cell.x){
-			this.colX = this.x + distance;
 			cell.colX = cell.x - distance;
 		}
 		if (this.y < cell.y) {
-			this.colY = this.y - distance;
-			this.colY = cell.y + distance;
+			cell.colY = cell.y + distance;
 		} else if (this.y > cell.y){
-			this.colY = this.y + distance;
 			cell.colY = cell.y - distance;
 		}
 	}
