@@ -54,23 +54,9 @@ public class MultiplayerForest {
 			}else {
 				couldHide=false;
 				if(checkCollide(cell.x,cell.y)) {
-					double dx = (this.colX - this.x);
-					double dy = (this.colY - this.y);
-					cell.x += (dx) * 1 / 100;
-					cell.y += (dy) * 1 / 100;
-//					double dx = (this.x-cell.colX);
-//					double dy = (this.y-cell.colY);
-//					double dx = (cell.x - this.x);
-//					double dy = (cell.y - this.y);
-//					double dx = (cell.colX - cell.x);
-//					double dy = (cell.colY - cell.y);
-//					cell.x += (dx) * 1 / 100;
-//					cell.y += (dy) * 1 / 100;
-//					double dx = (cell.colX - this.x);
-//					double dy = (cell.colY - this.y);
-//					cell.x += (dx) * 1 / 100;
-//					cell.y += (dy) * 1 / 100;
-////				
+					boundsOut(cell);
+					cell.colRached = true;
+
 				}
 			}
 		}
@@ -78,17 +64,13 @@ public class MultiplayerForest {
 	public void boundsOut(MultiplayerCell cell) {
 		int distance = 100;
 		if (this.x < cell.x) {
-			this.colX = this.x - distance;
 			cell.colX = cell.x + distance;
 		} else if (this.x > cell.x){
-			this.colX = this.x + distance;
 			cell.colX = cell.x - distance;
 		}
 		if (this.y < cell.y) {
-			this.colY = this.y - distance;
-			this.colY = cell.y + distance;
+			cell.colY = cell.y + distance;
 		} else if (this.y > cell.y){
-			this.colY = this.y + distance;
 			cell.colY = cell.y - distance;
 		}
 	}
@@ -97,33 +79,14 @@ public class MultiplayerForest {
 		double centre_y1 = y-70 ;
 		//this.x & this.y is particle coordinate.
 		double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
-		return distance < 180;
+		return distance < 170;
 	}
-//	private boolean checkCollide(double x, double y) {
-//		double centre_x1 = x-150;
-//		double centre_y1 = y-150 ;
-//		//this.x & this.y is particle coordinate.
-//		double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
-//		return distance < 230;
-//	}
-//	public void draw(Graphics bbg) {
-//		bbg.setColor(color);
-//		bbg.fillOval(x, y, d, d);
-//		bbg.drawOval(x, y, d, d);
-//	}
-//	public Forest(int x, int y, int d) {
-//		this.img= "/Resource/objects/forest.png";
-//		ImageIcon ii = new ImageIcon(getClass().getResource(img));
-//		this.image = ii.getImage();
-//	}
+
 	public void draw(Graphics bbg, JPanel jpanel) {
 		MultiplayerForest f= new MultiplayerForest(x,y,d);
 		bbg.drawImage(f.getImage(),(int) x, (int) y, (int) d, (int) d, jpanel);
 	}
 	
-//	private boolean checkCollide(double x, double y, double mass) {
-//		return x < this.x + 10 && x + mass > this.x && y < this.y + 10 && y + mass > this.y;
-//	}
 	public int getX() {
 		return x;
 	}

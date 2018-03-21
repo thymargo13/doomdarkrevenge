@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import Local.Cell;
 public class MultiplayerMud {
 	public static ArrayList<MultiplayerMud> muds = new ArrayList<MultiplayerMud>();
 	public static int mudCount;
@@ -34,38 +36,40 @@ public class MultiplayerMud {
 					if(cell.currentLv == cell.level.get(0)) {
 						
 					}else {
-						double dx = (this.colX - this.x);
-						double dy = (this.colY - this.y);
-						cell.x += (dx) * 1 / 100;
-						cell.y += (dy) * 1 / 100;
+//						double dx = (this.colX - this.x);
+//						double dy = (this.colY - this.y);
+//						cell.x += (dx) * 1 / 100;
+//						cell.y += (dy) * 1 / 100;
+						
+						boundsOut(cell);
+						cell.colRached = true;
+
 					}
 
 				}
 		}
 	}
+	
 	public void boundsOut(MultiplayerCell cell) {
 		int distance = 100;
 		if (this.x < cell.x) {
-			this.colX = this.x - distance;
 			cell.colX = cell.x + distance;
-		} else if (this.x > cell.x){
-			this.colX = this.x + distance;
+		} else if (this.x > cell.x) {
 			cell.colX = cell.x - distance;
 		}
 		if (this.y < cell.y) {
-			this.colY = this.y - distance;
-			this.colY = cell.y + distance;
-		} else if (this.y > cell.y){
-			this.colY = this.y + distance;
+			cell.colY = cell.y + distance;
+		} else if (this.y > cell.y) {
 			cell.colY = cell.y - distance;
 		}
 	}
+	
 	private boolean checkCollide(double x, double y) {
 		double centre_x1 = x-75;
 		double centre_y1 = y-70 ;
 		//this.x & this.y is particle coordinate.
 		double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
-		return distance < 195;
+		return distance < 170;
 	}
 	public void draw(Graphics bbg, JPanel jpanel) {
 		MultiplayerMud m= new MultiplayerMud(x,y,d);
