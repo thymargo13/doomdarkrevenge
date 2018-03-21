@@ -54,10 +54,15 @@ public class MultiplayerParticle {
 		for (MultiplayerCell cell : MultiplayerCell.cells) {
 			if (this.checkCollide(cell.x, cell.y) && !cellParticle) {
 				if(img==imgBread) {
+					System.out.println("BREADDD");
 					cell.addExp(5,cell); 
 				}else if(img==imgCheese){
+					System.out.println("CHEESE");
+
 					cell.addExp(10,cell); 
 				}else if(img==imgSteak) {
+					System.out.println("STEAK");
+
 					cell.addExp(15,cell); 
 				}
 				
