@@ -61,6 +61,12 @@ public class ClientReceiver implements Runnable{
 							MultiplayerGameState.Clients.add(new Client(Integer.parseInt(message[i]), message[i+1]));
 						}
 						break;
+					case "ADDSCORE":
+						//Sample Message : "ADDSCORE:ID:SCORE"
+						MultiplayerCell Cell1 = searchCell(Integer.parseInt(message[1]));
+						int score = Integer.parseInt(message[2]);
+						Cell1.addExp(score, Cell1);
+						break;
 					case "FOODADD":
 						//Sample Message : "FOODADD:ID:X:Y:B/C/S"
 						for (int i = 1; i < message.length; i = i + 4) {
