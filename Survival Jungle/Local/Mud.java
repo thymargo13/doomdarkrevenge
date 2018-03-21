@@ -99,7 +99,7 @@ public class Mud {
 		double centre_y1 = y - 70;
 		// this.x & this.y is particle coordinate.
 		double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
-		return distance < 195;
+		return distance < 170;
 	}
 
 	public void draw(Graphics bbg, JPanel jpanel) {
