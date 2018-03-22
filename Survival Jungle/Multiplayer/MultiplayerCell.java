@@ -169,10 +169,12 @@ public class MultiplayerCell {
 		this.levelNum = levelnum;
 		this.currentHp = hp;
 		this.currentExp = exp;
-		setLevel(levelnum);
 		if (hp <= 0){
 			downgrade(this);
+			return;
 		}
+		setLevel(levelnum);
+		
 		
 		// GAMESTATE:ID:X:Y:LEVEL:HP:EXP
 	}
@@ -255,13 +257,13 @@ public class MultiplayerCell {
 					String message = "HP:" + cell.id + ":" + cell.currentHp;
 					MultiplayerGameState.sendMessage(message);
 					
-					if (cell.currentHp <= 0) { // HP <= 0 die
-						if (cell.levelNum == 0) {
-							die(cell, this);
-						} else {
-							downgrade(cell);
-						}
-					}
+//					if (cell.currentHp <= 0) { // HP <= 0 die
+//						if (cell.levelNum == 0) {
+//							die(cell, this);
+//						} else {
+//							downgrade(cell);
+//						}
+//					}
 				}
 			}
 		}
