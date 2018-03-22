@@ -48,7 +48,6 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 
 		if (!Network.getIsConnected()) {
 			//Quit
-			MultiplayerGameState.stopMusic();
 			JOptionPane.showMessageDialog(this, "Unable to connect.", "Error", JOptionPane.ERROR_MESSAGE);
 			this.remove(0);
 		}

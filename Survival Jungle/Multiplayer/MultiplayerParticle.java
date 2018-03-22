@@ -54,16 +54,18 @@ public class MultiplayerParticle {
 		for (MultiplayerCell cell : MultiplayerCell.cells) {
 			if (this.checkCollide(cell.x, cell.y) && !cellParticle) {
 				if(img==imgBread) {
-					System.out.println("BREADDD");
 					cell.addExp(5,cell); 
+					//ADDSCORE:ID:5
+					String message = "ADDSCORE:" + this.id + ":5";
+					MultiplayerGameState.sendMessage(message);
 				}else if(img==imgCheese){
-					System.out.println("CHEESE");
-
 					cell.addExp(10,cell); 
+					String message = "ADDSCORE:" + this.id + ":10";
+					MultiplayerGameState.sendMessage(message);
 				}else if(img==imgSteak) {
-					System.out.println("STEAK");
-
 					cell.addExp(15,cell); 
+					String message = "ADDSCORE:" + this.id + ":15";
+					MultiplayerGameState.sendMessage(message);
 				}
 				
 				this.x = (int) Math.floor(Math.random() * 10001);

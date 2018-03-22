@@ -76,6 +76,11 @@ public class ServerReceiver implements Runnable{
 					searchClients(Integer.parseInt(message[1])).setUsername(message[2]);
 					MultiplayerGameState.sendMessage(data);
 					break;
+				case "ADDSCORE":
+					//Sample Message : "ADDSCORE:ID:SCORE"
+					int score = Integer.parseInt(message[2]);
+					cell.addExp(score, cell);
+					break;
 				case "MOVE":
 					//Sample Message : "MOVE:ID:X:Y"
 					cell.goalX = Double.parseDouble(message[2]);
