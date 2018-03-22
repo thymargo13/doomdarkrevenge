@@ -63,7 +63,7 @@ public class MultiplayerParticle {
 					String message = "ADDSCORE:" + cell.id + ":10";
 					MultiplayerGameState.sendMessage(message);
 				}else if(img==imgSteak) {
-					cell.addExp(15,cell); 
+					cell.addExp(1500,cell); 
 					String message = "ADDSCORE:" + cell.id + ":15";
 					MultiplayerGameState.sendMessage(message);
 				}
