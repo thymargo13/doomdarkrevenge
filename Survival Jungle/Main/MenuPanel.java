@@ -51,7 +51,7 @@ public class MenuPanel extends JLayeredPane implements Runnable {
 		setFocusable(true);
 		requestFocus();
 
-		music = new Audio_player("/Audio/startMusic.mp3");
+		music = new Audio_player("/Audio/music.mp3");
 		music.play();
 		
 		init();
