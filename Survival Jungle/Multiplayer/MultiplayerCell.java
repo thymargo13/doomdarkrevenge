@@ -130,6 +130,21 @@ public class MultiplayerCell {
 		}
 	}
 	
+//	Test!!!!!!!!!!!!!!!!!!!!!!!
+	public void reduceHp(double hp, MultiplayerCell cell) {
+		
+//		if(cell.currentHp>0) {
+			cell.currentHp-=hp;
+			if(cell.currentHp<=30) {
+				cell.currentHp=30;
+			}
+			if(cell.currentHp==0) {
+				die(cell,this);
+			}
+//		}
+	}
+
+
 	public void setExp(int exp) {
 		this.currentExp = exp;
 	}
