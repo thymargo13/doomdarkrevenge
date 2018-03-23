@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 /**
  * 
- * @author Sojourner Yu Xiang Chua
+ * @author Sojourner Yu Xiang Chua, Liechun Yao
  * 
  * Draws the player and sets level. Updates the player and levels up, downgrades, kills player.
  * Returns nearest player and food.
@@ -66,7 +66,6 @@ public class Cell {
 		this.x = x;
 		this.y = y;
 		this.isPlayer = isPlayer;
-		// this.randomColor();
 		this.currentExp = 0;
 		this.currentLv = level.get(levelNum);
 		this.currentHp = currentLv.getHealth();
@@ -103,16 +102,14 @@ public class Cell {
 			cell.currentExp += exp;
 			if (cell.currentExp == cell.currentLv.getExp()) {
 				levelUp(cell);
-				//play audio
-				sfx.get("exup").play();
+				
 			}
 		}
 	}
-//	Test!!!!!!!!!!!!!!!!!!!!!!!
+
 	public void reduceHp(double hp, Cell cell) {
 		int index=cell.currentLv.getHealth();
-//		cell.currentHp--;
-//		if(cell.currentHp>0) {
+
 		cell.currentHp-=hp;
 		
 			if(cell.currentHp<=index-30) {
@@ -120,8 +117,10 @@ public class Cell {
 			}
 			if(cell.currentHp==0) {
 				die(cell,this);
+				//play audio
+				sfx.get("exdown").play();
 			}
-//		}
+
 	}
 	public void levelUp(Cell cell) {
 		if (cell.levelNum == 7) {
@@ -353,7 +352,7 @@ public class Cell {
 		cell.x = (int) Math.floor(Math.random() * 10001);
 		cell.y = (int) Math.floor(Math.random() * 10001);
 		System.out.println("Respawn: " + cell.name);
-		// this.currentLv = level.get(0);
+		
 	}
 
 	// collision

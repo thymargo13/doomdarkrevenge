@@ -10,7 +10,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
+/**
+ * 
+ * @author Wing Shan Tam
+ *
+ */
 public class Board extends JPanel implements ActionListener {
 	private final int DELAY = 10;	// milliseconds delay
 	private Timer timer;
@@ -21,7 +25,6 @@ public class Board extends JPanel implements ActionListener {
 		initBoard();
 		addMouseMotionListener(new MouseAdapter() {
 			public void mouseMoved(MouseEvent e) {
-//				System.out.println("X: "+e.getX()+", Y: "+e.getY());
 				gameState.mouseMoved(e);	// pass the mouse event to game state
 			}
 		});

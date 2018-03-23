@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import Command.Setting;
 import javax.sound.sampled.BooleanControl;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -23,7 +24,16 @@ import Local.Mud;
 import Local.Particle;
 import Local.Pool;
 
-
+/**
+ * @author Wing Shan Tam, Hiu Yin Tang
+ * 
+ * Draws the score board and draws the forest, pool, mud onto the game
+ * Generates food and the AI players
+ * Gets the player's location and Exp points
+ * 
+ * @author Bitnarae Kim
+ *  Plays the music if it is not muted and continously loops it
+ */
 
 public class GameState {
 	
@@ -45,12 +55,14 @@ public class GameState {
 		cam = new Camera(0, 0, 1, 1);
 		backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		playerCreated = false;
+		
 		Setting Music = new Setting();
-		//stop the music playing at the menu page
+		//gets the music playing at the menu page
 		BooleanControl mutecontrol = (BooleanControl) Audio_player.clip.getControl(BooleanControl.Type.MUTE);
 		System.out.println(Music.getMute());
+		//gets the music
 		mutecontrol.setValue(Music.getMute());
-		
+		Audio_player.clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 	
 	public void initDraw (Graphics graphics, JPanel jpanel) {	//get the graphics and panel to process draw method in here
@@ -139,7 +151,7 @@ public class GameState {
 		}
 
 		
-		//Forest&&Pool&&Mud!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//Forest & Pool & Mud!!
 		
 		if(Forest.forestCount < 1000) {
 	//		int dForest=Forest.getD();
@@ -165,7 +177,7 @@ public class GameState {
 			Pool p = pl.next();
 			
 			if (p.isShot) {	// check the food been eaten or not
-//				System.out.println("ʧ��");
+
 				p.Update();
 			}
 		}
@@ -174,7 +186,7 @@ public class GameState {
 			Forest f = ft.next();
 			
 			if (!f.couldHide) {	// check the food been eaten or not
-//				System.out.println("ʧ��");
+				
 				f.Update();
 			}
 		}
@@ -187,10 +199,7 @@ public class GameState {
 				}else {
 					m.Update();
 				}
-//				if (!m.couldHide) {	// check the food been eaten or not
-//	//				System.out.println("ʧ��");
-//					m.Update();
-//				}
+				
 			}
 		}
 		for (Iterator<Particle> it = Particle.particles.iterator(); it.hasNext();) {

@@ -66,11 +66,7 @@ public class Pool {
 					if(cell.levelNum != 2 || cell.levelNum != 3) {
 						cell.reduceHp(1, cell);
 					}
-//					if(cell.currentLv == cell.level.get(0)) {
-//						cell.reduceHp(1, cell);
-//					}
 					if(cell.currentHp<=index-30) {
-//						cell.currentHp=cell.currentHp;
 						break;
 					}
 //					cell.addExp(5,cell); //add exp
@@ -89,12 +85,9 @@ public class Pool {
 			double centre_y1 = y-75 ;
 			//this.x & this.y is particle coordinate.
 			double distance = Math.sqrt(Math.pow((centre_x1 - this.x), 2) + Math.pow((centre_y1 - this.y), 2));
-//			if(distance<500) {
-//				isShot=true;
-//			}
-//			System.out.println("test!!");
+
 			return distance < 150;
-//			return isShot;
+
 		//	return x < this.x + 10 && x + mass > this.x && y < this.y + 10 && y + mass > this.y;
 		}
 		public int getX() {

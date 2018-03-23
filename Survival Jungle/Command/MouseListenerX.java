@@ -5,6 +5,11 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JOptionPane;
 
+/**
+ * 
+ * @author Liechun Yao
+ *
+ */
 public class MouseListenerX implements MouseListener{
 
 	private double x,y;
@@ -12,7 +17,6 @@ public class MouseListenerX implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		//int i = JOptionPane.showConfirmDialog(null, "Mouse clicked " + e.getX() + ", " + e.getY(), "Confirm exit", JOptionPane.YES_NO_OPTION);
 		x=e.getX();
 		y=e.getY();
 	}

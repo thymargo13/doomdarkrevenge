@@ -63,7 +63,6 @@ public class HostJoinBoard extends JPanel {
 		
 		setBackground(new Color(0,0,0,0));
 		setBounds(280,400 , WIDTH, HEIGHT);	
-		//setLayout(Grid)// dimension
 		setFocusable(true);
 		requestFocus();
 		setVisible(true);

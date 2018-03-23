@@ -130,7 +130,6 @@ public class MultiplayerCell {
 		}
 	}
 	
-//	Test!!!!!!!!!!!!!!!!!!!!!!!
 	public void reduceHp(double hp, MultiplayerCell cell) {
 		
 //		if(cell.currentHp>0) {

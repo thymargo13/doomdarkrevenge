@@ -45,14 +45,12 @@ public class OnlineBoard extends JPanel {
 	public OnlineBoard(MenuPanel bgPanel, JFrame jf){
 		setBackground(new Color(0,0,0,0));
 		setBounds(280,400 , WIDTH, HEIGHT);	
-		//setLayout(Grid)// dimension
 		setFocusable(true);
 		requestFocus();
 		setVisible(true);
 		
 		JLabel label = new JLabel("Enter username");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		//label.setForeground(Color.red);
 		this.add(label);
 		text = new JTextField();
 		text.setBounds(150, 200,100, 100);

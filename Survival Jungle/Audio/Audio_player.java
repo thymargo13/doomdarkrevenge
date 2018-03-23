@@ -2,7 +2,6 @@ package Audio;
 import javax.sound.sampled.*;
 
 /**
- * 
  * @author Bitnarae Kim
  * Audio_player class is for getting the audio to play
  */

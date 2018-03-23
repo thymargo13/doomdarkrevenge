@@ -10,7 +10,7 @@ import Main.MenuPanel;
 /**
  * 
  * @author Bitnarae Kim
- * The Setting class mutes of unmutes the music
+ * The Setting class mutes the music when YES is pressed or unmutes if NO is pressed
  *
  */
 
@@ -22,7 +22,6 @@ public class Setting extends Command{
 	public JPanel execute() {
 		// TODO Auto-generated method 
 
-		MenuPanel music;
 		int i = JOptionPane.showConfirmDialog(null, "Turn sound OFF?");
 		BooleanControl mutecontrol = (BooleanControl) Audio_player.clip.getControl(BooleanControl.Type.MUTE);
 		if(i == JOptionPane.YES_OPTION){

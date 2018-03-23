@@ -58,10 +58,8 @@ public class Button extends JButton {
 				OnlineBoard ob = new OnlineBoard(bgPanel, jf);
 				bgPanel.remove(0);
 				bgPanel.add(ob, 0);
-					//bgPanel.getComponent(0).setVisible(false);
 					
 				}
-				// bthPanel.setVisible(false);
 
 			
 		});

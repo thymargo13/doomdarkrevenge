@@ -4,6 +4,11 @@ import java.awt.Point;
 
 import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
 
+/**
+ * 
+ * @author Liechun Yao
+ *
+ */
 public class Movement {
 	private double angle = 0;
 
