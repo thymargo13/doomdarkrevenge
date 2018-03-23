@@ -28,7 +28,8 @@ import Network.Server.Client;
 /**
  * 
  * @author Bitnarae Kim , Khang Sheong Foong
- * The HostJoinBoard class gives a JComboBox for the user to select an ip address.
+ * The HostJoinBoard class gives a dropdown option for the user to select an IP address and join a game.
+ * The player can also host the game and other players can join the game by selecting the host's IP
  *
  */
 @SuppressWarnings("serial")
