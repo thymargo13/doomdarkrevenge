@@ -5,6 +5,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
+/**
+ * @author Khang Sheong Foong
+ * This is the thread running when performing Client Discovery
+ */
 public class ClientDiscoveryReceive implements Runnable {
 	DatagramSocket DatagramSocket;
 	ArrayList<InetAddress> HostAddress;

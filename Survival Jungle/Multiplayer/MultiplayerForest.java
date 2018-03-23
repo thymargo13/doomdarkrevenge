@@ -12,6 +12,11 @@ import javax.swing.JPanel;
 
 import Entity.Player;
 
+/**
+ * @author Khang Sheong Foong
+ * This is a copy of the Forest class from the Local game mode. In order to make it synchronized with server and clients, some minor modification had been done in this seperate class.
+ * This class will perform checking for which animal can enter it and which animal can't.
+ */
 public class MultiplayerForest {
 	public static ArrayList<MultiplayerForest> forests = new ArrayList<MultiplayerForest>();
 	public static int forestCount;

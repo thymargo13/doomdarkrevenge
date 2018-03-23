@@ -9,6 +9,10 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * @author Khang Sheong Foong
+ * This is a class which will perform local area network server discovery. Find is there any server host in the local area network.
+ */
 public class ClientDiscover {
 	
 	DatagramSocket DatagramSocket;

@@ -4,6 +4,10 @@ import java.net.InetAddress;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * @author Khang Sheong Foong
+ * This is a class for the identification of every client connected.
+ */
 public class Client {
 	private int userID;
 	private String username;

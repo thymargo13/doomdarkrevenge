@@ -27,6 +27,12 @@ import Local.Pool;
 import Network.Network;
 import Network.Server.Client;
 
+/**
+ * @author Khang Sheong Foong
+ * This is the Multiplayer Game State class for the multiplayer game mode. The game state will be update with Action Listener every 10miliseconds. The host will update the GameState to every of the clients in the session and the clients will update their data accordingly to the server.
+ * This classes involved a lot of multithreading to prevent user experienced delay while in a multiplayer session.
+ * This class will also do all the rendering for each elements while the player is in the multiplayer session.
+ */
 public class MultiplayerGameState implements ActionListener{
 	
 	public static MultiplayerLeaderboard lb;

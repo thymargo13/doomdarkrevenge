@@ -5,6 +5,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author Khang Sheong Foong
+ * This is the thread running when performing Client Discovery
+ */
 public class ClientDiscoverySend implements Runnable{
 	DatagramSocket DatagramSocket;
 	private final int  Port = 8889;

@@ -8,6 +8,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import Local.Cell;
+/**
+ * @author Khang Sheong Foong
+ * This is a copy of the Mud class from the Local game mode. In order to make it synchronized with server and clients, some minor modification had been done in this seperate class.
+ * This class will perform checking for which animal can enter it and which animal can't.
+ */
 public class MultiplayerMud {
 	public static ArrayList<MultiplayerMud> muds = new ArrayList<MultiplayerMud>();
 	public static int mudCount;

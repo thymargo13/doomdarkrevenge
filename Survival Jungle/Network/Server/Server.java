@@ -10,6 +10,10 @@ import javax.swing.JPanel;
 
 import Multiplayer.MultiplayerGameState;
 
+/**
+ * @author Khang Sheong Foong
+ * This is the class create when the user decide to host as a server.
+ */
 public class Server {
 	static ArrayList<Client> Clients;
 

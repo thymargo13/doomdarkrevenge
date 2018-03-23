@@ -13,6 +13,11 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+/**
+ * @author Khang Sheong Foong
+ * This is a copy of the Pool class from the Local game mode. In order to make it synchronized with server and clients, some minor modification had been done in this seperate class.
+ * This class will perform checking for which animal enters it and deduct their health point.
+ */
 public class MultiplayerPool {
 		public static ArrayList<MultiplayerPool> pools = new ArrayList<MultiplayerPool>();
 		public static int poolCount;
