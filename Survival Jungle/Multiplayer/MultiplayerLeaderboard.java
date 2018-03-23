@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * @author Khang Sheong Foong
+ * This is a copy of the leaderboard class from the Local game mode. In order for the leaderboard to work in Multiplayer mode, there's a little modification to this class.
+ */
 public class MultiplayerLeaderboard {
 
 	private int x;

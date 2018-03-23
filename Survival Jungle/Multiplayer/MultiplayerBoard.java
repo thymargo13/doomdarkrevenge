@@ -15,6 +15,11 @@ import javax.swing.Timer;
 import Network.Network;
 import Network.Server.Client;
 
+/**
+ * @author Khang Sheong Foong
+ * This is the JPanel for the multiplayer game. It allows user to connect to the server or either host as a server.
+ * The JPanel will always update the multiplayer game state every 10miliseconds to prevent delay.
+ */
 public class MultiplayerBoard extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -8887303478018191470L;
 	private final int DELAY = 10;	// milliseconds delay
@@ -36,6 +41,7 @@ public class MultiplayerBoard extends JPanel implements ActionListener {
 		});
 	}
 
+	
 	private void initMultiplayerBoard(ArrayList<Client> Clients, boolean isHost) {
 		MultiplayerGameState = new MultiplayerGameState(Clients, Network, isHost);
 		Network.setClients(Clients);

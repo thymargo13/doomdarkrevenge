@@ -1,8 +1,6 @@
 package Multiplayer;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Audio.Audio_player;
@@ -11,6 +9,12 @@ import Entity.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * @author Khang Sheong Foong
+ * This is a copy of the Cell class from the Singleplayer mode and perform some changes for it to works on Multiplayer mode.
+ * There's a lot of multithreading on the background to perform every update for every cell in the multiplayer session.
+ * This classes checks that whether the cell is being attacked or attacking each other.
+ */
 public class MultiplayerCell {
 
 	public static ArrayList<MultiplayerCell> cells = new ArrayList<MultiplayerCell>();
@@ -128,20 +132,6 @@ public class MultiplayerCell {
 	
 	public void setExp(int exp) {
 		this.currentExp = exp;
-	}
-	
-//	Test!!!!!!!!!!!!!!!!!!!!!!!
-	public void reduceHp(double hp, MultiplayerCell cell) {
-		
-//		if(cell.currentHp>0) {
-			cell.currentHp-=hp;
-			if(cell.currentHp<=30) {
-				cell.currentHp=30;
-			}
-			if(cell.currentHp==0) {
-				die(cell,this);
-			}
-//		}
 	}
 	
 	public void setLevel(int levelnum) {

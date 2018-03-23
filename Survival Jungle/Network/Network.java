@@ -8,6 +8,10 @@ import Network.Server.*;
 import Network.Server.Client;
 import Multiplayer.*;
 
+/**
+ * @author Khang Sheong Foong
+ * This is the class for the game to perform all the networking functions.
+ */
 public class Network {
 	Server Server = null;
 	ClientDiscover ClientDiscover = null;

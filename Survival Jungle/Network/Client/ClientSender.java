@@ -5,6 +5,10 @@ import java.util.concurrent.BlockingQueue;
 
 import javax.swing.JOptionPane;
 
+/**
+ * @author Khang Sheong Foong
+ * This is the thread running for the client to send the message to the server connected
+ */
 public class ClientSender implements Runnable{
 	
 	private BlockingQueue<String> queue;

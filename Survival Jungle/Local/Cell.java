@@ -12,8 +12,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 /**
  * 
- * @author 
+ * @author Sojourner Yu Xiang Chua
+ * 
+ * Draws the player and sets level. Updates the player and levels up, downgrades, kills player.
+ * Returns nearest player and food.
+ * Reduce HP, add Exp points, get attack, get total Exp points, level up player, check and get collision.
  *
+ * @author Bitnarae Kim
+ * Plays sound effects
  */
 public class Cell {
 

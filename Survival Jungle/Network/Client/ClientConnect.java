@@ -13,6 +13,11 @@ import javax.swing.JPanel;
 import Multiplayer.MultiplayerGameState;
 import Network.Server.Client;
 
+/**
+ * @author Khang Sheong Foong
+ * This is a class for the client to connect to a server.
+ * The client will create a thread to send message to the server and another thread to receive message from the server.
+ */
 public class ClientConnect {
 	BlockingQueue<String> queue;
 	private static Client Client;

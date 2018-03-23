@@ -50,9 +50,7 @@ public class GameState {
 		BooleanControl mutecontrol = (BooleanControl) Audio_player.clip.getControl(BooleanControl.Type.MUTE);
 		System.out.println(Music.getMute());
 		mutecontrol.setValue(Music.getMute());
-		//play music during the game
-	//	music = new Audio_player("/Audio/music.mp3");
-	//	music.play();
+		
 	}
 	
 	public void initDraw (Graphics graphics, JPanel jpanel) {	//get the graphics and panel to process draw method in here

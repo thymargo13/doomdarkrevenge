@@ -7,8 +7,9 @@ import Command.*;
 import Map.OnlineBoard;
 /**
  * 
- * @author 
- *
+ * @author Hiu Yin Tang, Bitnarae Kim
+ * 
+ * Draw the buttons for the menu and performs action when a button if pressed
  */
 @SuppressWarnings("serial")
 public class Button extends JButton {

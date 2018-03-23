@@ -42,7 +42,6 @@ public class Audio_player{
 		stop();
 		clip.setFramePosition(0);
 		clip.start();
-		//clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 	
 	/**

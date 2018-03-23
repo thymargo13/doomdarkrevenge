@@ -17,6 +17,11 @@ import Multiplayer.MultiplayerMud;
 import Multiplayer.MultiplayerParticle;
 import Multiplayer.MultiplayerPool;
 
+/**
+ * @author Khang Sheong Foong
+ * This is the thread running when the user host a server
+ * This will create threads every time a client connects to the server.
+ */
 public class ServerHost implements Runnable {
 	private ServerSocket ServerSocket;
 	private MultiplayerGameState MultiplayerGameState;

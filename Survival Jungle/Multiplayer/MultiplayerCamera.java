@@ -2,6 +2,10 @@ package Multiplayer;
 
 import java.awt.*;
 
+/**
+ * @author Khang Sheong Foong
+ * This is a copy of the Local game Camera system, but there's slight changes in order to make it work in Multiplayer mode.
+ */
 public class MultiplayerCamera {
 
 	public double x;
@@ -16,6 +20,7 @@ public class MultiplayerCamera {
 		this.sY = sY;
 	}
 
+	
 	public double map(double x, double min1, double max1, double min2, double max2) {
 		return (x - min1) * (max2 - min2) / (max1 - min1) + min2;
 	}

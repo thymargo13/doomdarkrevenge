@@ -15,13 +15,16 @@ import Multiplayer.MultiplayerParticle;
 import Multiplayer.MultiplayerCell;
 
 
+/**
+ * @author Khang Sheong Foong
+ * This is a thread running to each client from the server to receive message from the client
+ */
 public class ServerReceiver implements Runnable{
 	private BufferedReader input;
 	private int ClientID;
 	private MultiplayerGameState MultiplayerGameState;
 	private boolean running = false;
-	private final int DELAY = 500;	// milliseconds delay
-	private Timer timer;
+
 
 	ServerReceiver(BufferedReader input, int ClientID, MultiplayerGameState MultiplayerGameState){
 		this.input = input;

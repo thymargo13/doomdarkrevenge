@@ -26,6 +26,11 @@ import Main.MenuPanel;
 import Network.Network;
 import Network.Server.Client;
 
+/**
+ * 
+ * @author Bitnarae Kim
+ * Gets user to input username for multi-play mode
+ */
 @SuppressWarnings("serial")
 public class OnlineBoard extends JPanel {
 	

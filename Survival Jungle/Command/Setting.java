@@ -10,7 +10,7 @@ import Main.MenuPanel;
 /**
  * 
  * @author Bitnarae Kim
- * The Setting class shows a panel to stop the music
+ * The Setting class mutes of unmutes the music
  *
  */
 

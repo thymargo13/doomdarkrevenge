@@ -10,6 +10,10 @@ import Multiplayer.MultiplayerGameState;
 import Multiplayer.MultiplayerParticle;
 import Network.Server.*;
 
+/**
+ * @author Khang Sheong Foong
+ * This is the thread running for the client to receive message from the server connected
+ */
 public class ClientReceiver implements Runnable{
 	private BufferedReader input;
 	private MultiplayerGameState MultiplayerGameState = null;

@@ -3,6 +3,10 @@ package Network.Server;
 import java.io.DataOutputStream;
 import java.util.ArrayList;;
 
+/**
+ * @author Khang Sheong Foong
+ * This is a thread running to each client from the server to send message to the client
+ */
 public class ServerSender implements Runnable {
 	private DataOutputStream output;
 	private int ClientID;

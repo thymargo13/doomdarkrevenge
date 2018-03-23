@@ -16,7 +16,7 @@ public class Exit extends Command {
 		
 		int i = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit the game?", "Confirm exit", JOptionPane.YES_NO_OPTION);
 		if (i == JOptionPane.YES_OPTION) {
-			System.exit(0);
+			System.exit(0); //exit and close game
 		} else if(i == JOptionPane.NO_OPTION){
 			System.out.println("No button clicked");
 		} else if (i == JOptionPane.CANCEL_OPTION){

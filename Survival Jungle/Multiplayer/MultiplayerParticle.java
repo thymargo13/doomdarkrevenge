@@ -11,6 +11,11 @@ import Multiplayer.MultiplayerGameState;
 
 import java.awt.*;
 
+/**
+ * @author Khang Sheong Foong
+ * This is a class copied from the local game. There's a little modification for the particle to synchronized with server and clients.
+ * This class will perform all the checking whether are they eaten by any of the player and they will respawn in some random coordinates.
+ */
 public class MultiplayerParticle {
 
 	public static ArrayList<MultiplayerParticle> particles = new ArrayList<MultiplayerParticle>();

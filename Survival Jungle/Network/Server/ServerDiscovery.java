@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+/**
+ * @author Khang Sheong Foong
+ * This is the thread running when the the player start hosting the server to enable server discovery.
+ */
 public class ServerDiscovery implements Runnable {
 	DatagramSocket DatagramSocket;
 	 byte[] receviedBuffered;
