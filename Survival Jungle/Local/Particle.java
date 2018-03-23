@@ -2,6 +2,13 @@ package Local;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Sojourner Yu Xiang Chua
+ * Spawns food particles and calculations for collision
+ * 
+ */
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
